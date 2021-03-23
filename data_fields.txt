@@ -1,0 +1,31 @@
+﻿[I]> Lấy dữ liệu từ trên mạng về tại hai trang web:
+	1. https://nha.chotot.com/
+	2. https://phongtro123.com/
+
+	Thu được 4 trường :thời gian, giá, diện tích, địa chỉ, chi tiết
+	
+[II]> Phân tích lấy trường dữ liệu cần thiết:
+	Bằng biện pháp đánh giá, tham khảo 
+
+	1. Giá phòng 
+	2. Thời gian ??? (tháng/ năm)
+	3. Diện tích 
+	4. Địa chỉ 
+	5. Phong khép kín hay không (Không) 
+	6. Ở tầng mấy (mặc định là tầng dưới cùng)
+	7. Có mấy tiện nghi
+	8. Có view hay không ??
+	
+[III]> Tách dữ liệu : [1 tuần]
+ 
+[IV] > Xây dựng mô hình mạng neural -> tiến hành training [1 tuần]
+	   Xây dựng mô hình hồi quy tuyến tính -> tiến hành đánh giá
+
+[ V ]> Tiến hành đánh giá thay đổi mô hình > Nhằm nâng cao [1 tuần]
+
+[ VI ]> Viết báo cáo, silde các tool hỗ trợ các quá trình trên [1 tuần]
+
+
+[VII]> tài liệu tham khảo :
+
+https://towardsdatascience.com/house-prices-prediction-using-deep-learning-dea265cc3154
