@@ -1,59 +1,21 @@
 import threading
-import csv
 import os
 import pandas as pd
-from urllib.request import Request, urlopen
-from bs4 import BeautifulSoup
+import common.config as cf
+import common.utils as util
 
 EVERY_TIME = 10
 LIMIT_PUSH_DATA = 100
+push_first_data = True
+push_first_err = True
 
-data_head = ["giaphong", "dientich", "diachi", "chitiet"]
 data_get = [
-    # giaphong  , dien tich , o quan nao , chi tiet
-    # ("urls_nhachoto", (
-    #     'span[itemprop="price"]', 'span[itemprop="size"]', 'div[class*="address___"] > span',
-    #     'p[itemprop="description"]')),
-    # ("urls_phongtro123", ('span[class="price"]', 'span[class="acreage"]', 'p[class="section-description"]',
-    #                       '.post-main-content > div[class="section-content"]'))
+    # thời gian , giá phòng , diện tích  , địa chỉ , chi tiết
+    ("urls_nhachoto", ('span[class*="imageCaptionText___"]', 'span[itemprop="price"]', 'span[itemprop="size"]',
+                       'div[class*="address___"] > span', 'p[itemprop="description"]')),
+    ("urls_phongtro123", ('3span[class="acreage"]', 'span[class="price"]', 'span[class="acreage"]',
+                          'p[class="section-description"]', '.post-main-content > div[class="section-content"]'))
 ]
-
-
-# phân tích cú pháp html lấy các trường dữ liệu tương ứng selectors
-def parse_data_html_scrap(html_data_raw, arr_selectors):
-    data_obj = [None] * len(arr_selectors)
-    soup = BeautifulSoup(html_data_raw, features='html.parser')
-    for index, selector_scan in enumerate(arr_selectors):
-        try:
-            str_data = soup.select_one(selector_scan).text
-        except Exception as e:
-            # Xuất hiện lỗi phân tích cú pháp
-            return None
-        data_obj[index] = str_data
-    return data_obj
-
-
-# lấy dữ liệu html thô và phân tích cú pháp lấy dữ liệu cần thiết
-def get_html_data_from_url_scrap(str_url, arr_selectors, data_scraping, url_errs):
-    req = Request(str_url, headers={'User-Agent': 'Mozilla/5.0'})
-    try:
-        html_data_raw = urlopen(req, timeout=20).read()
-    except Exception as e:
-        url_errs.append('[get failed]:' + str_url)
-        return
-    data_obj = parse_data_html_scrap(html_data_raw, arr_selectors)
-
-    if data_obj is None:
-        url_errs.append('[parse failed]:' + str_url)
-    else:
-        data_scraping.append(data_obj)
-
-
-# Đẩy dữ liệu vào file chế độ ghi thêm
-def push_data_to_file(data_out, file_out, start_index, head=None):
-    df = pd.DataFrame(data=data_out, columns=head)
-    df.index += start_index
-    df.to_csv(file_out, mode='a', header=False)
 
 
 def main():
@@ -86,28 +48,30 @@ def main():
 
             url_errs = []
             # Triển khai đa luồng scraping
-            threads = [threading.Thread(target=get_html_data_from_url_scrap, args=(url, arr_selectors, data_rooms, url_errs))
-                       for url in urls]
+            threads = [threading.Thread(target=util.get_html_data_from_url_scrap,
+                                        args=(url, arr_selectors, data_rooms, url_errs)) for url in urls]
             for t in threads:
                 t.start()
             for t in threads:
                 t.join()
 
             if url_errs:  # Có lỗi xảy ra
-                print("[ Done ] : " + str(EVERY_TIME - len(url_errs)) + "/" + str(EVERY_TIME) \
+                print("[ Done ] : " + str(EVERY_TIME - len(url_errs)) + "/" + str(EVERY_TIME)
                       + ". "+str(len(url_errs)) + " failed ! -> push to file :" + file_name_err_csv)
-                push_data_to_file(url_errs, file_name_err_csv, start_index_err)
+                util.push_data_to_file(url_errs, file_name_err_csv, start_index_err, push_first_data)
                 start_index_err += len(url_errs)
             else:  # Hoàn thành không lỗi
                 print("[  OK  ] !!!!!!")
                 if len(data_rooms) >= LIMIT_PUSH_DATA:
-                    push_data_to_file(data_rooms, file_name_data_csv, start_index_data, data_head)
+                    util.push_data_to_file(data_rooms, file_name_data_csv,
+                                           start_index_data, cf.data_fields_scraping, push_first_err)
                     start_index_data += len(data_rooms)
                     data_rooms.clear()
                     print("Over : Reset data ;)")
             print("========================================================")
         if data_rooms:
-            push_data_to_file(data_rooms, file_name_data_csv, start_index_data, data_head)
+            util.push_data_to_file(data_rooms, file_name_data_csv,
+                                   start_index_data, cf.data_fields_scraping)
 
 # Hàm main
 if __name__ == "__main__":
