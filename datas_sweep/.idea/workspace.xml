@@ -3,12 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="bfe56e6f-1e28-49f3-82bc-07108ae5618e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/common/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/common/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/common/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_bk/urls_nhachoto_data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_bk/urls_phongtro123_data.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hardwork_spider/pre_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/hardwork_spider/pre_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/urls_nhachoto.csv" beforeDir="false" afterPath="$PROJECT_DIR$/urls_nhachoto.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/urls_phongtro123.csv" beforeDir="false" afterPath="$PROJECT_DIR$/urls_phongtro123.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_scraping.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_scraping.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web_scraping.py" beforeDir="false" afterPath="$PROJECT_DIR$/web_scraping.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,7 +41,7 @@
       <recent name="C:\Users\DesertFoxee\Desktop\do_an\datas_sweep\hardwork_spider" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.web_scraping">
+  <component name="RunManager" selected="Python.data_scraping">
     <configuration name="data_scraping" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="datas_sweep" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -152,10 +149,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.data_scraping" />
         <item itemvalue="Python.web_scraping" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.pre_data" />
-        <item itemvalue="Python.data_scraping" />
         <item itemvalue="Python.spider" />
       </list>
     </recent_temporary>

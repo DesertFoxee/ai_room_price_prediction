@@ -3,12 +3,14 @@ import os
 import pandas as pd
 import common.config as cf
 import common.utils as util
+from datetime import datetime
 
 EVERY_TIME = 10
 LIMIT_PUSH_DATA = 100
 push_first_data = True
 push_first_err = True
 
+folder_out = "data_bk"
 data_get = [
     # thời gian , giá phòng , diện tích  , địa chỉ , chi tiết
     ("urls_nhachoto", ('span[class*="imageCaptionText___"]', 'span[itemprop="price"]', 'span[itemprop="size"]',
@@ -18,38 +20,58 @@ data_get = [
 ]
 
 
+# Hàm lấy dữ liệu là link sang các trang chi tiết thuê phòng
+def data_crawler(str_url, arr_selector, urls_data, url_errs):
+    html_data = util.get_html_data_from_url(str_url)
+    if html_data is not None:
+        data_obj = util.parse_html_data_to_obj(html_data, arr_selector)
+        if data_obj is None:
+            url_errs.append('[parse failed]: ' + str_url)
+        else:
+            urls_data.append(data_obj)
+    else:
+        url_errs.append('[get failed]:' + str_url)
+
+
 def main():
     for data_page in data_get:
+
         # Lấy thông tin về web cần lấy link
-        file_name_csv = data_page[0] + '.csv'
-        file_name_err_csv = data_page[0] + '_err.csv'
-        file_name_data_csv = data_page[0] + '_data.csv'
+        tail_file = "_"+datetime.today().strftime('%d%m%Y') + ".csv"
+        file_url_csv = data_page[0] + '.csv'
+        file_name = data_page[0].replace("urls_", "")
+        file_data_csv = folder_out + '/data_' + file_name + tail_file
+        file_err_csv = folder_out + '/err_' + file_name + tail_file
         arr_selectors = data_page[1]
-
-        csv_data = pd.read_csv(file_name_csv)
-        csv_data_urls = csv_data.drop(csv_data.columns[[0]], axis=1)
-        data_urls = csv_data_urls[csv_data_urls.columns[0]].values
-
+        print("[**] Loading url data from file : " + file_url_csv ,end= " => ")
+        try:
+            csv_data = pd.read_csv(file_url_csv)
+            util.push_header_to_file(file_data_csv, cf.field_header_file_scrap)
+            util.push_header_to_file(file_err_csv, cf.field_header_file_err)
+            print("OK !!!!!!!")
+        except Exception as ex:
+            print("[Error] : Can't open file !!!")
+            continue
+        print("> Starting scarp from url....")
+        data_urls = csv_data[csv_data.columns[1]].values
         data_rooms = []
         start_index_data = 0
         start_index_err = 0
 
-        # xóa file lần đầu tiên: file dữ liệu, và file lỗi
-        if os.path.exists(file_name_data_csv):
-            os.remove(file_name_data_csv)
-        if os.path.exists(file_name_err_csv):
-            os.remove(file_name_err_csv)
-
         for i_time in range(0, len(data_urls), EVERY_TIME):
             urls = []
-            for i in range(i_time, (i_time + EVERY_TIME), 1):
-                print("[+] Scraping data from link : " + data_urls[i]);
+            start_url = i_time
+            end_url = i_time + EVERY_TIME
+            if end_url >= len(data_urls):
+                end_url = len(data_urls)
+            print("Scraping data from url : [" + str(start_url) + " -> " + str(end_url) + "]", end=" =>")
+            for i in range(start_url, end_url, 1):
                 urls.append(data_urls[i])
 
             url_errs = []
             # Triển khai đa luồng scraping
-            threads = [threading.Thread(target=util.get_html_data_from_url_scrap,
-                                        args=(url, arr_selectors, data_rooms, url_errs)) for url in urls]
+            threads = [threading.Thread(target=data_crawler, args=(url, arr_selectors, data_rooms, url_errs))
+                       for url in urls]
             for t in threads:
                 t.start()
             for t in threads:
@@ -57,21 +79,21 @@ def main():
 
             if url_errs:  # Có lỗi xảy ra
                 print("[ Done ] : " + str(EVERY_TIME - len(url_errs)) + "/" + str(EVERY_TIME)
-                      + ". "+str(len(url_errs)) + " failed ! -> push to file :" + file_name_err_csv)
-                util.push_data_to_file(url_errs, file_name_err_csv, start_index_err, push_first_data)
+                      + ". "+str(len(url_errs)) + " failed ! -> push to file :" + file_err_csv)
+                util.push_data_to_exit_file(url_errs, file_err_csv, start_index_err)
                 start_index_err += len(url_errs)
+
             else:  # Hoàn thành không lỗi
-                print("[  OK  ] !!!!!!")
+                print(" [OK] !!!!!!")
                 if len(data_rooms) >= LIMIT_PUSH_DATA:
-                    util.push_data_to_file(data_rooms, file_name_data_csv,
-                                           start_index_data, cf.data_fields_scraping, push_first_err)
+                    util.push_data_to_exit_file(data_rooms, file_data_csv, start_index_data)
                     start_index_data += len(data_rooms)
                     data_rooms.clear()
-                    print("Over : Reset data ;)")
-            print("========================================================")
+                    print(" [OK] Over : Reset data ;)")
         if data_rooms:
-            util.push_data_to_file(data_rooms, file_name_data_csv,
-                                   start_index_data, cf.data_fields_scraping)
+            util.push_data_to_exit_file(data_rooms, file_data_csv, start_index_data)
+        print("=====================================================================")
+
 
 # Hàm main
 if __name__ == "__main__":

@@ -38,7 +38,7 @@ def main():
         file_name_csv = web_page[3]
 
         urls_data = []
-        print("[+] Load data from link : " + utils.get_web_host_name_from_url(web_page[0]))
+        print("[**] Load data from link : " + utils.get_web_host_name_from_url(web_page[0]))
         for i_time in range(0, total_page, EVERY_TIME):
             urls_page = []
             start_page = i_time + 1

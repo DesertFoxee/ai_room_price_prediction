@@ -40,7 +40,7 @@ def parse_html_data_to_url(html_data_raw, selector):
 
 
 # phân tích cú pháp html lấy các trường dữ liệu tương ứng selectors
-def parse_data_html_scrap(html_data_raw, arr_selectors):
+def parse_html_data_to_obj(html_data_raw, arr_selectors):
     data_obj = [None] * len(arr_selectors)
     soup = BeautifulSoup(html_data_raw, features='html.parser')
     for index, key_selector in enumerate(arr_selectors):
@@ -59,36 +59,18 @@ def parse_data_html_scrap(html_data_raw, arr_selectors):
     return data_obj
 
 
-# lấy dữ liệu html thô và phân tích cú pháp lấy dữ liệu cần thiết
-def get_html_data_from_url_scrap(str_url, arr_selectors, data_scraping, url_errs):
-    req = Request(str_url, headers={'User-Agent': 'Mozilla/5.0'})
-    try:
-        html_data_raw = urlopen(req, timeout=20).read()
-    except Exception as e:
-        url_errs.append('[get failed]:' + str_url)
-        return
-    data_obj = parse_data_html_scrap(html_data_raw, arr_selectors)
-
-    if data_obj is None:
-        url_errs.append('[parse failed]:' + str_url)
-    else:
-        data_scraping.append(data_obj)
-
-
 # Đẩy dữ liệu vào file chế độ ghi thêm từng mảng
-def push_data_to_file(data_out, file_out, start_index, head=None, first=False):
-    df = pd.DataFrame(data=data_out, columns=head)
+def push_data_to_exit_file(data_out, file_out, start_index):
+    df = pd.DataFrame(data=data_out)
     df.index += start_index
-    df.index.name = "stt"
-    df.to_csv(file_out, mode='a', header=first)
-    first = False
+    df.to_csv(file_out, mode='a', header=False)
 
 
-# Đẩy dữ liệu vào file chế độ ghi mới sau tiền xử lý
-def push_data_to_file(data_out, file_out, head=None):
-    df = pd.DataFrame(data=data_out, columns=head)
-    df.index.name = "stt"
-    df.to_csv(file_out, mode='a', header=head)
+# Đẩy phần header vào file
+def push_header_to_file(file_out, head=None):
+    df = pd.DataFrame(data={}, columns=head[1:])
+    df.index.name = head[0]
+    df.to_csv(file_out, mode='w', header=True)
 
 
 # Đẩy dữ liệu vào file chế độ ghi mới sau tiền xử lý
