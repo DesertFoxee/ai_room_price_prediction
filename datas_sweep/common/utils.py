@@ -1,6 +1,42 @@
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 import pandas as pd
+import ntpath
+import urllib
+import os
+
+
+# Lấy địa chỉ chính từ url
+def get_web_host_name_from_url(url):
+    host_data = urllib.parse.urlparse(url)
+    host_page = host_data.scheme + "://" + host_data.netloc
+    return host_page
+
+
+# Lấy dữ liệu html thô từ url
+def get_html_data_from_url(url, err_msg=None):
+    html_data = None
+    req = Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+    try:
+        html_data = urlopen(req, timeout=20).read()
+    except Exception as ex:
+        if err_msg is not None:
+            err_msg = "[Error] get data from: " + url
+    return html_data
+
+
+# phân tích cú pháp html lấy các trường trường [href] tương ứng với selector
+def parse_html_data_to_url(html_data_raw, selector):
+    soup = BeautifulSoup(html_data_raw, features='html.parser')
+    urls_data = []
+    try:
+        tag_link = soup.select(selector)
+        for link in tag_link:
+            str_link = link.get('href')
+            urls_data.append(str_link)
+    except Exception as ex:
+        pass
+    return urls_data
 
 
 # phân tích cú pháp html lấy các trường dữ liệu tương ứng selectors
@@ -39,10 +75,34 @@ def get_html_data_from_url_scrap(str_url, arr_selectors, data_scraping, url_errs
         data_scraping.append(data_obj)
 
 
-# Đẩy dữ liệu vào file chế độ ghi thêm
+# Đẩy dữ liệu vào file chế độ ghi thêm từng mảng
 def push_data_to_file(data_out, file_out, start_index, head=None, first=False):
     df = pd.DataFrame(data=data_out, columns=head)
     df.index += start_index
     df.index.name = "stt"
     df.to_csv(file_out, mode='a', header=first)
     first = False
+
+
+# Đẩy dữ liệu vào file chế độ ghi mới sau tiền xử lý
+def push_data_to_file(data_out, file_out, head=None):
+    df = pd.DataFrame(data=data_out, columns=head)
+    df.index.name = "stt"
+    df.to_csv(file_out, mode='a', header=head)
+
+
+# Đẩy dữ liệu vào file chế độ ghi mới sau tiền xử lý
+def push_data_to_new_file(data_out, file_out, head=None):
+    df = pd.DataFrame(data=data_out, columns=head)
+    df.index.name = "stt"
+    if head is not None:
+        df.to_csv(file_out, mode='w', header=True)
+    else:
+        df.to_csv(file_out, mode='w', header=False)
+
+
+# Lấy tên file từ path
+def get_file_name_from_path(path):
+    head, tail = ntpath.split(path)
+    filename = os.path.splitext(tail)[0]
+    return filename or ntpath.basename(head)
