@@ -2,27 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bfe56e6f-1e28-49f3-82bc-07108ae5618e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../data_fields.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../data_fields.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/common/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/common/utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_bk/data_nhachoto_24032021.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_bk/data_phongtro123_24032021.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_bk/err_nhachoto_24032021.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_bk/err_phongtro123_24032021.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_pre/data_nhachoto_24032021_pre_1998_3996_thuong.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_pre/data_nhachoto_24032021_pre_1_1998_hau.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_pre/data_phongtro123_24032021_1441_2878_thuong.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_pre/data_phongtro123_24032021_1_1440_hau.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_scraping.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_scraping.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/date.py" beforeDir="false" afterPath="$PROJECT_DIR$/date.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hardwork_spider/pre_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/hardwork_spider/pre_data.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/url_scraping.py" beforeDir="false" afterPath="$PROJECT_DIR$/url_scraping.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/urls_nhachoto.csv" beforeDir="false" afterPath="$PROJECT_DIR$/urls_nhachoto.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/urls_phongtro123.csv" beforeDir="false" afterPath="$PROJECT_DIR$/urls_phongtro123.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../linkdata.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../note.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_pre/data_phongtro123_final.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data_pre/data_phongtro123_final.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../document/Mô tả thuộc tính.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/../document/Mô tả thuộc tính.xlsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +21,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="ProjectId" id="1pnWefLgk6Qv0klQeupPC1f71hm" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -49,7 +39,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
