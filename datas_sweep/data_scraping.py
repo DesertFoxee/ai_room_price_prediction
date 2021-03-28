@@ -7,30 +7,31 @@ from datetime import datetime
 
 EVERY_TIME = 10
 LIMIT_PUSH_DATA = 100
-push_first_data = True
-push_first_err = True
 
 folder_out = "data_bk"
 data_get = [
     # thời gian , giá phòng , diện tích  , địa chỉ , chi tiết
-    ("urls_nhachoto", ('span[class*="imageCaptionText___"]', 'span[itemprop="price"]', 'span[itemprop="size"]',
-                       'div[class*="address___"] > span', 'p[itemprop="description"]')),
+    # ("urls_nhachoto", ('span[class*="imageCaptionText___"]', 'span[itemprop="price"]', 'span[itemprop="size"]',
+    #                    'div[class*="address___"] > span', 'p[itemprop="description"]')),
     ("urls_phongtro123", ('3span[class="acreage"]', 'span[class="price"]', 'span[class="acreage"]',
-                          'p[class="section-description"]', '.post-main-content > div[class="section-content"]'))
+                          '?data-address #__maps_content',
+                          '?data-lat #__maps_content', '?data-long #__maps_content',
+                          '.post-main-content > div[class="section-content"]'))
 ]
 
 
 # Hàm lấy dữ liệu là link sang các trang chi tiết thuê phòng
-def data_crawler(str_url, arr_selector, urls_data, url_errs):
-    html_data = util.get_html_data_from_url(str_url)
+def data_crawler(url, arr_selector, urls_data, url_errs):
+    html_data = util.get_html_data_from_url(url[1])
     if html_data is not None:
         data_obj = util.parse_html_data_to_obj(html_data, arr_selector)
         if data_obj is None:
-            url_errs.append('[parse failed]: ' + str_url)
+            url_errs.append('[parse failed]: ' + url[1])
         else:
+            data_obj.insert(0, url[0]) #insert stt tử url
             urls_data.append(data_obj)
     else:
-        url_errs.append('[get failed]:' + str_url)
+        url_errs.append('[get failed]:' + url[1])
 
 
 def main():
@@ -54,9 +55,8 @@ def main():
             continue
         print("> Starting scarp from url....")
         data_urls = csv_data[csv_data.columns[1]].values
+        data_stt = csv_data[csv_data.columns[0]].values
         data_rooms = []
-        start_index_data = 0
-        start_index_err = 0
 
         for i_time in range(0, len(data_urls), EVERY_TIME):
             urls = []
@@ -66,7 +66,7 @@ def main():
                 end_url = len(data_urls)
             print("Scraping data from url : [" + str(start_url) + " -> " + str(end_url) + "]", end=" =>")
             for i in range(start_url, end_url, 1):
-                urls.append(data_urls[i])
+                urls.append([data_stt[i], data_urls[i]]) # đẩy cả stt và url vào lúc tra cho dễ
 
             url_errs = []
             # Triển khai đa luồng scraping
@@ -80,18 +80,16 @@ def main():
             if url_errs:  # Có lỗi xảy ra
                 print("[ Done ] : " + str(EVERY_TIME - len(url_errs)) + "/" + str(EVERY_TIME)
                       + ". "+str(len(url_errs)) + " failed ! -> push to file :" + file_err_csv)
-                util.push_data_to_exit_file(url_errs, file_err_csv, start_index_err)
-                start_index_err += len(url_errs)
+                util.push_data_to_exit_file(url_errs, file_err_csv)
 
             else:  # Hoàn thành không lỗi
                 print(" [OK] !!!!!!")
                 if len(data_rooms) >= LIMIT_PUSH_DATA:
-                    util.push_data_to_exit_file(data_rooms, file_data_csv, start_index_data)
-                    start_index_data += len(data_rooms)
+                    util.push_data_to_exit_file(data_rooms, file_data_csv)
                     data_rooms.clear()
                     print(" [OK] Over : Reset data ;)")
         if data_rooms:
-            util.push_data_to_exit_file(data_rooms, file_data_csv, start_index_data)
+            util.push_data_to_exit_file(data_rooms, file_data_csv)
         print("=====================================================================")
 
 

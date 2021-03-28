@@ -1,0 +1,45 @@
+﻿[I]> Lấy dữ liệu từ trên mạng về tại hai trang web:
+	1. https://nha.chotot.com/
+	2. https://phongtro123.com/
+
+	Thu được 4 trường :thời gian, giá, diện tích, địa chỉ, chi tiết
+	
+[II]> Phân tích lấy trường dữ liệu cần thiết:
+	Bằng biện pháp đánh giá, tham khảo 
+
+	1. Giá phòng 
+	
+	
+	2. Thời gian ??? (tháng/ năm) // phongtro123 : ngày cụ thể + nhachoto : ngày 1
+	3. Diện tích 				  // OK 
+	4. Địa chỉ  ???				  // NoOK -> tách ra làm đường, phường,xã - quận huyện
+
+	
+	5. Phòng khép kín hay không   // OK mặc định 1 (không khép kín)
+	6. Ở tầng mấy (mặc định là tầng dưới cùng)// OK mặc định 1 : khép kín
+	7. Có mấy tiện nghi	 	      // OK mặc định là 0. Tính theo thang điểm: cộng 1 nếu có : gác xét, tủ , nóng lạnh , điều hòa...	  
+	8. Có view hay không ??		  // 0K mặc định là 0. Tính theo thang điểm : gần trường, gần đường , gần chợ , ban công...
+	9. Có chung chủ hay không ??  // 
+	
+[III]> Tách dữ liệu : [1 tuần]
+ 
+[IV] > Xây dựng mô hình mạng neural -> tiến hành training [1 tuần]
+	   Xây dựng mô hình hồi quy tuyến tính -> tiến hành đánh giá
+	   
+	   nếu mô hình ở trạng thái không chấp nhận được : Xây dựng lại mô hình 
+	   7100 -> 80/20 . Test một vài mô hình -> mô hình tốt nhất
+	   
+
+[ V ]> Tiến hành đánh giá thay đổi mô hình > Nhằm nâng cao [1 tuần]
+
+	- So sánh với chính  deep-learning với các mô hình khác nhau 
+	- So sánh với hồi quy tuyến tính (dùng công cụ)
+	
+[ VI ]> Viết báo cáo, silde các tool hỗ trợ các quá trình trên [1 tuần]
+		front_end : web
+
+	Xây dựng tool hỗ trợ :tự động tải dữ liệu (spider) ,  
+	
+[VII]> tài liệu tham khảo :
+
+https://towardsdatascience.com/house-prices-prediction-using-deep-learning-dea265cc3154

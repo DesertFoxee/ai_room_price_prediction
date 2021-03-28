@@ -1,16 +1,14 @@
 import threading
-import pandas as pd
 import common.utils as utils
+import common.config as cf
 
 
 EVERY_TIME = 10
 
-data_header = ["url"]
-
 # Dữ liệu [ web name + urlfetch + selector + Max page ] sử dụng cho fetch data url
 data_fetch = [
-    ("https://nha.chotot.com/ha-noi/thue-phong-tro?page=", 'li[class*="wrapperAdItem__"] > a',180, "urls_nhachoto.csv"),
-    ("https://phongtro123.com/tinh-thanh/ha-noi?page=", 'h4[class="post-title"] > a', 160, "urls_phongtro123.csv")
+    # ("https://nha.chotot.com/ha-noi/thue-phong-tro?page=", 'li[class*="wrapperAdItem__"] > a',180, "urls_nhachoto.csv"),
+    ("https://phongtro123.com/tinh-thanh/ha-noi?page=", 'h4[class="post-title"] > a', 200, "urls_phongtro123.csv")
 ]
 
 
@@ -65,7 +63,7 @@ def main():
             print("=======================================================================")
         print("[OK]  Push data to file => " + file_name_csv)
         print("")
-        utils.push_data_to_new_file(urls_data, file_name_csv , data_header)
+        utils.push_data_to_new_file(urls_data, file_name_csv, cf.field_header_file_url, index=True)
 
 
 # Hàm main

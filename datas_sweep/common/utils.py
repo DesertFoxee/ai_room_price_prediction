@@ -47,10 +47,15 @@ def parse_html_data_to_obj(html_data_raw, arr_selectors):
         try:
             # chỉ sô đầu tiên nếu có sẽ chỉ phần tử thứ bao nhiêu trong list select ra được lấy
             index_selector = key_selector[0]
-            if index_selector.isdigit():
+            if index_selector.isdigit():    # lấy phần tử thứ n
                 selector = key_selector[1::]
                 str_data = soup.select(selector)[int(index_selector)].text
-            else:
+            elif index_selector == '?':     # lấy thuộc tính
+                index_attr = key_selector.find(' ')
+                attr = key_selector[1:index_attr]
+                selector = key_selector[index_attr+1:]
+                str_data = soup.select_one(selector)[attr]
+            else:                           # lấy text của phần tử thông thường
                 str_data = soup.select_one(key_selector).text
         except Exception as e:
             # Xuất hiện lỗi phân tích cú pháp
@@ -60,27 +65,28 @@ def parse_html_data_to_obj(html_data_raw, arr_selectors):
 
 
 # Đẩy dữ liệu vào file chế độ ghi thêm từng mảng
-def push_data_to_exit_file(data_out, file_out, start_index):
+def push_data_to_exit_file(data_out, file_out):
     df = pd.DataFrame(data=data_out)
-    df.index += start_index
-    df.to_csv(file_out, mode='a', header=False)
+    df.to_csv(file_out, mode='a', header=False, index=False)
 
 
 # Đẩy phần header vào file
 def push_header_to_file(file_out, head=None):
-    df = pd.DataFrame(data={}, columns=head[1:])
-    df.index.name = head[0]
-    df.to_csv(file_out, mode='w', header=True)
+    df = pd.DataFrame(data={}, columns=head)
+    df.to_csv(file_out, mode='w', header=True, index=False)
 
 
 # Đẩy dữ liệu vào file chế độ ghi mới sau tiền xử lý
-def push_data_to_new_file(data_out, file_out, head=None):
-    df = pd.DataFrame(data=data_out, columns=head)
-    df.index.name = "stt"
-    if head is not None:
-        df.to_csv(file_out, mode='w', header=True)
+def push_data_to_new_file(data_out, file_out, head=None, index=False):
+    if index:
+        df = pd.DataFrame(data=data_out, columns=head[1:])
+        df.index.name = head[0]
     else:
-        df.to_csv(file_out, mode='w', header=False)
+        df = pd.DataFrame(data=data_out, columns=head)
+    if head is not None:
+        df.to_csv(file_out, mode='w', header=True, index=index)
+    else:
+        df.to_csv(file_out, mode='w', header=False, index=index)
 
 
 # Lấy tên file từ path

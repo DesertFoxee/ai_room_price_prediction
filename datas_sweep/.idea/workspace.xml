@@ -2,7 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bfe56e6f-1e28-49f3-82bc-07108ae5618e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../data_fields.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../data_fields.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/common/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/common/utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_bk/data_nhachoto_24032021.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_bk/data_phongtro123_24032021.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_bk/err_nhachoto_24032021.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_bk/err_phongtro123_24032021.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_pre/data_nhachoto_24032021_pre_1998_3996_thuong.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_pre/data_nhachoto_24032021_pre_1_1998_hau.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_pre/data_phongtro123_24032021_1441_2878_thuong.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_pre/data_phongtro123_24032021_1_1440_hau.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_scraping.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_scraping.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/date.py" beforeDir="false" afterPath="$PROJECT_DIR$/date.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hardwork_spider/pre_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/hardwork_spider/pre_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/url_scraping.py" beforeDir="false" afterPath="$PROJECT_DIR$/url_scraping.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/urls_nhachoto.csv" beforeDir="false" afterPath="$PROJECT_DIR$/urls_nhachoto.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/urls_phongtro123.csv" beforeDir="false" afterPath="$PROJECT_DIR$/urls_phongtro123.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../linkdata.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../note.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +49,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -37,7 +57,7 @@
       <recent name="C:\Users\DesertFoxee\Desktop\do_an\datas_sweep\hardwork_spider" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.data_scraping">
+  <component name="RunManager" selected="Python.pre_data">
     <configuration name="data_scraping" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="datas_sweep" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -51,6 +71,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data_scraping.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="date" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="datas_sweep" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/date.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -80,27 +121,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="spider" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="datas_sweep" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/hardwork_spider" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hardwork_spider/spider.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="datas_sweep" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -122,7 +142,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="web_scraping" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="url_scraping" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="datas_sweep" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -134,7 +154,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/web_scraping.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/url_scraping.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -145,11 +165,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.data_scraping" />
-        <item itemvalue="Python.web_scraping" />
-        <item itemvalue="Python.test" />
         <item itemvalue="Python.pre_data" />
-        <item itemvalue="Python.spider" />
+        <item itemvalue="Python.data_scraping" />
+        <item itemvalue="Python.url_scraping" />
+        <item itemvalue="Python.test" />
+        <item itemvalue="Python.date" />
       </list>
     </recent_temporary>
   </component>
