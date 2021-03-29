@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="bfe56e6f-1e28-49f3-82bc-07108ae5618e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_pre/data_phongtro123_final.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data_pre/data_phongtro123_final.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data_pre/data_train/data_phongtro123_data.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data_pre/data_train/data_phongtro123_data.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
