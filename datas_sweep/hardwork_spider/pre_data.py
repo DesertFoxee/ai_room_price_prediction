@@ -16,6 +16,7 @@ data_convert_time = [
     ]
 
 folder_out = "../data_pre/"
+folder_out_spider= "../data_pre/data_daily/"
 
 
 def drop_row(data_frame, start_index , end_index):
@@ -124,11 +125,57 @@ def preprocessing_data_phongtro123(path_file):
     return
 
 
+def preprocessing_data_phongtro123_spider(path_file):
+    df = pd.read_csv(path_file)
+    # drop_row(df , istart, iend) # chỉ lấy từ dòng istart->iend
+
+    # col_time = cf.field_header_file_spider[1]
+    col_price = cf.field_header_file_spider[3]
+    col_acreage = cf.field_header_file_spider[4]
+    col_address = cf.field_header_file_spider[8]
+    col_detail = cf.field_header_file_spider[9]
+
+    #Trường thời gian :  loại col_timebỏ các ký tự không phải số và /
+    # df[col_time] = df[col_time].map(lambda x: re.sub('[^0-9//]', '', x))
+    # df[col_time] = df[col_time].map(lambda x: x[3:])
+
+    #Trường giá phòng : loại bỏ các ký tự không phải số và . + giá lớn hơn 0
+    df = df[df[col_price].str.contains("Thỏa thuận") == False]
+    df[col_price]= df[col_price].map(lambda x: re.sub('[^0-9.]', '', x))
+    df[col_price]= df[col_price].map(lambda x: float(x)*1000000 if float(x) < 100 else float(x)*1000)
+    df[col_price] = df[col_price].map(lambda x: int(x))
+    df = df[df[col_price] > 0]
+
+    #Trường diện tích : bỏ m2 và bỏ các ký tự không phải là số
+    df[col_acreage] = df[col_acreage].map(lambda x: x[:-2]) # m2
+    df[col_acreage] = df[col_acreage].map(lambda x: re.sub('[^0-9.]', '', x))
+
+    # Trường địa chỉ : bỏ từ Địa chỉ: trong dữ liệu
+    df[col_address] = df[col_address].map(lambda x: x.replace("Địa chỉ: ", ""))
+
+    # Trường chi tiết : bỏ từ các từ không cần thiết
+    df[col_detail] = df[col_detail].str.lower()
+    df[col_detail] = df[col_detail].map(lambda x: x.replace(" ", "").replace("‎", "").replace("‬", "").replace("‪", ""))
+
+    #Trường có khép kín hay không:
+    # df[col_type] = df[col_price]<= 1000000
+
+    file_name = utils.get_file_name_from_path(path_file)
+    file_name = file_name+'_pre.csv'
+    path_pre = folder_out_spider+file_name
+
+    df = df[cf.field_header_file_data]
+    df.to_csv(path_pre, mode='w', header=True, index=False)
+    return
+
+
 def main():
     # load csv
-    preprocessing_data_phongtro123("../data_bk/data_phongtro123_27032021.csv")
+    # preprocessing_data_phongtro123("../data_bk/data_phongtro123_27032021.csv")
 
     # preprocessing_data_nhachoto("../data_bk/data_nhachoto_26032021.csv",0,3257)
+    return
+
 
 # Hàm main
 if __name__ == "__main__":

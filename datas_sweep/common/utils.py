@@ -4,6 +4,7 @@ import pandas as pd
 import ntpath
 import urllib
 import os
+import random
 
 
 # Lấy địa chỉ chính từ url
@@ -64,8 +65,15 @@ def parse_html_data_to_obj(html_data_raw, arr_selectors):
     return data_obj
 
 
+# Sử dụng inset dữ liệu vào spider
+def inset_data(data_obj, url):
+    data_obj.insert(0, url[0])  # insert stt tự từ url
+    data_obj.insert(1, url[1])  # insert link
+    data_obj.insert(5, random.uniform(2.0, 7.0))  # insert link
+
+
 # Đẩy dữ liệu vào file chế độ ghi thêm từng mảng
-def push_data_to_exit_file(data_out, file_out):
+def push_data_to_exist_file(data_out, file_out):
     df = pd.DataFrame(data=data_out)
     df.to_csv(file_out, mode='a', header=False, index=False)
 

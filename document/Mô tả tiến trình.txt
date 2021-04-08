@@ -48,3 +48,11 @@ Các khó khăn trong tách dữ liệu :
 - Địa chỉ không đầy đủ .
 - Thông tin đặc tính căn phòng không đầy đủ.
 - Địa chỉ và chi tiết không trùng khớp
+
+    vector<double> points_test = { 200 , 200 ,0 , 200 , -200 , 0 , -200 ,-200 ,0 };
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+
+    glVertexPointer(3, GL_DOUBLE, 3*sizeof(double), &points_test[0]);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDisableClientState(GL_VERTEX_ARRAY);

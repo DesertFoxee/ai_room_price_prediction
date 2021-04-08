@@ -28,7 +28,7 @@ def data_crawler(url, arr_selector, urls_data, url_errs):
         if data_obj is None:
             url_errs.append('[parse failed]: ' + url[1])
         else:
-            data_obj.insert(0, url[0]) #insert stt tử url
+            data_obj.insert(0, url[0]) #insert stt tự từ url
             urls_data.append(data_obj)
     else:
         url_errs.append('[get failed]:' + url[1])
@@ -80,16 +80,16 @@ def main():
             if url_errs:  # Có lỗi xảy ra
                 print("[ Done ] : " + str(EVERY_TIME - len(url_errs)) + "/" + str(EVERY_TIME)
                       + ". "+str(len(url_errs)) + " failed ! -> push to file :" + file_err_csv)
-                util.push_data_to_exit_file(url_errs, file_err_csv)
+                util.push_data_to_exist_file(url_errs, file_err_csv)
 
             else:  # Hoàn thành không lỗi
                 print(" [OK] !!!!!!")
                 if len(data_rooms) >= LIMIT_PUSH_DATA:
-                    util.push_data_to_exit_file(data_rooms, file_data_csv)
+                    util.push_data_to_exist_file(data_rooms, file_data_csv)
                     data_rooms.clear()
                     print(" [OK] Over : Reset data ;)")
         if data_rooms:
-            util.push_data_to_exit_file(data_rooms, file_data_csv)
+            util.push_data_to_exist_file(data_rooms, file_data_csv)
         print("=====================================================================")
 
 
