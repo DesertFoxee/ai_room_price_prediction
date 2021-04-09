@@ -43,16 +43,12 @@
 [VII]> tài liệu tham khảo :
 
 https://towardsdatascience.com/house-prices-prediction-using-deep-learning-dea265cc3154
+https://hackernoon.com/build-your-first-neural-network-to-predict-house-prices-with-keras-3fb0839680f4
+https://hub.packtpub.com/top-5-deep-learning-architectures/
+https://addepto.com/deep-learning-architecture/
 
 Các khó khăn trong tách dữ liệu :
 - Địa chỉ không đầy đủ .
 - Thông tin đặc tính căn phòng không đầy đủ.
 - Địa chỉ và chi tiết không trùng khớp
 
-    vector<double> points_test = { 200 , 200 ,0 , 200 , -200 , 0 , -200 ,-200 ,0 };
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-
-    glVertexPointer(3, GL_DOUBLE, 3*sizeof(double), &points_test[0]);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-    glDisableClientState(GL_VERTEX_ARRAY);
