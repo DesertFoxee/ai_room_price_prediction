@@ -69,7 +69,7 @@ def parse_html_data_to_obj(html_data_raw, arr_selectors):
 def inset_data(data_obj, url):
     data_obj.insert(0, url[0])  # insert stt tự từ url
     data_obj.insert(1, url[1])  # insert link
-    data_obj.insert(7, round(random.uniform(2.0, 7.0), 1))  # insert link
+    data_obj.insert(7, round(random.uniform(1.8, 4.0), 1))  # insert link
 
 
 # Đẩy dữ liệu vào file chế độ ghi thêm từng mảng
