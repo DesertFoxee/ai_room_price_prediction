@@ -18,16 +18,16 @@
 	5. Phòng khép kín hay không   // OK mặc định 1 (không khép kín)
 	6. Ở tầng mấy (mặc định là tầng dưới cùng)// OK mặc định 1 : khép kín
 	7. Có mấy tiện nghi	 	      // OK mặc định là 0. Tính theo thang điểm: cộng 1 nếu có : gác xét, tủ , nóng lạnh , điều hòa...	  
-	8. Có view hay không ??		  // 0K mặc định là 0. Tính theo thang điểm : gần trường, gần đường , gần chợ , ban công...
-	9. Có chung chủ hay không ??  // 
+	8. Có view hay không ??		  // 0K mặc định là 0. Tính theo thang điểm : cửa sổ, thang máy , ban công , chỗ để xe, an ninh, gần trường đại học...
+
 	
 [III]> Tách dữ liệu : [1 tuần]
  
-[IV] > Xây dựng mô hình mạng neural -> tiến hành training [1 tuần]
+[IV] > Xây dựng mô hình mạng neural -> tiến hành training [2 tuần]
 	   Xây dựng mô hình hồi quy tuyến tính -> tiến hành đánh giá
 	   
 	   nếu mô hình ở trạng thái không chấp nhận được : Xây dựng lại mô hình 
-	   7100 -> 80/20 . Test một vài mô hình -> mô hình tốt nhất
+	   1500 -> 80/20 . Test một vài mô hình -> mô hình tốt nhất
 	   
 
 [ V ]> Tiến hành đánh giá thay đổi mô hình > Nhằm nâng cao [1 tuần]
@@ -47,8 +47,23 @@ https://hackernoon.com/build-your-first-neural-network-to-predict-house-prices-w
 https://hub.packtpub.com/top-5-deep-learning-architectures/
 https://addepto.com/deep-learning-architecture/
 
+
+https://towardsdatascience.com/multi-layer-neural-networks-with-sigmoid-function-deep-learning-for-rookies-2-bf464f09eb7f
 Các khó khăn trong tách dữ liệu :
 - Địa chỉ không đầy đủ .
 - Thông tin đặc tính căn phòng không đầy đủ.
 - Địa chỉ và chi tiết không trùng khớp
 
+Tiền xử lý dữ liệu :
+
+	If the distribution of the quantity is normal, then it should be standardized, otherwise the data should be normalized
+
+Cơ chế lan truyền ngược:
+	backpropagation, is mentioned in the last post. Remember that we iterated the importance of designing a neural network so that the network can learn 
+	from the difference between the desired output (what the fact is) and actual output (what the network returns) and then send a signal back to the weights and ask the weights to adjust themselves? 
+	This will make the network’s output closer to the desired output next time we run it.
+	
+
+Sự khác biệt giữa mô hình học máy thông thường với deep-learning:
+	If the activation function is linear, then you can stack as many hidden layers in the neural network as you wish, 
+	and the final output is still a linear combination of the original input data. Please make sure you read this link
