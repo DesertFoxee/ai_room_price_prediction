@@ -30,18 +30,21 @@ import url_scraping as ws
 #                         results[0]['annotations']['timezone']['name']))
 
 
-data_raw = ut.get_html_data_from_url("https://phongtro123.com/phong-tro-khep-khep-kin-day-du-tien-nghi-nha-moi-xay-pho-bui-bui-xuong-trach-thanh-xuan-pr309654.html")
+data_raw = ut.get_html_data_from_url("https://phongtro123.com/nha-mat-ngo-20m2-tien-dung-khep-kin-va-doc-lap-pr585654.html")
 
 soup = BeautifulSoup(data_raw, features='html.parser')
 
+selector_all = '1.post-price-item'
+index_selector = selector_all[0]
+selector = selector_all[1::]
+str_data = soup.select(selector)[int(index_selector)].text
 
 
-selector_all = '?data-lat #__maps_content'
 
-index_attr = selector_all.find(' ')
-attr = selector_all[1:index_attr]
-selector_sub = selector_all[index_attr+1:]
+# index_attr = selector_all.find(' ')
+# attr = selector_all[1:index_attr]
+# selector_sub = selector_all[index_attr+1:]
 
 
-a = soup.select_one(selector_sub)[attr]
-print(a)
+# a = soup.select_one(selector_all)
+print(str_data)

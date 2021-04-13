@@ -13,7 +13,7 @@ data_get = [
     # thời gian , giá phòng , diện tích  , địa chỉ , chi tiết
     # ("urls_nhachoto", ('span[class*="imageCaptionText___"]', 'span[itemprop="price"]', 'span[itemprop="size"]',
     #                    'div[class*="address___"] > span', 'p[itemprop="description"]')),
-    ("urls_phongtro123", ('3span[class="acreage"]', 'span[class="price"]', 'span[class="acreage"]',
+    ("urls_phongtro123", ('3.post-price-item', '0.post-price-item', '1.post-price-item',
                           '?data-address #__maps_content',
                           '?data-lat #__maps_content', '?data-long #__maps_content',
                           '.post-main-content > div[class="section-content"]'))

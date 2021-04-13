@@ -33,7 +33,7 @@ setup_data = [
             'time[class="post-time"]'             # thẻ lấy thời gian [chú ý : là thẻ lấy được text]
         ],
         # selector lấy dữ liệu chi tiết về phòng
-        ('3span[class="acreage"]', 'span[class="price"]', 'span[class="acreage"]',
+        ('3.post-price-item', '0.post-price-item', '1.post-price-item',
                           '?data-address #__maps_content',
                           '?data-lat #__maps_content', '?data-long #__maps_content',
                           '.post-main-content > div[class="section-content"]'),
@@ -133,7 +133,7 @@ def main():
             print("Scraping data from url : [" + str(start_url) + " -> " + str(end_url) + "]", end=" =>")
             for i in range(start_url, end_url, 1):
                 urls.append([i, data_urls[i]])  # đẩy cả stt và url vào lúc tra cho dễ
-
+            print(urls)
             url_errs = []
             # Triển khai đa luồng scraping
             threads = [threading.Thread(target=data_crawler_spider, args=(url, arr_selectors_data, data_rooms, url_errs))
