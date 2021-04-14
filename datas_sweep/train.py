@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from keras.models import Sequential
 from keras.layers import Dense
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import Normalizer
 from sklearn.linear_model import LinearRegression
 from sklearn import metrics
 
@@ -34,17 +34,18 @@ def deep_learn(X_train, y_train, X_test, y_test):
         Dense(neural_number, activation='relu'),
         Dense(neural_number, activation='relu'),
         Dense(neural_number, activation='relu'),
-        Dense(neural_number, activation='relu'),
+        # Dense(neural_number, activation='relu'),
         Dense(1),
     ])
 
-    model.compile(optimizer='Adam', loss='mean_squared_error')
+    model.compile(
+        optimizer='Adam',
+        loss='mean_squared_error',
+    )
 
     model.fit(x=X_train, y=y_train,
               validation_data=(X_test, y_test),
-              batch_size=32, epochs=150)
-
-    model.summary()
+              batch_size=20, epochs=600)
 
     y_pred = model.predict(X_test)
 
@@ -70,16 +71,17 @@ def main():
 
     preprocessing_raw_data(df)
 
-    X = df.drop(['giaphong'], axis=1).values
+
+    X = df.drop(['giaphong'],axis=1).values
     y = df['giaphong'].values
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=15)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-    s_scaler = StandardScaler()
-    X_train = s_scaler.fit_transform(X_train.astype(np.float))
-    X_test = s_scaler.transform(X_test.astype(np.float))
+    normalizer = Normalizer()
+    X_train = normalizer.fit_transform(X_train)
+    X_test = normalizer.fit_transform(X_test)
 
-    # linear_regressions(X_train, y_train, X_test, y_test)
+    linear_regressions(X_train, y_train, X_test, y_test)
     deep_learn(X_train, y_train, X_test, y_test)
 
 
