@@ -133,7 +133,6 @@ def main():
             print("Scraping data from url : [" + str(start_url) + " -> " + str(end_url) + "]", end=" =>")
             for i in range(start_url, end_url, 1):
                 urls.append([i, data_urls[i]])  # đẩy cả stt và url vào lúc tra cho dễ
-            print(urls)
             url_errs = []
             # Triển khai đa luồng scraping
             threads = [threading.Thread(target=data_crawler_spider, args=(url, arr_selectors_data, data_rooms, url_errs))

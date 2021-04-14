@@ -1,9 +1,11 @@
 import pandas as pd
-from sklearn import preprocessing
+import numpy as np
 from sklearn.model_selection import train_test_split
 from keras.models import Sequential
 from keras.layers import Dense
-
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression
+from sklearn import metrics
 
 path_data_raw = 'data_pre/data_train/data_phongtro123_data.csv'
 path_data_out = 'housepricedata.csv'
@@ -15,7 +17,7 @@ def convert_data_row():
     df.to_csv(path_data_out, index=False,header=True)
 
 
-def stand_data(df):
+def preprocessing_raw_data(df):
     df['loaiwc'] = df['loaiwc'].str.lower()
     df['loaiwc'] = df['loaiwc'].astype('category')
     df['loaiwc'] = df['loaiwc'].cat.codes
@@ -25,36 +27,60 @@ def stand_data(df):
     df['loai'] = df['loai'].cat.codes
 
 
-def main():
-    df = pd.read_csv(path_data_out)
-    stand_data(df)
-
-    dataset = df.values
-    # Lấy ra cột giá
-    col_price = dataset[:, 0]
-    col_features = dataset[:, 1:9]
-    Y = col_price
-    min_max_scaler = preprocessing.MinMaxScaler()
-    X_scale = min_max_scaler.fit_transform(col_features)
-
-    X_train, X_val_and_test, Y_train, Y_val_and_test = train_test_split(X_scale, Y, test_size=0.3)
-    X_val, X_test, Y_val, Y_test = train_test_split(X_val_and_test, Y_val_and_test, test_size=0.5)
-    print(X_train.shape, X_val.shape, X_test.shape, Y_train.shape, Y_val.shape, Y_test.shape)
-
+def deep_learn(X_train, y_train, X_test, y_test):
+    neural_number = 9
     model = Sequential([
-        Dense(32, activation='relu', input_shape=(10,)),
-        Dense(32, activation='relu'),
-        Dense(1, activation='sigmoid'),
+        Dense(neural_number, activation='relu'),
+        Dense(neural_number, activation='relu'),
+        Dense(neural_number, activation='relu'),
+        Dense(neural_number, activation='relu'),
+        Dense(neural_number, activation='relu'),
+        Dense(1),
     ])
 
-    model.compile(optimizer='sgd',
-                  loss='binary_crossentropy',
-                  metrics=['accuracy'])
+    model.compile(optimizer='Adam', loss='mean_squared_error')
 
-    hist = model.fit(X_train, Y_train,
-                     batch_size=32, epochs=100,
-                     validation_data=(X_val, Y_val))
-    print(model.evaluate(X_test, Y_test)[1])
+    model.fit(x=X_train, y=y_train,
+              validation_data=(X_test, y_test),
+              batch_size=32, epochs=150)
+
+    model.summary()
+
+    y_pred = model.predict(X_test)
+
+    print('MAE:', metrics.mean_absolute_error(y_test, y_pred))
+    print('MSE:', metrics.mean_squared_error(y_test, y_pred))
+    print('RMSE:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
+    print('VarScore:',metrics.explained_variance_score(y_test,y_pred))
+
+
+def  linear_regressions(X_train, y_train, X_test, y_test):
+    regressor = LinearRegression()
+    regressor.fit(X_train, y_train)
+    y_pred = regressor.predict(X_test)
+
+    print('MAE:', metrics.mean_absolute_error(y_test, y_pred))
+    print('MSE:', metrics.mean_squared_error(y_test, y_pred))
+    print('RMSE:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
+    print('VarScore:',metrics.explained_variance_score(y_test,y_pred))
+
+
+def main():
+    df = pd.read_csv(path_data_out)
+
+    preprocessing_raw_data(df)
+
+    X = df.drop(['giaphong'], axis=1).values
+    y = df['giaphong'].values
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=15)
+
+    s_scaler = StandardScaler()
+    X_train = s_scaler.fit_transform(X_train.astype(np.float))
+    X_test = s_scaler.transform(X_test.astype(np.float))
+
+    # linear_regressions(X_train, y_train, X_test, y_test)
+    deep_learn(X_train, y_train, X_test, y_test)
 
 
 # Hàm main
