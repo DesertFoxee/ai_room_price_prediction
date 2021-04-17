@@ -4,6 +4,7 @@ import common.config as cf
 
 
 EVERY_TIME = 10
+folder_out = 'data_url'
 
 # Dữ liệu [ web name + urlfetch + selector + Max page ] sử dụng cho fetch data url
 data_fetch = [
@@ -33,7 +34,7 @@ def main():
         url_scan = web_page[0]
         arr_selector = web_page[1]
         total_page = web_page[2]
-        file_name_csv = web_page[3]
+        file_name_csv = folder_out + '/' + web_page[3]
 
         urls_data = []
         print("[**] Load data from link : " + utils.get_web_host_name_from_url(web_page[0]))

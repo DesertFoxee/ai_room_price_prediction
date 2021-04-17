@@ -1,1 +1,0 @@
-Thư mục này chứa dữ liệu đã qua xử lý. tại thư mục data_bk

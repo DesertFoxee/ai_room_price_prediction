@@ -18,6 +18,9 @@ data_convert_time = [
 folder_out = "../data_pre/"
 folder_out_spider= "../data_pre/data_daily/"
 
+path_data_raw = '../data_pre/data_train/data_phongtro123_data.csv'
+path_data_out = '../housepricedata_1.csv'
+
 
 def drop_row(data_frame, start_index , end_index):
     data_frame.drop(data_frame.index[0: start_index], inplace=True)
@@ -169,11 +172,26 @@ def preprocessing_data_phongtro123_spider(path_file):
     return
 
 
+# Xử lý các cột trong dữ liệu thô sang file housepricedata_1.csv
+def convert_data_row():
+    df = pd.read_csv(path_data_raw)
+    df.drop(['stt', 'chitiet', 'diachi'], axis=1, inplace=True)
+    df["thoigian"] = pd.to_datetime(df["thoigian"])
+    df.insert(1, 'thang', df["thoigian"].dt.month)
+    df.insert(0, 'nam', df["thoigian"].dt.year)
+    df = df.drop(['thoigian'], axis=1)
+    df.to_csv(path_data_out, index=False,header=True)
+    print(df.dtypes)
+
+
 def main():
     # load csv
     # preprocessing_data_phongtro123("../data_bk/data_phongtro123_27032021.csv")
 
     # preprocessing_data_nhachoto("../data_bk/data_nhachoto_26032021.csv",0,3257)
+
+
+    convert_data_row()
     return
 
 

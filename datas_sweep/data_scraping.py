@@ -1,5 +1,4 @@
 import threading
-import os
 import pandas as pd
 import common.config as cf
 import common.utils as util
