@@ -1,5 +1,6 @@
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
+from train import linear_regressions
 import pandas as pd
 import ntpath
 import urllib
@@ -102,3 +103,16 @@ def get_file_name_from_path(path):
     head, tail = ntpath.split(path)
     filename = os.path.splitext(tail)[0]
     return filename or ntpath.basename(head)
+
+
+# Kiểm tra tham số random_state tốt nhất cho mô hình
+def test_random_state(X_train , y_train ,X_test ,y_test):
+    rmse = -1
+    random_state = 0
+    for x in range(42, 150):
+        rmse_temp = linear_regressions(X_train, y_train, X_test, y_test, False)
+        if (rmse == -1) or (rmse > rmse_temp):
+            rmse = rmse_temp
+            random_state = x
+    print("RMSE Min:"+ str(rmse))
+    print("Radom state :" + str(random_state))

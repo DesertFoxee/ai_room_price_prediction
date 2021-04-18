@@ -49,6 +49,7 @@ https://addepto.com/deep-learning-architecture/
 
 
 https://towardsdatascience.com/multi-layer-neural-networks-with-sigmoid-function-deep-learning-for-rookies-2-bf464f09eb7f
+
 Các khó khăn trong tách dữ liệu :
 - Địa chỉ không đầy đủ .
 - Thông tin đặc tính căn phòng không đầy đủ.
@@ -67,3 +68,7 @@ Cơ chế lan truyền ngược:
 Sự khác biệt giữa mô hình học máy thông thường với deep-learning:
 	If the activation function is linear, then you can stack as many hidden layers in the neural network as you wish, 
 	and the final output is still a linear combination of the original input data. Please make sure you read this link
+	
+
+MLP và DNN 
+	MLP is a subset of DNN. While DNN can have loops and MLP are always feed-forward, i.e. A Multilayer Perceptron is a finite acyclic graph.

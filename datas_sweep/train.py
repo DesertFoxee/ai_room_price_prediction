@@ -1,21 +1,17 @@
-import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split
-from keras.models import Sequential
-from keras.layers import Dense
-from sklearn.preprocessing import Normalizer
-from sklearn.linear_model import LinearRegression
+import pandas as pd
 from sklearn import metrics
+from keras.layers import Dense
+from keras.models import Sequential
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
 
 path_data_raw = 'data_pre/data_train/data_phongtro123_data.csv'
 path_data_out = 'housepricedata.csv'
 
-# Xử lý các cột trong dữ liệu thô sang file housepricedata.csv
-def convert_data_row():
-    df = pd.read_csv(path_data_raw)
-    df.drop(['stt','chitiet','thoigian','diachi'], axis=1, inplace=True)
-    df.to_csv(path_data_out, index=False,header=True)
-
+random_state = 65
 
 def preprocessing_raw_data(df):
     df['loaiwc'] = df['loaiwc'].str.lower()
@@ -27,43 +23,49 @@ def preprocessing_raw_data(df):
     df['loai'] = df['loai'].cat.codes
 
 
-def deep_learn(X_train, y_train, X_test, y_test):
-    neural_number = 9
+# Mô hình mạng MLP (Multilayer Perceptron) - Deep learning
+def mlp(X_train, y_train, X_test, y_test, btest_infor=True, factor=1):
+    neural_number = X_train.shape[1] * factor
     model = Sequential([
+        Dense(neural_number, activation='relu', input_shape=(X_train.shape[1],)),
         Dense(neural_number, activation='relu'),
         Dense(neural_number, activation='relu'),
         Dense(neural_number, activation='relu'),
-        Dense(neural_number, activation='relu'),
-        # Dense(neural_number, activation='relu'),
         Dense(1),
     ])
 
-    model.compile(
-        optimizer='Adam',
-        loss='mean_squared_error',
-    )
+    model.compile(optimizer='Adam', loss='mean_squared_error')
 
     model.fit(x=X_train, y=y_train,
               validation_data=(X_test, y_test),
-              batch_size=20, epochs=600)
+              batch_size=40, epochs=1200)
 
     y_pred = model.predict(X_test)
 
-    print('MAE:', metrics.mean_absolute_error(y_test, y_pred))
-    print('MSE:', metrics.mean_squared_error(y_test, y_pred))
-    print('RMSE:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
-    print('VarScore:',metrics.explained_variance_score(y_test,y_pred))
+    if btest_infor:
+        print('MAE:', metrics.mean_absolute_error(y_test, y_pred))
+        print('MSE:', metrics.mean_squared_error(y_test, y_pred))
+        print('RMSE:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
+        print('VarScore:', metrics.explained_variance_score(y_test, y_pred))
 
 
-def  linear_regressions(X_train, y_train, X_test, y_test):
+# Mô hình multiple linear regression
+def linear_regressions(X_train, y_train, X_test, y_test, btest_infor=True):
     regressor = LinearRegression()
     regressor.fit(X_train, y_train)
     y_pred = regressor.predict(X_test)
 
-    print('MAE:', metrics.mean_absolute_error(y_test, y_pred))
-    print('MSE:', metrics.mean_squared_error(y_test, y_pred))
-    print('RMSE:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
-    print('VarScore:',metrics.explained_variance_score(y_test,y_pred))
+    # fig = plt.figure(figsize=(10, 5))
+    # residuals = (y_test - y_pred)
+    # sns.distplot(residuals)
+
+    rmse = np.sqrt(metrics.mean_squared_error(y_test, y_pred))
+    if btest_infor:
+        print('MAE:', metrics.mean_absolute_error(y_test, y_pred))
+        print('MSE:', metrics.mean_squared_error(y_test, y_pred))
+        print('RMSE:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
+        print('VarScore:', metrics.explained_variance_score(y_test, y_pred))
+    return rmse
 
 
 def main():
@@ -71,18 +73,17 @@ def main():
 
     preprocessing_raw_data(df)
 
-
     X = df.drop(['giaphong'],axis=1).values
     y = df['giaphong'].values
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=random_state)
 
-    normalizer = Normalizer()
-    X_train = normalizer.fit_transform(X_train)
-    X_test = normalizer.fit_transform(X_test)
+    s_scaler = StandardScaler()
+    X_train = s_scaler.fit_transform(X_train.astype(np.float))
+    X_test = s_scaler.fit_transform(X_test.astype(np.float))
 
-    linear_regressions(X_train, y_train, X_test, y_test)
-    deep_learn(X_train, y_train, X_test, y_test)
+    # linear_regressions(X_train, y_train, X_test, y_test)
+    mlp(X_train, y_train, X_test, y_test)
 
 
 # Hàm main

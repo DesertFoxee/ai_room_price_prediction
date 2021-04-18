@@ -18,8 +18,8 @@ data_convert_time = [
 folder_out = "../data_pre/"
 folder_out_spider= "../data_pre/data_daily/"
 
-path_data_raw = '../data_pre/data_train/data_phongtro123_data.csv'
-path_data_out = '../housepricedata_1.csv'
+path_data_raw = 'data_pre/data_train/data_phongtro123_data.csv'
+path_data_out = 'housepricedata.csv'
 
 
 def drop_row(data_frame, start_index , end_index):
@@ -181,7 +181,6 @@ def convert_data_row():
     df.insert(0, 'nam', df["thoigian"].dt.year)
     df = df.drop(['thoigian'], axis=1)
     df.to_csv(path_data_out, index=False,header=True)
-    print(df.dtypes)
 
 
 def main():
