@@ -1,6 +1,8 @@
 import common.utils as ut
 from bs4 import BeautifulSoup
 import url_scraping as ws
+import numbers
+import pandas as pd
 #
 # urls_data = []
 # count_err = [0]
@@ -30,21 +32,21 @@ import url_scraping as ws
 #                         results[0]['annotations']['timezone']['name']))
 
 
-data_raw = ut.get_html_data_from_url("https://phongtro123.com/nha-mat-ngo-20m2-tien-dung-khep-kin-va-doc-lap-pr585654.html")
+# data_raw = ut.get_html_data_from_url("https://phongtro123.com/nha-mat-ngo-20m2-tien-dung-khep-kin-va-doc-lap-pr585654.html")
+#
+# soup = BeautifulSoup(data_raw, features='html.parser')
+#
+# selector_all = '1.post-price-item'
+# index_selector = selector_all[0]
+# selector = selector_all[1::]
+# str_data = soup.select(selector)[int(index_selector)].text
 
-soup = BeautifulSoup(data_raw, features='html.parser')
-
-selector_all = '1.post-price-item'
-index_selector = selector_all[0]
-selector = selector_all[1::]
-str_data = soup.select(selector)[int(index_selector)].text
-
-
-
-# index_attr = selector_all.find(' ')
+df = pd.read_csv('data_pre/data_train/data_phongtro123_data.csv')
+df_filtered = df[df.apply(lambda x: x['stt'].isnumeric(), axis=1)]
+df_filtered.to_csv('data_pre/data_train/data_phongtro123_data_01.csv' ,index=False)
 # attr = selector_all[1:index_attr]
 # selector_sub = selector_all[index_attr+1:]
 
 
 # a = soup.select_one(selector_all)
-print(str_data)
+# print(str_data)
