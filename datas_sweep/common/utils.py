@@ -1,11 +1,13 @@
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 from train import linear_regressions
+from sklearn.model_selection import train_test_split
 import pandas as pd
 import ntpath
 import urllib
 import os
 import random
+import matplotlib.pyplot as plt
 
 
 # Lấy địa chỉ chính từ url
@@ -106,13 +108,29 @@ def get_file_name_from_path(path):
 
 
 # Kiểm tra tham số random_state tốt nhất cho mô hình
-def test_random_state(X_train , y_train ,X_test ,y_test):
+def test_random_state(X, y):
     rmse = -1
     random_state = 0
     for x in range(42, 150):
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=x)
         rmse_temp = linear_regressions(X_train, y_train, X_test, y_test, False)
         if (rmse == -1) or (rmse > rmse_temp):
             rmse = rmse_temp
             random_state = x
     print("RMSE Min:"+ str(rmse))
     print("Radom state :" + str(random_state))
+
+
+def show_history(history):
+    training_loss = history.history['loss']
+    test_loss = history.history['val_loss']
+
+    epoch_count = range(1, len(training_loss) + 1)
+
+    # Visualize loss history
+    plt.plot(epoch_count, training_loss, 'r--')
+    plt.plot(epoch_count, test_loss, 'b-')
+    plt.legend(['Training Loss', 'Test Loss'])
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.show()
