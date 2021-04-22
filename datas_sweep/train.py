@@ -19,7 +19,8 @@ path_linear_model = 'prediction_room_model_linear.h5'
 random_state = 110
 save_model = False
 
-def preprocessing_raw_data(df):
+
+def raw_data_processing(df):
     df['loaiwc'] = df['loaiwc'].str.lower()
     df['loaiwc'] = df['loaiwc'].astype('category')
     df['loaiwc'] = df['loaiwc'].cat.codes
@@ -71,7 +72,7 @@ def mlp(X_train, y_train, X_test, y_test, btest_infor=True, factor=1):
     model.compile(optimizer='adam', loss='mean_squared_error')
     history = model.fit(x=X_train, y=y_train,
               validation_data=(X_test, y_test),
-              batch_size=50, epochs=800)
+              batch_size=50, epochs=900)
 
     y_pred = model.predict(X_test)
 
@@ -81,9 +82,10 @@ def mlp(X_train, y_train, X_test, y_test, btest_infor=True, factor=1):
     if btest_infor:
         utl.show_history(history)
         show_diag_freq_residuals(y_test, y_pred)
-        print('MAE:', metrics.mean_absolute_error(y_test, y_pred))
-        print('MSE:', metrics.mean_squared_error(y_test, y_pred))
-        print('RMSE:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
+        print('MAE     :', metrics.mean_absolute_error(y_test, y_pred))
+        print('MSE     :', metrics.mean_squared_error(y_test, y_pred))
+        print('RMSE    :', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
+        print('MAPE    :', utl.mape(y_test, y_pred))
         print('VarScore:', metrics.explained_variance_score(y_test, y_pred))
 
 
@@ -101,9 +103,10 @@ def linear_regressions(X_train, y_train, X_test, y_test, btest_infor=True):
 
     if btest_infor:
         show_diag_freq_residuals(y_test, y_pred)
-        print('MAE:', metrics.mean_absolute_error(y_test, y_pred))
-        print('MSE:', metrics.mean_squared_error(y_test, y_pred))
-        print('RMSE:', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
+        print('MAE     :', metrics.mean_absolute_error(y_test, y_pred))
+        print('MSE     :', metrics.mean_squared_error(y_test, y_pred))
+        print('RMSE    :', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
+        print('MAPE    :', utl.mape(y_test, y_pred))
         print('VarScore:', metrics.explained_variance_score(y_test, y_pred))
     return rmse
 
@@ -111,7 +114,7 @@ def linear_regressions(X_train, y_train, X_test, y_test, btest_infor=True):
 def main():
     df = pd.read_csv(path_data_out_01)
 
-    preprocessing_raw_data(df)
+    raw_data_processing(df)
 
     X = df.drop(['giaphong'], axis=1).values
     y = df['giaphong'].values
@@ -122,7 +125,8 @@ def main():
     X_train = s_scaler.fit_transform(X_train.astype(np.float))
     X_test = s_scaler.fit_transform(X_test.astype(np.float))
 
-    # linear_regressions(X_train, y_train, X_test, y_test)
+    # categor features
+    #linear_regressions(X_train, y_train, X_test, y_test)
     mlp(X_train, y_train, X_test, y_test)
 
 

@@ -17,8 +17,8 @@
 	
 	5. Phòng khép kín hay không   // OK mặc định 1 (không khép kín)
 	6. Ở tầng mấy (mặc định là tầng dưới cùng)// OK mặc định 1 : khép kín
-	7. Có mấy tiện nghi	 	      // OK mặc định là 0. Tính theo thang điểm: cộng 1 nếu có : gác xét, tủ , nóng lạnh , điều hòa...	  
-	8. Có view hay không ??		  // 0K mặc định là 0. Tính theo thang điểm : cửa sổ, thang máy , ban công , chỗ để xe, an ninh, gần trường đại học...
+	7. Có mấy tiện nghi	 	      // OK mặc định là 0. Tính theo thang điểm: cộng 1 nếu có :giường tủ , nóng lạnh , điều hòa ,tủ lạnh , máy giặt, tivi
+	8. Có view hay không ??		  // 0K mặc định là 0. Tính theo thang điểm : gác xép, thang máy, ban công , chỗ để xe, camera , chấm vân tay 
 
 	
 [III]> Tách dữ liệu : [1 tuần]

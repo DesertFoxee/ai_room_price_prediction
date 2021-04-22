@@ -23,6 +23,8 @@ path_data_raw_01 = 'data_pre/data_train/data_phongtro123_data_01.csv'
 path_data_out = 'housepricedata.csv'
 path_data_out_01 = 'housepricedata01.csv'
 
+path_data_out_split = 'housepricedata_phongtro123.csv'
+
 
 def drop_row(data_frame, start_index , end_index):
     data_frame.drop(data_frame.index[0: start_index], inplace=True)
@@ -114,9 +116,10 @@ def preprocessing_data_phongtro123(path_file):
 
     # Trường chi tiết : bỏ từ các từ không cần thiết
     df[col_detail] = df[col_detail].str.lower()
-    df[col_detail] = df[col_detail].map(lambda x: x.replace(" ", "").replace("‎", "").replace("‬", "").replace("‪", ""))
-    df[col_detail] = df[col_detail].map(lambda x: x.replace("mình", "").replace("phòng trọ", "").replace("cho thuê", "").replace("nhà trọ", ""))
-    df[col_detail] = df[col_detail].map(lambda x: x.replace("phòng", "").replace("vị trí", "").replace("cho thuê", "").replace("diện tích", ""))
+
+    # Trường tiện nghi
+    for unit_cmp in cf.field_header_file_data_tiennghi:
+        df[unit_cmp[0]] = df[col_detail].map(lambda x: 1 if any(x in s for s in unit_cmp[1]) else 0)
 
     #Trường có khép kín hay không:
     # df[col_type] = df[col_price]<= 1000000
@@ -128,6 +131,18 @@ def preprocessing_data_phongtro123(path_file):
     df = df[cf.field_header_file_data]
     df.to_csv(path_pre, mode='w', header=True, index=False)
     return
+
+
+def pre_phongtro123(path_file):
+    df = pd.read_csv(path_file)
+    col_detail = cf.field_header_file_data[7]
+
+    # Trường tiện nghi
+    for unit_cmp in cf.field_header_file_data_tiennghi:
+        col_new = df[col_detail].map(lambda x: 1 if any(s in x for s in unit_cmp[1]) else 0)
+        df.insert(len(df.columns)-2,unit_cmp[0], col_new)
+
+    df.to_csv(path_data_out_split, mode='w', header=True, index=False)
 
 
 def preprocessing_data_phongtro123_spider(path_file):
@@ -188,11 +203,12 @@ def convert_data_row(path_in , path_out):
 def main():
     # load csv
     # preprocessing_data_phongtro123("../data_bk/data_phongtro123_27032021.csv")
+    pre_phongtro123(path_data_raw_01)
 
     # preprocessing_data_nhachoto("../data_bk/data_nhachoto_26032021.csv",0,3257)
 
 
-    convert_data_row(path_data_raw_01 , path_data_out_01)
+    # convert_data_row(path_data_raw_01 , path_data_out_01)
     # convert_data_row(path_data_raw , path_data_out)
     return
 

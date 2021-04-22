@@ -7,6 +7,7 @@ import ntpath
 import urllib
 import os
 import random
+import numpy as np
 import matplotlib.pyplot as plt
 
 
@@ -134,3 +135,9 @@ def show_history(history):
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.show()
+
+
+#Hàm phần trăm lỗi tuyệt đối trung bình
+def mape(Y_actual, Y_Predicted):
+    mape = np.mean(np.abs((Y_actual - Y_Predicted)/Y_actual))*100
+    return mape
