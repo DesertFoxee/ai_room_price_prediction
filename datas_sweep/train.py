@@ -13,6 +13,7 @@ import seaborn as sns
 path_data_raw = 'data_pre/data_train/data_phongtro123_data.csv'
 path_data_out = 'housepricedata.csv'
 path_data_out_01 = 'housepricedata01.csv'
+path_data_train_split = 'data_pre/data_train/data_phongtro123_data_split.csv'
 path_mlp_model = 'prediction_room_model_mlp.h5'
 path_linear_model = 'prediction_room_model_linear.h5'
 
@@ -112,7 +113,7 @@ def linear_regressions(X_train, y_train, X_test, y_test, btest_infor=True):
 
 
 def main():
-    df = pd.read_csv(path_data_out_01)
+    df = pd.read_csv(path_data_train_split)
 
     raw_data_processing(df)
 

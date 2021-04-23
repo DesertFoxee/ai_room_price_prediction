@@ -20,10 +20,11 @@ folder_out_spider= "../data_pre/data_daily/"
 
 path_data_raw = 'data_pre/data_train/data_phongtro123_data.csv'
 path_data_raw_01 = 'data_pre/data_train/data_phongtro123_data_01.csv'
-path_data_out = 'housepricedata.csv'
-path_data_out_01 = 'housepricedata01.csv'
+path_data_raw_split = 'data_pre/data_train/data_phongtro123_data_split.csv'
 
-path_data_out_split = 'housepricedata_phongtro123.csv'
+path_data_train = 'housepricedata.csv'
+path_data_train_01 = 'housepricedata01.csv'
+path_data_train_split = 'housepricedata02.csv'
 
 
 def drop_row(data_frame, start_index , end_index):
@@ -142,7 +143,7 @@ def pre_phongtro123(path_file):
         col_new = df[col_detail].map(lambda x: 1 if any(s in x for s in unit_cmp[1]) else 0)
         df.insert(len(df.columns)-2,unit_cmp[0], col_new)
 
-    df.to_csv(path_data_out_split, mode='w', header=True, index=False)
+    df.to_csv(path_data_raw_split, mode='w', header=True, index=False)
 
 
 def preprocessing_data_phongtro123_spider(path_file):
@@ -190,25 +191,25 @@ def preprocessing_data_phongtro123_spider(path_file):
 
 
 # Xử lý các cột trong dữ liệu thô sang file housepricedata_1.csv
-def convert_data_row(path_in , path_out):
-    df = pd.read_csv(path_in)
-    df.drop(['stt', 'chitiet', 'diachi'], axis=1, inplace=True)
+def convert_rawdata_to_traindata(path_rawdata_in , path_traindata_out):
+    df = pd.read_csv(path_rawdata_in)
+    df.drop(['stt', 'chitiet', 'diachi','tiennghi','thuantien'], axis=1, inplace=True)
     df["thoigian"] = pd.to_datetime(df["thoigian"])
     df.insert(1, 'thang', df["thoigian"].dt.month)
     df.insert(0, 'nam', df["thoigian"].dt.year)
     df = df.drop(['thoigian'], axis=1)
-    df.to_csv(path_out, index=False,header=True)
+    df.to_csv(path_traindata_out, index=False,header=True)
 
 
 def main():
     # load csv
     # preprocessing_data_phongtro123("../data_bk/data_phongtro123_27032021.csv")
-    pre_phongtro123(path_data_raw_01)
+    # pre_phongtro123(path_data_raw_01)
 
     # preprocessing_data_nhachoto("../data_bk/data_nhachoto_26032021.csv",0,3257)
 
 
-    # convert_data_row(path_data_raw_01 , path_data_out_01)
+    convert_rawdata_to_traindata(path_data_raw_split , path_data_train_split)
     # convert_data_row(path_data_raw , path_data_out)
     return
 

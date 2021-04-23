@@ -8,7 +8,7 @@ field_header_file_data_tiennghi = [
                                     ['giuongtu', ['giường', 'tủ' ,'giuong','tu']],
                                     ['banghe',   ['bàn', 'ghế']],
                                     ['nonglanh', [' nl ','nong lanh','nóng lạnh','nonglanh']],
-                                    ['dieuhoa' , ['dieu hoa','điều hòa','dieuhoa','máy lạnh']],
+                                    ['dieuhoa' , ['dieu hoa','điều hòa','dieuhoa','máy lạnh','điều hoà']],
                                     ['tulanh' ,  [' tl ','tulanh','tu lanh','tủ lạnh']],
                                     ['maygiat',  [' nl ','maygiat','máy giặt','may giat' ]],
                                     ['tivi',     [' tv ','tivi']],
