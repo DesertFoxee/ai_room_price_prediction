@@ -4,6 +4,8 @@ from sklearn import metrics
 from keras.layers import Dense
 from keras.models import Sequential
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import Normalizer
+from sklearn.preprocessing import OrdinalEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as plt
@@ -13,12 +15,21 @@ import seaborn as sns
 path_data_raw = 'data_pre/data_train/data_phongtro123_data.csv'
 path_data_out = 'housepricedata.csv'
 path_data_out_01 = 'housepricedata01.csv'
-path_data_train_split = 'data_pre/data_train/data_phongtro123_data_split.csv'
+
+path_data_train_split = 'housepricedata02.csv'
 path_mlp_model = 'prediction_room_model_mlp.h5'
 path_linear_model = 'prediction_room_model_linear.h5'
 
-random_state = 110
+random_state = 80
 save_model = False
+
+
+def print_prediction_test(y_test, y_pred):
+    df = pd.DataFrame()
+    df['Dubao']    = y_pred.flatten()
+    df['Thucte']   = y_test
+    df["Khacbiet"] = df["Thucte"]- df["Dubao"]
+    print(df)
 
 
 def raw_data_processing(df):
@@ -67,13 +78,14 @@ def mlp(X_train, y_train, X_test, y_test, btest_infor=True, factor=1):
         Dense(neural_number, activation='relu'),
         Dense(neural_number, activation='relu'),
         Dense(neural_number, activation='relu'),
+        Dense(neural_number, activation='relu'),
         Dense(1)
     ])
 
     model.compile(optimizer='adam', loss='mean_squared_error')
     history = model.fit(x=X_train, y=y_train,
               validation_data=(X_test, y_test),
-              batch_size=50, epochs=900)
+              batch_size=50, epochs=1000)
 
     y_pred = model.predict(X_test)
 
@@ -81,8 +93,9 @@ def mlp(X_train, y_train, X_test, y_test, btest_infor=True, factor=1):
         model.save(path_mlp_model)
 
     if btest_infor:
-        utl.show_history(history)
+        # utl.show_history(history)
         show_diag_freq_residuals(y_test, y_pred)
+        print_prediction_test(y_test, y_pred)
         print('MAE     :', metrics.mean_absolute_error(y_test, y_pred))
         print('MSE     :', metrics.mean_squared_error(y_test, y_pred))
         print('RMSE    :', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
@@ -104,6 +117,7 @@ def linear_regressions(X_train, y_train, X_test, y_test, btest_infor=True):
 
     if btest_infor:
         show_diag_freq_residuals(y_test, y_pred)
+        print_prediction_test(y_test, y_pred)
         print('MAE     :', metrics.mean_absolute_error(y_test, y_pred))
         print('MSE     :', metrics.mean_squared_error(y_test, y_pred))
         print('RMSE    :', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
@@ -112,23 +126,41 @@ def linear_regressions(X_train, y_train, X_test, y_test, btest_infor=True):
     return rmse
 
 
+def preprocessing_data(df):
+    # nam,thang,giaphong,dientich,vido,kinhdo,loai,drmd,kcdc,loaiwc,giuongtu,banghe,nonglanh,dieuhoa,tulanh,maygiat,tivi,bep,gacxep,thangmay,bancong,chodexe
+    # Với các trường danh mục
+    # "giuongtu","banghe","nonglanh","dieuhoa","tulanh","maygiat","tivi","bep","gacxep","thangmay","bancong","chodexe"
+    col_cate   = ["thang","loai","loaiwc"]
+    col_normal = ["dientich","vido","kinhdo","drmd","kcdc"]
+    col_stan   = ['nam']
+
+    # categories : "thang","loai","loaiwc", "giuongtu","banghe","nonglanh","dieuhoa","tulanh","maygiat","tivi","bep","gacxep","thangmay","bancong","chodexe"
+    enc = OrdinalEncoder()
+    df[col_cate]= enc.fit_transform(df[col_cate])
+
+    # standardize : nam
+    stan = StandardScaler()
+    df[col_stan] = stan.fit_transform(df[col_stan])
+
+    # normalize : drmd, kcdc , vido , kinhdo ,dientich , giaphong
+    norm = Normalizer()
+    df[col_normal] = norm.fit_transform(df[col_normal])
+
+
 def main():
     df = pd.read_csv(path_data_train_split)
 
-    raw_data_processing(df)
+    preprocessing_data(df)
 
     X = df.drop(['giaphong'], axis=1).values
     y = df['giaphong'].values
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=random_state)
+    # utl.test_random_state(X,y)
 
-    s_scaler = StandardScaler()
-    X_train = s_scaler.fit_transform(X_train.astype(np.float))
-    X_test = s_scaler.fit_transform(X_test.astype(np.float))
-
-    # categor features
-    #linear_regressions(X_train, y_train, X_test, y_test)
-    mlp(X_train, y_train, X_test, y_test)
+    # print_prediction_test(np.reshape(y_test, (-1, 1)), np.reshape(y_test, (-1, 1)))
+    linear_regressions(X_train, y_train, X_test, y_test)
+    # mlp(X_train, y_train, X_test, y_test)
 
 
 # Hàm main

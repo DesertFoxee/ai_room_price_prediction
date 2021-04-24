@@ -112,7 +112,7 @@ def get_file_name_from_path(path):
 def test_random_state(X, y):
     rmse = -1
     random_state = 0
-    for x in range(42, 150):
+    for x in range(1, 150):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=x)
         rmse_temp = linear_regressions(X_train, y_train, X_test, y_test, False)
         if (rmse == -1) or (rmse > rmse_temp):

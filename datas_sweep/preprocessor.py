@@ -203,8 +203,9 @@ def convert_rawdata_to_traindata(path_rawdata_in , path_traindata_out):
 
 def main():
     # load csv
-    # preprocessing_data_phongtro123("../data_bk/data_phongtro123_27032021.csv")
     # pre_phongtro123(path_data_raw_01)
+    # preprocessing_data_phongtro123("../data_bk/data_phongtro123_27032021.csv")
+
 
     # preprocessing_data_nhachoto("../data_bk/data_nhachoto_26032021.csv",0,3257)
 
