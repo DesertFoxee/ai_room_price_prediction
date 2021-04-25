@@ -8,6 +8,7 @@ from sklearn.preprocessing import Normalizer
 from sklearn.preprocessing import OrdinalEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
+from sklearn.neighbors import KNeighborsRegressor
 import matplotlib.pyplot as plt
 import common.utils as utl
 import seaborn as sns
@@ -19,6 +20,7 @@ path_data_out_01 = 'housepricedata01.csv'
 path_data_train_split = 'housepricedata02.csv'
 path_mlp_model = 'prediction_room_model_mlp.h5'
 path_linear_model = 'prediction_room_model_linear.h5'
+path_knn_model = 'prediction_room_model_knn.h5'
 
 random_state = 80
 save_model = False
@@ -30,16 +32,6 @@ def print_prediction_test(y_test, y_pred):
     df['Thucte']   = y_test
     df["Khacbiet"] = df["Thucte"]- df["Dubao"]
     print(df)
-
-
-def raw_data_processing(df):
-    df['loaiwc'] = df['loaiwc'].str.lower()
-    df['loaiwc'] = df['loaiwc'].astype('category')
-    df['loaiwc'] = df['loaiwc'].cat.codes
-
-    df['loai'] = df['loai'].str.lower()
-    df['loai'] = df['loai'].astype('category')
-    df['loai'] = df['loai'].cat.codes
 
 
 # Biểu đồ thể hiện biên độ giao động giá thực tế và giá dự đoán
@@ -103,7 +95,7 @@ def mlp(X_train, y_train, X_test, y_test, btest_infor=True, factor=1):
         print('VarScore:', metrics.explained_variance_score(y_test, y_pred))
 
 
-# Mô hình multiple linear regression
+# Mô hình Multiple Linear Regression
 def linear_regressions(X_train, y_train, X_test, y_test, btest_infor=True):
     regressor = LinearRegression()
     regressor.fit(X_train, y_train)
@@ -114,6 +106,30 @@ def linear_regressions(X_train, y_train, X_test, y_test, btest_infor=True):
 
     if save_model:
         regressor.save(path_linear_model)
+
+    if btest_infor:
+        show_diag_freq_residuals(y_test, y_pred)
+        print_prediction_test(y_test, y_pred)
+        print('MAE     :', metrics.mean_absolute_error(y_test, y_pred))
+        print('MSE     :', metrics.mean_squared_error(y_test, y_pred))
+        print('RMSE    :', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
+        print('MAPE    :', utl.mape(y_test, y_pred))
+        print('VarScore:', metrics.explained_variance_score(y_test, y_pred))
+    return rmse
+
+
+# Mô hình k-Nearest Neighbors Regression
+def knn_regressions(X_train, y_train, X_test, y_test, btest_infor=True):
+    # Thiết lập set n hàng xóm
+    knn = KNeighborsRegressor(n_neighbors=5, weights='distance')
+    knn.fit(X_train, y_train)
+
+    y_pred = knn.predict(X_test)
+
+    rmse = np.sqrt(metrics.mean_squared_error(y_test, y_pred))
+
+    if save_model:
+        knn.save(path_linear_model)
 
     if btest_infor:
         show_diag_freq_residuals(y_test, y_pred)
@@ -159,8 +175,9 @@ def main():
     # utl.test_random_state(X,y)
 
     # print_prediction_test(np.reshape(y_test, (-1, 1)), np.reshape(y_test, (-1, 1)))
-    linear_regressions(X_train, y_train, X_test, y_test)
-    # mlp(X_train, y_train, X_test, y_test)
+    # linear_regressions(X_train, y_train, X_test, y_test)
+    # knn_regressions(X_train, y_train, X_test, y_test)
+    mlp(X_train, y_train, X_test, y_test)
 
 
 # Hàm main
