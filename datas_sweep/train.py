@@ -25,7 +25,7 @@ path_mlp_model = 'prediction_room_model_mlp.h5'
 path_linear_model = 'prediction_room_model_linear.h5'
 path_knn_model = 'prediction_room_model_knn.h5'
 
-random_state = 119
+random_state = 101
 save_model = False
 
 
@@ -168,7 +168,6 @@ def preprocessing_data(df):
     df[col_normal] = norm.fit_transform(df[col_normal])
 
 
-# https://vimentor.com/vi/lesson/tien-xu-ly-du-lieu-trong-linh-vuc-hoc-may-phan-3
 def main():
     df = pd.read_csv(path_data_train_split)
 

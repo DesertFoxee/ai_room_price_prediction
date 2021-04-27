@@ -72,3 +72,7 @@ Sự khác biệt giữa mô hình học máy thông thường với deep-learni
 
 MLP và DNN 
 	MLP is a subset of DNN. While DNN can have loops and MLP are always feed-forward, i.e. A Multilayer Perceptron is a finite acyclic graph.
+	
+Normalization & Standardization
+	Normalization is good to use when you know that the distribution of your data does not follow a Gaussian distribution. This can be useful in algorithms that do not assume any distribution of the data like K-Nearest Neighbors and Neural Networks.
+	Standardization, on the other hand, can be helpful in cases where the data follows a Gaussian distribution. However, this does not have to be necessarily true. Also, unlike normalization, standardization does not have a bounding range. So, even if you have outliers in your data, they will not be affected by standardization.
