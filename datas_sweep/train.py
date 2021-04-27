@@ -9,6 +9,7 @@ from sklearn.preprocessing import OrdinalEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
 from sklearn.neighbors import KNeighborsRegressor
+import tensorflow as tf
 import matplotlib.pyplot as plt
 import common.utils as utl
 import seaborn as sns
@@ -22,7 +23,7 @@ path_mlp_model = 'prediction_room_model_mlp.h5'
 path_linear_model = 'prediction_room_model_linear.h5'
 path_knn_model = 'prediction_room_model_knn.h5'
 
-random_state = 80
+random_state = 119
 save_model = False
 
 
@@ -70,14 +71,14 @@ def mlp(X_train, y_train, X_test, y_test, btest_infor=True, factor=1):
         Dense(neural_number, activation='relu'),
         Dense(neural_number, activation='relu'),
         Dense(neural_number, activation='relu'),
-        Dense(neural_number, activation='relu'),
         Dense(1)
     ])
 
     model.compile(optimizer='adam', loss='mean_squared_error')
-    history = model.fit(x=X_train, y=y_train,
-              validation_data=(X_test, y_test),
-              batch_size=50, epochs=1000)
+    # metrics = [tf.keras.metrics.MeanAbsolutePercentageError()]
+
+    history = model.fit(x=X_train, y=y_train, validation_data=(X_test, y_test),
+                        batch_size=50, epochs=1000)
 
     y_pred = model.predict(X_test)
 
@@ -87,7 +88,6 @@ def mlp(X_train, y_train, X_test, y_test, btest_infor=True, factor=1):
     if btest_infor:
         # utl.show_history(history)
         show_diag_freq_residuals(y_test, y_pred)
-        print_prediction_test(y_test, y_pred)
         print('MAE     :', metrics.mean_absolute_error(y_test, y_pred))
         print('MSE     :', metrics.mean_squared_error(y_test, y_pred))
         print('RMSE    :', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
@@ -102,14 +102,13 @@ def linear_regressions(X_train, y_train, X_test, y_test, btest_infor=True):
 
     y_pred = regressor.predict(X_test)
 
-    rmse = np.sqrt(metrics.mean_squared_error(y_test, y_pred))
+    rmse = utl.mape(y_test, y_pred)
 
     if save_model:
         regressor.save(path_linear_model)
 
     if btest_infor:
         show_diag_freq_residuals(y_test, y_pred)
-        print_prediction_test(y_test, y_pred)
         print('MAE     :', metrics.mean_absolute_error(y_test, y_pred))
         print('MSE     :', metrics.mean_squared_error(y_test, y_pred))
         print('RMSE    :', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
@@ -133,7 +132,6 @@ def knn_regressions(X_train, y_train, X_test, y_test, btest_infor=True):
 
     if btest_infor:
         show_diag_freq_residuals(y_test, y_pred)
-        print_prediction_test(y_test, y_pred)
         print('MAE     :', metrics.mean_absolute_error(y_test, y_pred))
         print('MSE     :', metrics.mean_squared_error(y_test, y_pred))
         print('RMSE    :', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
@@ -147,8 +145,8 @@ def preprocessing_data(df):
     # Với các trường danh mục
     # "giuongtu","banghe","nonglanh","dieuhoa","tulanh","maygiat","tivi","bep","gacxep","thangmay","bancong","chodexe"
     col_cate   = ["thang","loai","loaiwc"]
-    col_normal = ["dientich","vido","kinhdo","drmd","kcdc"]
-    col_stan   = ['nam']
+    col_stan   = ["dientich","vido","kinhdo","drmd","kcdc"]
+    col_normal = ['nam']
 
     # categories : "thang","loai","loaiwc", "giuongtu","banghe","nonglanh","dieuhoa","tulanh","maygiat","tivi","bep","gacxep","thangmay","bancong","chodexe"
     enc = OrdinalEncoder()
@@ -166,6 +164,7 @@ def preprocessing_data(df):
 def main():
     df = pd.read_csv(path_data_train_split)
 
+    # utl.show_distribution(df["giaphong"], "Phân phối giá phòng", "Giá phòng")
     preprocessing_data(df)
 
     X = df.drop(['giaphong'], axis=1).values
@@ -174,7 +173,6 @@ def main():
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=random_state)
     # utl.test_random_state(X,y)
 
-    # print_prediction_test(np.reshape(y_test, (-1, 1)), np.reshape(y_test, (-1, 1)))
     # linear_regressions(X_train, y_train, X_test, y_test)
     # knn_regressions(X_train, y_train, X_test, y_test)
     mlp(X_train, y_train, X_test, y_test)

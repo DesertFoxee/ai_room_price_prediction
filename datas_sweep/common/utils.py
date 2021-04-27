@@ -9,7 +9,7 @@ import os
 import random
 import numpy as np
 import matplotlib.pyplot as plt
-
+import seaborn as sns
 
 # Lấy địa chỉ chính từ url
 def get_web_host_name_from_url(url):
@@ -118,13 +118,27 @@ def test_random_state(X, y):
         if (rmse == -1) or (rmse > rmse_temp):
             rmse = rmse_temp
             random_state = x
-    print("RMSE Min:"+ str(rmse))
+    print("MAPE Min:"+ str(rmse))
     print("Radom state :" + str(random_state))
+
+
+# Hiển thị phân phối đối với một cột pandas
+def show_distribution(data, title= 'Phan phoi', xlabel= 'x', ylabel='Tan suat'):
+    sns.distplot(data, color='r')
+    plt.title(title, fontsize=16)
+    plt.xlabel(xlabel, fontsize=14)
+    plt.ylabel(ylabel, fontsize=14)
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+    plt.show()
 
 
 def show_history(history):
     training_loss = history.history['loss']
     test_loss = history.history['val_loss']
+
+    # train_val_loss=  history.history['mean_absolute_percentage_error']
+    # test_val_loss=  history.history['val_mean_absolute_percentage_error']
 
     epoch_count = range(1, len(training_loss) + 1)
 
@@ -135,6 +149,14 @@ def show_history(history):
     plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.show()
+
+    # Visualize loss history
+    # plt.plot(epoch_count, train_val_loss, 'r--')
+    # plt.plot(epoch_count, test_val_loss, 'b-')
+    # plt.legend(['Training Loss', 'Test Loss'])
+    # plt.xlabel('Epoch')
+    # plt.ylabel('Loss')
+    # plt.show()
 
 
 #Hàm phần trăm lỗi tuyệt đối trung bình
