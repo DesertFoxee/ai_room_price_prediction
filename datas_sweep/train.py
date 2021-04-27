@@ -5,11 +5,13 @@ from keras.layers import Dense
 from keras.models import Sequential
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import Normalizer
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import OrdinalEncoder
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
 from sklearn.neighbors import KNeighborsRegressor
-import tensorflow as tf
 import matplotlib.pyplot as plt
 import common.utils as utl
 import seaborn as sns
@@ -141,26 +143,32 @@ def knn_regressions(X_train, y_train, X_test, y_test, btest_infor=True):
 
 
 def preprocessing_data(df):
-    # nam,thang,giaphong,dientich,vido,kinhdo,loai,drmd,kcdc,loaiwc,giuongtu,banghe,nonglanh,dieuhoa,tulanh,maygiat,tivi,bep,gacxep,thangmay,bancong,chodexe
-    # Với các trường danh mục
     # "giuongtu","banghe","nonglanh","dieuhoa","tulanh","maygiat","tivi","bep","gacxep","thangmay","bancong","chodexe"
-    col_cate   = ["thang","loai","loaiwc"]
-    col_stan   = ["dientich","vido","kinhdo","drmd","kcdc"]
-    col_normal = ['nam']
+    col_cate_hot   = []                                             # không thứ tự không ảnh hưởng trọng số
+    col_cate_ori   = ["loai","loaiwc"]                              # có thứ tự : cold warm, hot
+    col_cate_lab   = []                                             # dùng cho cate không có thứ tự
+    col_standard   = ["dientich","vido","kinhdo","drmd","kcdc"]
+    col_normal     = ["nam","thang"]
 
-    # categories : "thang","loai","loaiwc", "giuongtu","banghe","nonglanh","dieuhoa","tulanh","maygiat","tivi","bep","gacxep","thangmay","bancong","chodexe"
-    enc = OrdinalEncoder()
-    df[col_cate]= enc.fit_transform(df[col_cate])
+    # categories label:
+    for col_name in col_cate_lab:
+        enc = LabelEncoder()
+        df[col_name] = enc.fit_transform(df[col_name])
 
-    # standardize : nam
+    # categories ori :
+    ori = OrdinalEncoder()
+    df[col_cate_ori] = ori.fit_transform(df[col_cate_ori])
+
+    # standardize : Thường dành cho các trường phân phối chuẩn
     stan = StandardScaler()
-    df[col_stan] = stan.fit_transform(df[col_stan])
+    df[col_standard] = stan.fit_transform(df[col_standard])
 
-    # normalize : drmd, kcdc , vido , kinhdo ,dientich , giaphong
+    # normalize :  Dành cho nhưng trường phân phối không chuẩn
     norm = Normalizer()
     df[col_normal] = norm.fit_transform(df[col_normal])
 
 
+# https://vimentor.com/vi/lesson/tien-xu-ly-du-lieu-trong-linh-vuc-hoc-may-phan-3
 def main():
     df = pd.read_csv(path_data_train_split)
 
