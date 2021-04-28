@@ -26,7 +26,7 @@ path_mlp_model = 'prediction_room_model_mlp.h5'
 path_linear_model = 'prediction_room_model_linear.h5'
 path_knn_model = 'prediction_room_model_knn.h5'
 
-random_state = 101
+random_state = 14
 save_model = False
 
 
@@ -81,7 +81,7 @@ def mlp(X_train, y_train, X_test, y_test, btest_infor=True, factor=1):
     # metrics = [tf.keras.metrics.MeanAbsolutePercentageError()]
 
     history = model.fit(x=X_train, y=y_train, validation_data=(X_test, y_test),
-                        batch_size=50, epochs=1000)
+                        batch_size=30, epochs=600)
 
     y_pred = model.predict(X_test)
 
@@ -205,8 +205,8 @@ def main():
 
     # linear_regressions(X_train, y_train, X_test, y_test)
     # knn_regressions(X_train, y_train, X_test, y_test)
-    random_forest_regressions(X_train, y_train, X_test, y_test)
-    # mlp(X_train, y_train, X_test, y_test)
+    # random_forest_regressions(X_train, y_train, X_test, y_test)
+    mlp(X_train, y_train, X_test, y_test)
 
 
 # Hàm main
