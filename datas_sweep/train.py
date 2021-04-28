@@ -12,6 +12,7 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
 from sklearn.neighbors import KNeighborsRegressor
+from sklearn.ensemble import RandomForestRegressor
 import matplotlib.pyplot as plt
 import common.utils as utl
 import seaborn as sns
@@ -142,6 +143,28 @@ def knn_regressions(X_train, y_train, X_test, y_test, btest_infor=True):
     return rmse
 
 
+# Mô hình Random Forest Regression
+def random_forest_regressions(X_train, y_train, X_test, y_test, btest_infor=True):
+    regressor = RandomForestRegressor(n_estimators=1000, random_state=random_state)
+    regressor.fit(X_train, y_train)
+
+    y_pred = regressor.predict(X_test)
+
+    rmse = np.sqrt(metrics.mean_squared_error(y_test, y_pred))
+
+    if save_model:
+        regressor.save(path_linear_model)
+
+    if btest_infor:
+        show_diag_freq_residuals(y_test, y_pred)
+        print('MAE     :', metrics.mean_absolute_error(y_test, y_pred))
+        print('MSE     :', metrics.mean_squared_error(y_test, y_pred))
+        print('RMSE    :', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
+        print('MAPE    :', utl.mape(y_test, y_pred))
+        print('VarScore:', metrics.explained_variance_score(y_test, y_pred))
+    return rmse
+
+
 def preprocessing_data(df):
     # "giuongtu","banghe","nonglanh","dieuhoa","tulanh","maygiat","tivi","bep","gacxep","thangmay","bancong","chodexe"
     col_cate_hot   = []                                             # không thứ tự không ảnh hưởng trọng số
@@ -182,7 +205,8 @@ def main():
 
     # linear_regressions(X_train, y_train, X_test, y_test)
     # knn_regressions(X_train, y_train, X_test, y_test)
-    mlp(X_train, y_train, X_test, y_test)
+    random_forest_regressions(X_train, y_train, X_test, y_test)
+    # mlp(X_train, y_train, X_test, y_test)
 
 
 # Hàm main
