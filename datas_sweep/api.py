@@ -1,21 +1,11 @@
 from flask import Flask, request, jsonify
-import pandas as pd
-import tensorflow as tf
-import train
 import common.config as cf
 import common.utils as utl
-import keras
 import numpy as np
-import re
-from enum import Enum
 
-Server_PORT = 5000
-url_root = '/api/models/'
 
-mlp_model     = None
-knn_model     = None
-ranf_model    = None
-mlinear_model = None
+SERVER_PORT = 5000
+URL_ROOT = '/api/models/'
 
 TF = 0 # Loại TrueFalse
 RA = 1 # Loại Khoảng giá trị
@@ -140,7 +130,7 @@ def get_room_param_from_request(req):
     return list_param
 
 
-def predict_room_price_from_model(model, room_param, path_model):
+def predict_room_price_from_model(conf_model, room_param):
     err = validate_room_param(room_param)
     if err:
         status = {'success': False, 'err': err}
@@ -149,16 +139,23 @@ def predict_room_price_from_model(model, room_param, path_model):
         model_param_1D = np.array(list(obj_param.values()))
         model_param = model_param_1D.reshape(1, -1)
         price = -1
-        # Load models nếu lần đầu chưa load được
-        if model is None:
-            model = utl.load_model(path_model)
 
-        if model is not None:
+        # Load models nếu lần đầu chưa load được
+        if conf_model['reload']:
+            conf_model['model'] = utl.load_model(conf_model['path'])
+            conf_model['reload'] = False
+
+        if conf_model['model'] is not None:
             try:
-                price = model.predict(model_param)
+                price = conf_model['model'].predict(model_param)
             except:
+                conf_model['reload'] = True
                 print("[Error] : Prediction failed !!")
                 price = -1
+        else:
+            conf_model['reload'] = True
+
+        # Kiểm tra giá hợp lệ không
         if price <= 0:
             status = {'success': False, 'predict': -1}
         else:
@@ -167,39 +164,40 @@ def predict_room_price_from_model(model, room_param, path_model):
 
 
 # Param : http://127.0.0.1:5000/api/model/knn?thang=4&nam=2019&vido=20.972612&kinhdo=105.850008&loai=Nhacap&loaiwc=Khepkin&dientich=20.0&drmd=2.2&kcdc=169.0&chodexe=1&gacxep=1
-# @app.route(url_root+"knn", methods=['GET', 'POST'])
-# def KNN_regression():
-#     req_param = get_param_from_request(request)
-#     res = get_predict_from_model(knn_model, req_param, cf.cf_model_knn['path'])
-#     return jsonify(res)
-#
-#
-# @app.route(url_root+"rand", methods=['GET', 'POST'])
-# def random_forest_regression():
-#     req_param = get_param_from_request(request)
-#     res = get_predict_from_model(ranf_model, req_param, cf.cf_model_randf['path'])
-#     return jsonify(res)
-#
-#
-# @app.route(url_root+"mlp", methods=['GET', 'POST'])
-# def MLP_regression():
-#     req_param = get_param_from_request(request)
-#     res = get_predict_from_model(mlp_model, req_param, cf.cf_model_mlp['path'])
-#     return jsonify(res)
-#
-#
+@app.route(URL_ROOT+"knn", methods=['GET', 'POST'])
+def KNN_regression():
+    room_param = get_room_param_from_request(request)
+    res = predict_room_price_from_model(cf.cf_model_knn, room_param)
+    return jsonify(res)
+
+
+@app.route(URL_ROOT+"rand", methods=['GET', 'POST'])
+def random_forest_regression():
+    room_param = get_room_param_from_request(request)
+    res = predict_room_price_from_model(cf.cf_model_randf, room_param)
+    return jsonify(res)
+
+
+@app.route(URL_ROOT+"mlp", methods=['GET', 'POST'])
+def MLP_regression():
+    room_param = get_room_param_from_request(request)
+    res = predict_room_price_from_model(cf.cf_model_mlp, room_param)
+    return jsonify(res)
+
 
 # Param : http://127.0.0.1:5000/api/models/linear?thang=4&nam=2019&vido=20.972612&kinhdo=105.850008&loai=Nhacap&loaiwc=Khepkin&dientich=20.0&drmd=2.2&kcdc=169.0&chodexe=1&gacxep=1
-@app.route(url_root+"linear", methods=['GET', 'POST'])
+@app.route(URL_ROOT+"linear", methods=['GET', 'POST'])
 def multiple_linear_regression():
     room_param = get_room_param_from_request(request)
-    res = predict_room_price_from_model(mlinear_model, room_param, cf.cf_model_mlinear['path'])
+    res = predict_room_price_from_model(cf.cf_model_mlinear, room_param)
     return jsonify(res)
 
 
 if __name__ == '__main__':
     # Có thể cấu hình cổng của server : app.run(debug=True,port=12345)
-    app.run(debug=True, port=Server_PORT)
+    app.run(debug=True, port=SERVER_PORT)
+
+    # Phần này để test :
     # ML = utl.load_model(cf.cf_model_mlinear['path'])
     # obj_param = standardize_obj_param(test_param)
     # print(obj_param)
@@ -209,6 +207,3 @@ if __name__ == '__main__':
     # enc = utl.load_encoder(cf.path_folder_encoder + 'kinhdo' + '_enc.pkl')
     # value = enc.transform([[105]])
     # print(value)
-
-    # abc = check_param(test_param)
-    # print(abc)
