@@ -1,6 +1,6 @@
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
-from train import linear_regressions
+import train
 from sklearn.model_selection import train_test_split
 import pandas as pd
 import ntpath
@@ -10,6 +10,8 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pickle
+
 
 # Lấy địa chỉ chính từ url
 def get_web_host_name_from_url(url):
@@ -52,15 +54,15 @@ def parse_html_data_to_obj(html_data_raw, arr_selectors):
         try:
             # chỉ sô đầu tiên nếu có sẽ chỉ phần tử thứ bao nhiêu trong list select ra được lấy
             index_selector = key_selector[0]
-            if index_selector.isdigit():    # lấy phần tử thứ n
+            if index_selector.isdigit():  # lấy phần tử thứ n
                 selector = key_selector[1::]
                 str_data = soup.select(selector)[int(index_selector)].text
-            elif index_selector == '?':     # lấy thuộc tính
+            elif index_selector == '?':  # lấy thuộc tính
                 index_attr = key_selector.find(' ')
                 attr = key_selector[1:index_attr]
-                selector = key_selector[index_attr+1:]
+                selector = key_selector[index_attr + 1:]
                 str_data = soup.select_one(selector)[attr]
-            else:                           # lấy text của phần tử thông thường
+            else:  # lấy text của phần tử thông thường
                 str_data = soup.select_one(key_selector).text
         except Exception as e:
             # Xuất hiện lỗi phân tích cú pháp
@@ -114,16 +116,16 @@ def test_random_state(X, y):
     random_state = 0
     for x in range(1, 150):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=x)
-        rmse_temp = linear_regressions(X_train, y_train, X_test, y_test, False)
+        rmse_temp = train.linear_regressions(X_train, y_train, X_test, y_test, False)
         if (rmse == -1) or (rmse > rmse_temp):
             rmse = rmse_temp
             random_state = x
-    print("MAPE Min:"+ str(rmse))
+    print("MAPE Min:" + str(rmse))
     print("Radom state :" + str(random_state))
 
 
 # Hiển thị phân phối đối với một cột pandas
-def show_distribution(data, title= 'Phan phoi', xlabel= 'x', ylabel='Tan suat'):
+def show_distribution(data, title='Phan phoi', xlabel='x', ylabel='Tan suat'):
     sns.distplot(data, color='r')
     plt.title(title, fontsize=16)
     plt.xlabel(xlabel, fontsize=14)
@@ -159,7 +161,57 @@ def show_history(history):
     # plt.show()
 
 
-#Hàm phần trăm lỗi tuyệt đối trung bình
+# Hàm phần trăm lỗi tuyệt đối trung bình
 def mape(Y_actual, Y_Predicted):
-    mape = np.mean(np.abs((Y_actual - Y_Predicted)/Y_actual))*100
+    mape = np.mean(np.abs((Y_actual - Y_Predicted) / Y_actual)) * 100
     return mape
+
+
+# Lưu trữ file encoders sử dụng cho dự đoán sau này :có đuôi là *.pkl
+# Return : void
+def save_encoder(encoder, path):
+    file_handler = open(path, "wb")
+    pickle.dump(encoder, file_handler)
+    file_handler.close()
+
+
+# Load encoders từ file : có đuôi là *.pkl
+# Return : encoders
+def load_encoder(path):
+    try:
+        with open(path, 'rb') as file:
+            enc_loaded = pickle.load(file)
+            return enc_loaded
+    except IOError:
+        return None
+
+
+# Save model sử dụng pickle
+# Return: True/False
+def save_model(model, path):
+    print("Model saving...to file " + path, end=" ")
+    try:
+        file_handler = open(path, "wb")
+        pickle.dump(model, file_handler)
+        file_handler.close()
+        print("=> OK")
+        return True
+    except:
+        print("=> Failed")
+        file_handler.close()
+    return False
+
+
+# Save model sử dụng pickle
+# Return: True/False
+def load_model(path):
+    print("[IF] Loading model from...file " + path, end=" ")
+    try:
+        file_handler = open(path, "rb")
+        model = pickle.load(file_handler)
+        print("=> OK")
+        return model
+    except:
+        print("=> Failed")
+        file_handler.close()
+    return None
