@@ -7,9 +7,8 @@ from datetime import datetime
 EVERY_TIME = 10
 LIMIT_PUSH_DATA = 100
 
-folder_out = "data_raw"
 
-data_get = [
+cf_data_crawler = [
     # thời gian , giá phòng , diện tích  , địa chỉ , chi tiết
     # ("urls_nhachoto", ('span[class*="imageCaptionText___"]', 'span[itemprop="price"]', 'span[itemprop="size"]',
     #                    'div[class*="address___"] > span', 'p[itemprop="description"]')),
@@ -35,16 +34,16 @@ def data_crawler(url, arr_selector, urls_data, url_errs):
 
 
 def main():
-    for data_page in data_get:
+    for data_page in cf_data_crawler:
 
         # Lấy thông tin về web cần lấy link
-        tail_file = "_"+datetime.today().strftime('%d%m%Y') + ".csv"
-        file_url_csv = data_page[0] + '.csv'
-        file_name = data_page[0].replace("urls_", "")
-        file_data_csv = folder_out + '/data_' + file_name + tail_file
-        file_err_csv = folder_out + '/err_' + file_name + tail_file
+        tail_file     = "_" + datetime.today().strftime('%d%m%Y') + ".csv"
+        file_url_csv  = cf.path_folder_url + data_page[0] + '.csv'
+        file_name     = data_page[0].replace("urls_", "")
+        file_data_csv = cf.path_folder_data_raw + 'data_' + file_name + tail_file
+        file_err_csv  = cf.path_folder_data_raw + 'err_'  + file_name + tail_file
         arr_selectors = data_page[1]
-        print("[**] Loading url data from file : " + file_url_csv ,end= " => ")
+        print("[**] Loading url data from file : " + file_url_csv, end=" => ")
         try:
             csv_data = pd.read_csv(file_url_csv)
             utl.push_header_to_file(file_data_csv, cf.field_header_file_scrap)
@@ -53,9 +52,9 @@ def main():
         except Exception as ex:
             print("[Error] : Can't open file !!!")
             continue
-        print("> Starting scarp from url....")
+        print("[*] Starting crawler from url....")
         data_urls = csv_data[csv_data.columns[1]].values
-        data_stt = csv_data[csv_data.columns[0]].values
+        data_stt  = csv_data[csv_data.columns[0]].values
         data_rooms = []
 
         for i_time in range(0, len(data_urls), EVERY_TIME):
@@ -63,7 +62,7 @@ def main():
             end_url = i_time + EVERY_TIME
             if end_url >= len(data_urls):
                 end_url = len(data_urls)
-            print("Scraping data from url : [" + str(i_time) + " -> " + str(end_url) + "]", end=" =>")
+            print("[-] Scraping data from url : [" + str(i_time) + " -> " + str(end_url) + "]", end=" =>")
             for i in range(i_time, end_url, 1):
                 urls.append([data_stt[i], data_urls[i]]) # đẩy cả stt và url vào lúc tra cho dễ
 
@@ -83,7 +82,7 @@ def main():
                 if len(data_rooms) >= LIMIT_PUSH_DATA:
                     utl.push_data_to_exist_file(data_rooms, file_data_csv)
                     data_rooms.clear()
-                    print(" [OK] Over : Reset data ;)")
+                    print("[Done] Over : Reset data ;)")
         if data_rooms:
             utl.push_data_to_exist_file(data_rooms, file_data_csv)
         print("=====================================================================")

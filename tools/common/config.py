@@ -1,5 +1,8 @@
 
-path_folder_encoder = 'encoders/'
+path_folder_encoder  = 'encoders/'
+path_folder_url      = 'data_url/'
+path_folder_data_raw = 'data_raw/'
+path_folder_pre      = "data_pre/"
 
 field_header_file_scrap = ["stt", "thoigian", "giaphong", "dientich", "diachi","vido", "kinhdo", "chitiet"]
 field_header_file_err = ["stt", "url"]
