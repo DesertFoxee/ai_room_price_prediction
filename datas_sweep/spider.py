@@ -11,7 +11,6 @@ LIMIT_PUSH_DATA = 10
 
 setup_data = [
     [
-        "https://phongtro123.com",
         "https://phongtro123.com/tinh-thanh/ha-noi?orderby=moi-nhat&page={page_index}", # url lấy link mới nhất [spider]
         # selector lấy dữ liệu đường link và thời gian
         [
@@ -26,8 +25,7 @@ setup_data = [
                           '.post-main-content > div[class="section-content"]'),
 
         ["phút", "giờ", "giây"],       # chuỗi trong thời gian được chấp nhận
-        "phongtro123"
-     ]
+    ]
 ]
 
 time_string_key = ["phút", "giờ"]
@@ -73,17 +71,17 @@ def main():
     for page_infor in setup_data:
 
         # Thiết lập thông tin về page
-        web_scan    = page_infor[0]
-        url_template = page_infor[1]
-        arr_selectors_url = page_infor[2]   # nó luôn lớn hơn 3 và có cấu trúc
-        arr_selectors_data =page_infor[3]   # nó luôn lớn hơn 3 và có cấu trúc
-        arr_time_str_key = page_infor[4]
+        url_template       = page_infor[0]
+        web_scan           = util.get_web_host_name_from_url(url_template)
+        arr_selectors_url  = page_infor[1]   # nó luôn lớn hơn 3 và có cấu trúc
+        arr_selectors_data = page_infor[2]   # nó luôn lớn hơn 3 và có cấu trúc
+        arr_time_str_key   = page_infor[3]
 
         head_file = datetime.today().strftime('%d%m%Y')
         file_out_data = folder_out + "/" + head_file + "_" + page_infor[5] + "_data.csv"
 
         # Lấy các url mới nhất từng ngày
-        print("[ START ] Scrapping : " + web_scan)
+        print("[ START ] Scrapping : " + util.get_web_host_name_from_url(url_template))
         print("[*] Get new url...")
         data_urls = []
         index_page = 1
@@ -101,29 +99,27 @@ def main():
             index_page += 1
 
         print("[ Done ]: " + str(len(data_urls)) + " url")
-        print("[*] Get data from url ...")
 
+        # Lấy dữ liệu từ url đã craping ở trên
+        print("[*] Get data from url ...")
         data_rooms = []
         # Thêm phần header vào file mới
         util.push_header_to_file(file_out_data, cf.field_header_file_spider)
 
         for i_time in range(0, len(data_urls), EVERY_TIME):
             urls = []
-            start_url = i_time
             end_url = i_time + EVERY_TIME
             if end_url >= len(data_urls):
                 end_url = len(data_urls)
-            print("Scraping data from url : [" + str(start_url) + " -> " + str(end_url) + "]", end=" =>")
-            for i in range(start_url, end_url, 1):
+            print("Scraping data from url : [" + str(i_time) + " -> " + str(end_url) + "]", end=" =>")
+            for i in range(i_time, end_url, 1):
                 urls.append([i, data_urls[i]])  # đẩy cả stt và url vào lúc tra cho dễ
 
             # Triển khai đa luồng scraping
             threads = [threading.Thread(target=data_crawler_spider, args=(url, arr_selectors_data, data_rooms))
                        for url in urls]
-            for t in threads:
-                t.start()
-            for t in threads:
-                t.join()
+            util.run_thread(threads)
+
             print(" [OK] !!!!!!")
             if len(data_rooms) >= LIMIT_PUSH_DATA:
                 print("=> Pushing " + str(len(data_rooms)) + " row to file " +file_out_data)

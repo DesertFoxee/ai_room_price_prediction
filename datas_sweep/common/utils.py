@@ -215,3 +215,11 @@ def load_model(path):
         print("=> Failed")
         file_handler.close()
     return None
+
+
+# Thực hiện đa luồng (luồng phải được cấu hình)
+def run_thread(threads):
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
