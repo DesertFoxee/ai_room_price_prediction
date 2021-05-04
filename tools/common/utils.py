@@ -170,9 +170,13 @@ def mape(Y_actual, Y_Predicted):
 # Lưu trữ file encoders sử dụng cho dự đoán sau này :có đuôi là *.pkl
 # Return : void
 def save_encoder(encoder, path):
-    file_handler = open(path, "wb")
-    pickle.dump(encoder, file_handler)
-    file_handler.close()
+    print("Save encoder...to file " + path, end=" ")
+    try:
+        with open(path, 'wb') as file_handler:
+            pickle.dump(encoder, file_handler)
+            print("=> OK")
+    except:
+        print("=> Failed")
 
 
 # Load encoders từ file : có đuôi là *.pkl
@@ -191,14 +195,12 @@ def load_encoder(path):
 def save_model(model, path):
     print("Model saving...to file " + path, end=" ")
     try:
-        file_handler = open(path, "wb")
-        pickle.dump(model, file_handler)
-        file_handler.close()
-        print("=> OK")
-        return True
+        with open(path, 'wb') as file_handler:
+            pickle.dump(model, file_handler)
+            print("=> OK")
+            return True
     except:
         print("=> Failed")
-        file_handler.close()
     return False
 
 
@@ -207,13 +209,12 @@ def save_model(model, path):
 def load_model(path):
     print("[IF] Loading model from...file " + path, end=" ")
     try:
-        file_handler = open(path, "rb")
-        model = pickle.load(file_handler)
-        print("=> OK")
-        return model
+        with open(path, 'rb') as file_handler:
+            model = pickle.load(file_handler)
+            print("=> OK")
+            return model
     except:
         print("=> Failed")
-        file_handler.close()
     return None
 
 
