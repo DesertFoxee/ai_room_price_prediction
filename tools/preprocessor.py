@@ -44,7 +44,7 @@ def get_pre_month_year_from_str(date_get, str_time):
 def save_file(df, path_file_out):
     file_name = utl.get_file_name_from_path(path_file_out)
     file_name = file_name+'_pre.csv'
-    path_pre = cf.path_folder_pre + file_name
+    path_pre  = cf.path_folder_pre + file_name
     df.to_csv(path_pre, mode='w', header=True, index=False)
 
 
@@ -53,12 +53,12 @@ def preprocessing_data_nhachoto(path_file ,istart, iend):
     # drop_row(df , istart, iend) # chỉ lấy từ dòng istart->iend
     file_name = utl.get_file_name_from_path(path_file)
 
-    col_time = cf.field_header_file_data[1]
-    col_price = cf.field_header_file_data[2]
+    col_time    = cf.field_header_file_data[1]
+    col_price   = cf.field_header_file_data[2]
     col_acreage = cf.field_header_file_data[3]
     col_address = cf.field_header_file_data[4]
-    col_type = cf.field_header_file_data[5]
-    col_detail = cf.field_header_file_data[6]
+    col_type    = cf.field_header_file_data[5]
+    col_detail  = cf.field_header_file_data[6]
 
     str_data_get = file_name[file_name.rindex("_")+1:]
     data_get = datetime.strptime(str_data_get, "%d%m%Y")

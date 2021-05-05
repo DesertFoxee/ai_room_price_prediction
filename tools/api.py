@@ -16,11 +16,11 @@ app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
 params = [
-         (cf.col_nam      ,2020    ,RA,[2000,2200]                ,'Giá trị năm từ 2000 trở lên'),
+         (cf.col_nam      ,2020    ,RA,[2016,2200]                ,'Giá trị năm từ 2016 trở lên'),
          (cf.col_thang    ,0       ,RA,[1,12]                     ,'Giá trị tháng [1->12]'),
          (cf.col_dientich ,0.0     ,RA,[1,200]                    ,'Giá trị nằm trong khoảng [1->200]m^2'),
-         (cf.col_vido     ,0.0     ,RA,[20.0,21.2]                ,'Vi độ không thuộc nội thành Hà Nội'),
-         (cf.col_kinhdo   ,0.0     ,RA,[105.0,106.0]              ,'Kinh độ không thuộc nội thành Hà Nội'),
+         (cf.col_vido     ,0.0     ,RA,[20.93,21.09]              ,'Vi độ không thuộc nội thành Hà Nội'),
+         (cf.col_kinhdo   ,0.0     ,RA,[105.73,105.93]            ,'Kinh độ không thuộc nội thành Hà Nội'),
          (cf.col_loai     ,'Nhacap',LI,["Nhacap","Nhatang",'Ccmn'],'Giá trị hợp lệ: [Nhà cấp/Nhà tầng/Ccmn]'),
          (cf.col_drmd     ,0.0     ,RA,[1, 50]                    ,'Giá trị nằm trong khoảng [1->50]m'),
          (cf.col_kcdc     ,0.0     ,RA,[1, 2000]                  ,'Giá trị nằm trong khoảng [1->2000]m'),

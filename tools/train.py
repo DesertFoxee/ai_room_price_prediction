@@ -50,11 +50,10 @@ def print_test_infor(y_test, y_pred):
 def show_residual_actual_and_predict(y_test, y_pred):
     diff = y_test - y_pred
     index_list = list(range(1, len(y_test) + 1))
-    print(type(diff))
     plt.plot(index_list, diff, label='Số dư', linewidth=2)
     plt.title('Sự chênh lệnh giá phòng và dự đoán')  # Plot heading
-    plt.xlabel('Index', fontsize=16)  # X-label
-    plt.ylabel('Thực tế- Dự đoán', fontsize=16)  # Y-label
+    plt.xlabel('Index', fontsize=12)  # X-label
+    plt.ylabel('Thực tế- Dự đoán', fontsize=12)  # Y-label
     plt.show()
 
 
@@ -84,7 +83,7 @@ def multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, facto
 
     MLP.compile(optimizer='adam', loss='mean_squared_error')
     history = MLP.fit(x=X_train, y=y_train, validation_data=(X_test, y_test),
-                        batch_size=30, epochs=100)
+                        batch_size=30, epochs=600)
 
     y_pred = MLP.predict(X_test)
     y_pred = y_pred.flatten()
@@ -97,7 +96,7 @@ def multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, facto
         show_residual_actual_and_predict(y_test, y_pred)
         # utl.show_history(history)
         show_residual_and_frequency(y_test, y_pred)
-        # print_test_infor(y_test, y_pred)
+        print_test_infor(y_test, y_pred)
 
 
 # Mô hình Multiple Linear Regression
@@ -116,7 +115,7 @@ def linear_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_m
         show_residual_actual_and_predict(y_test, y_pred)
         # utl.show_history(history)
         show_residual_and_frequency(y_test, y_pred)
-        # print_test_infor(y_test, y_pred)
+        print_test_infor(y_test, y_pred)
     return rmse
 
 
@@ -137,7 +136,7 @@ def knn_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_mode
         show_actual_and_predict(y_test, y_pred)
         show_residual_actual_and_predict(y_test, y_pred)
         show_residual_and_frequency(y_test, y_pred)
-        # print_test_infor(y_test, y_pred)
+        print_test_infor(y_test, y_pred)
     return rmse
 
 
@@ -157,7 +156,7 @@ def random_forest_regressions(X_train, y_train, X_test, y_test, show_infor=True,
         show_actual_and_predict(y_test, y_pred)
         show_residual_actual_and_predict(y_test, y_pred)
         show_residual_and_frequency(y_test, y_pred)
-        # print_test_infor(y_test, y_pred)
+        print_test_infor(y_test, y_pred)
     return rmse
 #⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡ Model ⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡
 
@@ -231,10 +230,10 @@ def main():
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=random_state)
     # utl.test_random_state(X,y)
 
-    # linear_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=False)
-    # knn_regressions(X_train, y_train, X_test, y_test)
-    # random_forest_regressions(X_train, y_train, X_test, y_test)
-    multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test)
+    # linear_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=True)
+    # knn_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=True)
+    # random_forest_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=True)
+    multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, show_infor=True, save_model=True)
 
 
 # Hàm main

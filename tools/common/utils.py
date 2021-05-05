@@ -2,6 +2,7 @@ from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 import train
 from sklearn.model_selection import train_test_split
+import keras
 import pandas as pd
 import ntpath
 import urllib
@@ -11,6 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pickle
+import common.config as cf
 
 
 # Lấy địa chỉ chính từ url
@@ -193,12 +195,16 @@ def load_encoder(path):
 # Save model sử dụng pickle
 # Return: True/False
 def save_model(model, path):
-    print("Model saving...to file " + path, end=" ")
+    print("[OF] Model saving...to file " + path, end=" ")
     try:
-        with open(path, 'wb') as file_handler:
-            pickle.dump(model, file_handler)
+        if path == cf.cf_model_mlp['path']:
+            model.save(path)
             print("=> OK")
-            return True
+        else:
+            with open(path, 'wb') as file_handler:
+                pickle.dump(model, file_handler)
+                print("=> OK")
+        return True
     except:
         print("=> Failed")
     return False
@@ -209,10 +215,13 @@ def save_model(model, path):
 def load_model(path):
     print("[IF] Loading model from...file " + path, end=" ")
     try:
-        with open(path, 'rb') as file_handler:
-            model = pickle.load(file_handler)
-            print("=> OK")
-            return model
+        if path == cf.cf_model_mlp['path']:
+            model = keras.model.load_model(path)
+        else:
+            with open(path, 'rb') as file_handler:
+                model = pickle.load(file_handler)
+        print("=> OK")
+        return model
     except:
         print("=> Failed")
     return None
