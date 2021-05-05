@@ -216,13 +216,13 @@ def load_model(path):
     print("[IF] Loading model from...file " + path, end=" ")
     try:
         if path == cf.cf_model_mlp['path']:
-            model = keras.model.load_model(path)
+            model = keras.models.load_model(path)
         else:
             with open(path, 'rb') as file_handler:
                 model = pickle.load(file_handler)
         print("=> OK")
         return model
-    except:
+    except Exception as e:
         print("=> Failed")
     return None
 

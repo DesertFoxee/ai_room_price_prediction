@@ -4,15 +4,17 @@
 	
 ### 2. Tiến hành chạy API trên Window
 
-⮚. Tiến hành cài môi trường Project
+⮚ Tiến hành cài môi trường Project
 ```console
 	conda env create -f room_api_env.yml
 ```
-⮚. Active môi trường room_api 
+Sử dụng tham số <b>_-p_</b> chỉ vị trí: ``` conda env create -f room_api_env.yml -p C:/Users/user/anaconda3/envs ```
+
+⮚ Active môi trường room_api 
 ```console
 	conda activate room_api
 ```
-⮚. Chạy file api.py 
+⮚ Chạy file api.py 
 ```console
 	python api.py
 ```

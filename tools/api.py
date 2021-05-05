@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import common.config as cf
 import common.utils as utl
 import numpy as np
+from flask_cors import CORS
 
 
 SERVER_PORT = 5000
@@ -13,6 +14,7 @@ LI = 2 # Loại liệt kê
 
 # Cấu hình api hiện thị giá trị unicode
 app = Flask(__name__)
+CORS(app)
 app.config['JSON_AS_ASCII'] = False
 
 params = [
@@ -103,7 +105,7 @@ def validate_room_param(room_param):
     for param in params:
         req_value = room_param[param[0]]
         field_name, field_type = param[0], param[2]
-        field_cmp, field_msg = param[3], param[4]
+        field_cmp, field_msg   = param[3], param[4]
         had_error = False
         if field_type == RA:
             if not (field_cmp[0] <= req_value <= field_cmp[1]):
@@ -135,9 +137,9 @@ def predict_room_price_from_model(conf_model, room_param):
     if err:
         status = {'success': False, 'err': err}
     else:
-        obj_param = standardize_room_param(room_param)
+        obj_param      = standardize_room_param(room_param)
         model_param_1D = np.array(list(obj_param.values()))
-        model_param = model_param_1D.reshape(1, -1)
+        model_param    = model_param_1D.reshape(1, -1)
         price = -1
 
         # Load models nếu lần đầu chưa load được
@@ -151,7 +153,6 @@ def predict_room_price_from_model(conf_model, room_param):
             except:
                 conf_model['reload'] = True
                 print("[Error] : Prediction failed !!")
-                price = -1
         else:
             conf_model['reload'] = True
 
@@ -159,11 +160,12 @@ def predict_room_price_from_model(conf_model, room_param):
         if price <= 0:
             status = {'success': False, 'predict': -1}
         else:
-            status = {'success': True, 'predict': price[0]}
+            price = price.flatten()
+            status = {'success': True, 'predict': np.float64(price[0])}
     return status
 
 
-# Param : http://127.0.0.1:5000/api/model/knn?thang=4&nam=2019&vido=20.972612&kinhdo=105.850008&loai=Nhacap&loaiwc=Khepkin&dientich=20.0&drmd=2.2&kcdc=169.0&chodexe=1&gacxep=1
+# Param : http://127.0.0.1:5000/api/models/knn?thang=4&nam=2019&vido=20.972612&kinhdo=105.850008&loai=Nhacap&loaiwc=Khepkin&dientich=20.0&drmd=2.2&kcdc=169.0&chodexe=1&gacxep=1
 @app.route(URL_ROOT+"knn", methods=['GET', 'POST'])
 def KNN_regression():
     room_param = get_room_param_from_request(request)
@@ -171,6 +173,7 @@ def KNN_regression():
     return jsonify(res)
 
 
+# Param : http://127.0.0.1:5000/api/models/rand?thang=4&nam=2019&vido=20.972612&kinhdo=105.850008&loai=Nhacap&loaiwc=Khepkin&dientich=20.0&drmd=2.2&kcdc=169.0&chodexe=1&gacxep=1
 @app.route(URL_ROOT+"rand", methods=['GET', 'POST'])
 def random_forest_regression():
     room_param = get_room_param_from_request(request)
@@ -178,6 +181,7 @@ def random_forest_regression():
     return jsonify(res)
 
 
+# Param : http://127.0.0.1:5000/api/models/mlp?thang=4&nam=2019&vido=20.972612&kinhdo=105.850008&loai=Nhacap&loaiwc=Khepkin&dientich=20.0&drmd=2.2&kcdc=169.0&chodexe=1&gacxep=1
 @app.route(URL_ROOT+"mlp", methods=['GET', 'POST'])
 def MLP_regression():
     room_param = get_room_param_from_request(request)
