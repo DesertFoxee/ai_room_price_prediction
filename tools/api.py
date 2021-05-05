@@ -8,6 +8,8 @@ from flask_cors import CORS
 SERVER_PORT = 5000
 URL_ROOT = '/api/models/'
 
+root_path = utl.get_root_path()
+
 TF = 0 # Loại TrueFalse
 RA = 1 # Loại Khoảng giá trị
 LI = 2 # Loại liệt kê
@@ -88,7 +90,7 @@ def standardize_room_param(obj_param):
             obj_param_standard.update(value_month)
         else:
             # Sử dụng standard tham số của obj nếu tồn tại file
-            enc = utl.load_encoder(cf.path_folder_encoder+param_name+'_enc.pkl')
+            enc = utl.load_encoder(root_path+cf.path_folder_encoder+param_name+'_enc.pkl')
             if enc is not None:
                 value = enc.transform([[param_value]])
                 value = value[0, 0]
@@ -144,13 +146,13 @@ def predict_room_price_from_model(conf_model, room_param):
 
         # Load models nếu lần đầu chưa load được
         if conf_model['reload']:
-            conf_model['model'] = utl.load_model(conf_model['path'])
+            conf_model['model'] = utl.load_model(root_path + conf_model['path'])
             conf_model['reload'] = False
 
         if conf_model['model'] is not None:
             try:
                 price = conf_model['model'].predict(model_param)
-            except:
+            except Exception as e:
                 conf_model['reload'] = True
                 print("[Error] : Prediction failed !!")
         else:

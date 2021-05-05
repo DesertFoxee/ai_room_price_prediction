@@ -15,6 +15,14 @@ import pickle
 import common.config as cf
 
 
+# Lấy đường dẫn tuyệt đối của folder project
+def get_root_path():
+    path_common = os.path.dirname(__file__)
+    path_root = os.path.dirname(path_common)
+    path_root = path_root.replace('\\', '/')
+    return path_root + '/'
+
+
 # Lấy địa chỉ chính từ url
 def get_web_host_name_from_url(url):
     host_data = urllib.parse.urlparse(url)
@@ -215,7 +223,7 @@ def save_model(model, path):
 def load_model(path):
     print("[IF] Loading model from...file " + path, end=" ")
     try:
-        if path == cf.cf_model_mlp['path']:
+        if cf.cf_model_mlp['path'] in path:
             model = keras.models.load_model(path)
         else:
             with open(path, 'rb') as file_handler:

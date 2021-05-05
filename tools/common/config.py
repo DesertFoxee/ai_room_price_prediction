@@ -36,7 +36,7 @@ col_bancong  = columns_name_data[20]
 col_chodexe  = columns_name_data[21]
 
 
-cf_model_mlp    = {'path': "models/mlp_room_prediction.h5",     'reload': True, 'model': None}
+cf_model_mlp    = {'path': "models/mlp_room_prediction.h5",    'reload': True, 'model': None}
 cf_model_knn    = {'path': "models/knn_room_prediction.h5",    'reload': True, 'model': None}
 cf_model_randf  = {'path': "models/randf_room_prediction.h5",  'reload': True, 'model': None}
 cf_model_mlinear= {'path': "models/mlinear_room_prediction.h5",'reload': True, 'model': None}
