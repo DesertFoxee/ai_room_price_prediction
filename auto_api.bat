@@ -1,5 +1,14 @@
+test&cls
+@echo ON
+@echo "@@@@@@@     Auto API      @@@@@@@@@"       
+@echo "       (@@@@@@@@@@@@@@@@@@@)       "       
+@echo "@@@@@@@(...................)@@@@@@@"       
+
+
+
+@echo OFF  
 rem ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ AUTO API ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ 
-@echo OFF
+
 
 rem : Thay đổi đường dẫn thành conda trên máy tính cá nhân
 set CONDA_PATH=C:\Users\DesertFoxee\anaconda3

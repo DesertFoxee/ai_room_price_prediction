@@ -25,6 +25,7 @@ setup_data = [
                           '.post-main-content > div[class="section-content"]'),
 
         ["phút", "giờ", "giây"],       # chuỗi trong thời gian được chấp nhận
+        "phongtro123"
     ]
 ]
 
@@ -32,7 +33,7 @@ time_string_key = ["phút", "giờ"]
 time_string_key_dis_run = ["hôm qua", "ngày" , "tuần"]
 
 size_url_limit = 30
-folder_out = "data_daily"
+root_path  = util.get_root_path()
 
 
 # lấy dữ liệu html thô và phân tích cú pháp lấy dữ liệu cần thiết
@@ -78,11 +79,11 @@ def main():
         arr_time_str_key   = page_infor[3]
 
         head_file = datetime.today().strftime('%d%m%Y')
-        file_out_data = folder_out + "/" + head_file + "_" + page_infor[5] + "_data.csv"
+        file_out_data = root_path + cf.path_folder_data_daily + head_file + "_" + page_infor[4] + "_data.csv"
 
         # Lấy các url mới nhất từng ngày
         print("[ START ] Scrapping : " + util.get_web_host_name_from_url(url_template))
-        print("[*] Get new url...")
+        print("[*] Scanning new urls for the day...")
         data_urls = []
         index_page = 1
         while True:
