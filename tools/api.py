@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import common.config as cf
 import common.utils as utl
 import numpy as np
+import math
 from flask_cors import CORS
 
 
@@ -123,6 +124,18 @@ def validate_room_param(room_param):
     return error
 
 
+# Chuyển đổi số thập phân sang string format currency
+def round_currency_up(number):
+    interger = 4
+    if number >= 1000000:
+        interger = 5
+    cur = number / pow(10, interger)
+    cur = round(cur) * pow(10, interger)
+    str_cur = "{:10,}".format(cur)
+    str_cur = str_cur.replace(',', '.')
+    return str_cur
+
+
 # Lấy tham số của phòng từ request
 # Return : Danh sách tham số
 def get_room_param_from_request(req):
@@ -163,7 +176,9 @@ def predict_room_price_from_model(conf_model, room_param):
             status = {'success': False, 'predict': -1}
         else:
             price = price.flatten()
-            status = {'success': True, 'predict': np.float64(price[0])}
+            price_room = np.float64(price[0])
+            str_price  = round_currency_up(price_room)
+            status = {'success': True, 'predict': str_price}
     return status
 
 

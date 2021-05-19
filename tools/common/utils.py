@@ -205,7 +205,7 @@ def load_encoder(path):
 def save_model(model, path):
     print("[OF] Model saving...to file " + path, end=" ")
     try:
-        if path == cf.cf_model_mlp['path']:
+        if cf.cf_model_mlp['path'] in path:
             model.save(path)
             print("=> OK")
         else:

@@ -195,7 +195,7 @@ def convert_rawdata_to_traindata(path_rawdata_in , path_traindata_out):
     df.insert(1, 'thang', df["thoigian"].dt.month)
     df.insert(0, 'nam', df["thoigian"].dt.year)
     df = df.drop(['thoigian'], axis=1)
-    df.to_csv(path_traindata_out, index=False,header=True)
+    df.to_csv(path_traindata_out, index=False, header=True)
 
 
 def main():
