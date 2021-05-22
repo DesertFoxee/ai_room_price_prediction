@@ -127,7 +127,7 @@ def test_random_state(X, y):
     for x in range(1, 150):
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=x)
         rmse_temp = train.linear_regressions(X_train, y_train, X_test, y_test, False)
-        if (rmse == -1) or (rmse > rmse_temp):
+        if (rmse == -1) or (rmse < rmse_temp):
             rmse = rmse_temp
             random_state = x
     print("MAPE Min:" + str(rmse))
@@ -187,6 +187,30 @@ def save_encoder(encoder, path):
             print("=> OK")
     except:
         print("=> Failed")
+
+
+# Lấy encoder với tên encoder tương ứng
+# Return : encoders
+def get_encoder(encoder_name):
+    if encoder_name in cf.cf_encoder:
+        return cf.cf_encoder[encoder_name]
+    else:
+        print('[X]' + encoder_name +": not exist !")
+    return None
+
+
+# Load toàn bộ encoder cho chương trinh một lần duy nhất
+def load_all_encoder():
+    print("[IF] Loading encoder file ", end="=>")
+    for param in cf.api_params:
+        encoder_name        = param[0]  # Tên encoder
+        imposition_encoder  = param[4]  # Mức độ quan trọng (phải load)
+        path_load_encoder = get_root_path()+cf.path_folder_encoder+encoder_name+'_enc.pkl'
+        enc = load_encoder(path_load_encoder)
+        if enc is None and imposition_encoder == 1:
+            print("[X] Can not load : " + path_load_encoder)
+        cf.cf_encoder.update({encoder_name: enc})
+    print(" OK")
 
 
 # Load encoders từ file : có đuôi là *.pkl

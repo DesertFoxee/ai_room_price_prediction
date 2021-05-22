@@ -24,23 +24,6 @@ path_data_train = 'roomdata.csv'
 path_data_raw2 = 'data_train/data_phongtro123_databk.csv'
 path_data_train2 = 'roomdata2.csv'
 
-district_convert ={
-    'Thanh Xuân'  :"ThanhXuan" ,
-    'Hoàng Mai'   :"HoangMai"  ,
-    'Bắc Từ Liêm' :"BacTuLiem" ,
-    'Cầu Giấy'    :"CauGiay"   ,
-    'Hà Đông'     :"HaDong"    ,
-    'Đống Đa'     :"DongDa"    ,
-    'Nam Từ Liêm' :"NamTuLiem" ,
-    'Hoàn Kiếm'   :"HoanKiem"  ,
-    'Hai Bà Trưng':"HaiBaTrung",
-    'Tây Hồ'      :"TayHo"     ,
-    'Ba Đình'     :"BaDinh"    ,
-    'Gia Lâm'     :"GiaLam"    ,
-    'Long Biên'   :"LongBien"  ,
-    'Thanh Trì'   :"ThanhTri"  ,
-    'Hoài Đức'    :"HoaiDuc"
-}
 
 
 def drop_row(data_frame, start_index , end_index):
@@ -228,7 +211,7 @@ def convert_rawdata_to_traindata2(path_rawdata_in , path_traindata_out):
     df.insert(0, 'nam', df["thoigian"].dt.year)
     df = df.drop(['thoigian'], axis=1)
 
-    df['quan'].replace(district_convert, inplace=True)
+    df['quan'].replace(cf.district_convert, inplace=True)
     df.to_csv(path_traindata_out, index=False, header=True)
 
 

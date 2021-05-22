@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import common.config as cf
 import common.utils as utl
 import numpy as np
-import math
+import geocoder as geo
 from flask_cors import CORS
 
 
@@ -10,39 +10,13 @@ SERVER_PORT = 5000
 URL_ROOT = '/api/models/'
 
 root_path = utl.get_root_path()
-
-TF = 0 # Loại TrueFalse
-RA = 1 # Loại Khoảng giá trị
-LI = 2 # Loại liệt kê
+utl.load_all_encoder()
 
 # Cấu hình api hiện thị giá trị unicode
 app = Flask(__name__)
 CORS(app)
 app.config['JSON_AS_ASCII'] = False
 
-params = [
-         (cf.col_nam      ,2020    ,RA,[2016,2200]                ,'Giá trị năm từ 2016 trở lên'),
-         (cf.col_thang    ,0       ,RA,[1,12]                     ,'Giá trị tháng [1->12]'),
-         (cf.col_dientich ,0.0     ,RA,[1,200]                    ,'Giá trị nằm trong khoảng [1->200]m^2'),
-         (cf.col_vido     ,0.0     ,RA,[20.93,21.09]              ,'Vi độ không thuộc nội thành Hà Nội'),
-         (cf.col_kinhdo   ,0.0     ,RA,[105.73,105.93]            ,'Kinh độ không thuộc nội thành Hà Nội'),
-         (cf.col_loai     ,'Nhacap',LI,["Nhacap","Nhatang",'Ccmn'],'Giá trị hợp lệ: [Nhà cấp/Nhà tầng/Ccmn]'),
-         (cf.col_drmd     ,0.0     ,RA,[1, 50]                    ,'Giá trị nằm trong khoảng [1->50]m'),
-         (cf.col_kcdc     ,0.0     ,RA,[1, 2000]                  ,'Giá trị nằm trong khoảng [1->2000]m'),
-         (cf.col_loaiwc   ,'KKK'   ,LI,["KKK", "Khepkin"]         ,'Giá trị hợp lệ : [KKK/Khép kín]'),
-         (cf.col_giuongtu ,0       ,TF,[]                         ,'Giá trị hợp lệ : [Có/Không]'),
-         (cf.col_banghe   ,0       ,TF,[]                         ,'Giá trị hợp lệ : [Có/Không]'),
-         (cf.col_nonglanh ,0       ,TF,[]                         ,'Giá trị hợp lệ : [Có/Không]'),
-         (cf.col_dieuhoa  ,0       ,TF,[]                         ,'Giá trị hợp lệ : [Có/Không]'),
-         (cf.col_tulanh   ,0       ,TF,[]                         ,'Giá trị hợp lệ : [Có/Không]'),
-         (cf.col_maygiat  ,0       ,TF,[]                         ,'Giá trị hợp lệ : [Có/Không]'),
-         (cf.col_tivi     ,0       ,TF,[]                         ,'Giá trị hợp lệ : [Có/Không]'),
-         (cf.col_bep      ,0       ,TF,[]                         ,'Giá trị hợp lệ : [Có/Không]'),
-         (cf.col_gacxep   ,0       ,TF,[]                         ,'Giá trị hợp lệ : [Có/Không]'),
-         (cf.col_thangmay ,0       ,TF,[]                         ,'Giá trị hợp lệ : [Có/Không]'),
-         (cf.col_bancong  ,0       ,TF,[]                         ,'Giá trị hợp lệ : [Có/Không]'),
-         (cf.col_chodexe  ,0       ,TF,[]                         ,'Giá trị hợp lệ : [Có/Không]'),
-]
 
 test_param ={
   "bancong": 0,
@@ -55,8 +29,8 @@ test_param ={
   "gacxep": 1,
   "giuongtu": 0,
   "kcdc": 169.0,
-  "kinhdo": 105.850008,
-  "vido": 20.972612,
+  "kinhdo": 105.815203,
+  "vido": 20.993913,
   "loai": "Nhacap",
   "loaiwc": "Khepkin",
   "maygiat": 0,
@@ -79,19 +53,43 @@ def month_encoder(month):
     return month_enc
 
 
+def district_encoder(district_name):
+    enc = utl.get_encoder(cf.col_quan)
+    if enc is None:
+        return None
+    labels = enc.get_feature_names([cf.col_quan])
+    if district_name is None:
+        district_enc = {labels[i]: 0 for i in range(len(labels))}
+        return district_enc
+    else:
+        values = enc.transform([[district_name]]).toarray()[0]
+        district_enc = {labels[i]: values[i] for i in range(len(labels))}
+        return district_enc
+
+
 # Chuẩn hóa dữ liệu là một đối tượng tham số cho dự báo
 # Return : Object param sau chuẩn hóa
 def standardize_room_param(obj_param):
     obj_param_standard = {}
-    for param in params:
-        param_name, param_value = param[0], obj_param[param[0]]
+    for param in cf.api_params:
+        param_name, param_value = param[0], None
+        if param_name in obj_param:
+            param_value = obj_param[param[0]]
+
         # Xử lý riêng trường hợp của cột tháng
         if param_name == cf.col_thang:
             value_month = month_encoder(param_value)
             obj_param_standard.update(value_month)
+        # Xử lý riêng trường hợp của quận
+        elif param_name == cf.col_quan:
+            district_name = geo.get_district_coordinates(obj_param[cf.col_vido], obj_param[cf.col_kinhdo])
+            if district_name is None:
+                print("[X] District_name is None")
+            value_district = district_encoder(district_name)
+            obj_param_standard.update(value_district)
         else:
             # Sử dụng standard tham số của obj nếu tồn tại file
-            enc = utl.load_encoder(root_path+cf.path_folder_encoder+param_name+'_enc.pkl')
+            enc = utl.get_encoder(param_name)
             if enc is not None:
                 value = enc.transform([[param_value]])
                 value = value[0, 0]
@@ -105,20 +103,22 @@ def standardize_room_param(obj_param):
 # Return : json các trường lỗi
 def validate_room_param(room_param):
     error = {}
-    for param in params:
+    for param in cf.api_params:
         req_value = room_param[param[0]]
         field_name, field_type = param[0], param[2]
-        field_cmp, field_msg   = param[3], param[4]
+        field_cmp, field_msg   = param[3], param[5]
         had_error = False
-        if field_type == RA:
+        if field_type == cf.RA:
             if not (field_cmp[0] <= req_value <= field_cmp[1]):
                 had_error = True
-        elif field_type == LI:
+        elif field_type == cf.LI:
             if not any(req_value in s for s in field_cmp):
                 had_error = True
-        elif field_type == TF:
+        elif field_type == cf.TF:
             if req_value != 0 and req_value != 1:
                 had_error = True
+        elif field_type == cf.NO:  # Không xử lý và bỏ qua nó
+            continue
         if had_error:
             error.update({field_name: field_msg})
     return error
@@ -140,7 +140,7 @@ def round_currency_up(number):
 # Return : Danh sách tham số
 def get_room_param_from_request(req):
     list_param = {}
-    for param in params:
+    for param in cf.api_params:
         param_name, param_def = param[0], param[1]
         value_param = req.args.get(param_name, default=param_def, type=type(param_def))
         list_param.update({param_name: value_param})

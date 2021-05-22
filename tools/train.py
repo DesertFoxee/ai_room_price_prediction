@@ -16,8 +16,9 @@ import seaborn as sns
 
 path_data_raw = 'data_train/data_phongtro123_data.csv'
 path_data_train = 'roomdata.csv'
+path_data_train2 = 'roomdata2.csv'
 
-random_state = 14
+random_state = 86
 
 #⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣ Biểu diễn ⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣
 # Biểu đồ giá trị thực tế và giá dự báo dạng đường
@@ -105,7 +106,8 @@ def linear_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_m
     ML.fit(X_train, y_train)
 
     y_pred = ML.predict(X_test)
-    rmse = utl.mape(y_test, y_pred)
+
+    var_score = metrics.explained_variance_score(y_test, y_pred)
 
     if save_model:
         utl.save_model(ML, cf.cf_model_mlinear['path'])
@@ -116,7 +118,7 @@ def linear_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_m
         # utl.show_history(history)
         show_residual_and_frequency(y_test, y_pred)
         print_test_infor(y_test, y_pred)
-    return rmse
+    return var_score
 
 
 # Mô hình k-Nearest Neighbors Regression
@@ -127,7 +129,7 @@ def knn_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_mode
 
     y_pred = KNN.predict(X_test)
 
-    rmse = np.sqrt(metrics.mean_squared_error(y_test, y_pred))
+    var_score = metrics.explained_variance_score(y_test, y_pred)
 
     if save_model:
         utl.save_model(KNN, cf.cf_model_knn['path'])
@@ -137,7 +139,7 @@ def knn_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_mode
         show_residual_actual_and_predict(y_test, y_pred)
         show_residual_and_frequency(y_test, y_pred)
         print_test_infor(y_test, y_pred)
-    return rmse
+    return var_score
 
 
 # Mô hình Random Forest Regression
@@ -147,7 +149,7 @@ def random_forest_regressions(X_train, y_train, X_test, y_test, show_infor=True,
 
     y_pred = RF.predict(X_test)
 
-    rmse = np.sqrt(metrics.mean_squared_error(y_test, y_pred))
+    var_score = metrics.explained_variance_score(y_test, y_pred)
 
     if save_model:
         utl.save_model(RF, cf.cf_model_randf['path'])
@@ -157,7 +159,7 @@ def random_forest_regressions(X_train, y_train, X_test, y_test, show_infor=True,
         show_residual_actual_and_predict(y_test, y_pred)
         show_residual_and_frequency(y_test, y_pred)
         print_test_infor(y_test, y_pred)
-    return rmse
+    return var_score
 #⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡ Model ⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡
 
 
@@ -171,7 +173,7 @@ def MonthEncoder(df):
 
 def preprocessing_data(df, save=False):
     # "giuongtu","banghe","nonglanh","dieuhoa","tulanh","maygiat","tivi","bep","gacxep","thangmay","bancong","chodexe"
-    col_cate_hot   = []                                               # không thứ tự không ảnh hưởng trọng số
+    col_cate_hot   = ['quan']                                         # không thứ tự không ảnh hưởng trọng số
     col_cate_ori   = [['loai',  ['Nhacap','Nhatang','Ccmn']],
                       ['loaiwc',['KKK','Khepkin'          ]]]         # có thứ tự : cold warm, hot
     col_cate_lab   = []                                               # dùng cho cate không có thứ tự
@@ -191,8 +193,11 @@ def preprocessing_data(df, save=False):
         hot = preprocessing.OneHotEncoder()
         oe_results = hot.fit_transform(df[[col_name]]).toarray()
         ohe_df = pd.DataFrame(oe_results, columns=hot.get_feature_names([col_name]))
-        pd.concat([df, ohe_df], axis=1)
+        for col_new in ohe_df:
+            df.insert(df.columns.get_loc(col_name), col_new, ohe_df[col_new].values)
         df.drop([col_name], axis='columns', inplace=True)
+        if save:
+            utl.save_encoder(hot, cf.path_folder_encoder + col_name + '_enc.pkl')
 
     # categories ori : Dành cho danh sách có tính mức độ cấp độ
     # df['loai'] = df['loai'].map({'Nhacap':1,'Nhatang': 2,'Ccmn': 3})
@@ -220,20 +225,36 @@ def preprocessing_data(df, save=False):
 
 
 def main():
-    df = pd.read_csv(path_data_train)
+    # df = pd.read_csv(path_data_train)
+    #
+    # # utl.show_distribution(df["giaphong"], "Phân phối giá phòng", "Giá phòng")
+    # preprocessing_data(df, save=False)
+    # X = df.drop(['giaphong'], axis=1).values
+    # y = df['giaphong'].values
+    #
+    # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=random_state)
+    # utl.test_random_state(X,y)
 
-    # utl.show_distribution(df["giaphong"], "Phân phối giá phòng", "Giá phòng")
+    # Dùng train và lưu lưu
+    # linear_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=True)
+    # knn_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=True)
+    # random_forest_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=True)
+    # multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, show_infor=True, save_model=True)
+
+    # Dùng để train và không lưu
+    df = pd.read_csv(path_data_train2)
+
     preprocessing_data(df, save=False)
     X = df.drop(['giaphong'], axis=1).values
     y = df['giaphong'].values
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=random_state)
+    # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=random_state)
     # utl.test_random_state(X,y)
 
     # linear_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=True)
-    # knn_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=True)
-    # random_forest_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=True)
-    multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, show_infor=True, save_model=True)
+    # knn_regressions(X_train, y_train, X_test, y_test, show_infor=True,save_model=True)
+    # random_forest_regressions(X_train, y_train, X_test, y_test, show_infor=True,save_model=True)
+    # multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, show_infor=True,save_model=True)
 
 
 # Hàm main
