@@ -136,10 +136,48 @@ def test_random_state(X, y):
 
 # Hiển thị phân phối đối với một cột pandas
 def show_distribution(data, title='Phan phoi', xlabel='x', ylabel='Tan suat'):
-    sns.distplot(data, color='r')
-    plt.title(title, fontsize=16)
-    plt.xlabel(xlabel, fontsize=14)
-    plt.ylabel(ylabel, fontsize=14)
+    sns.displot(data, color='b')
+    plt.title(title, fontsize=12)
+    plt.xlabel(xlabel, fontsize=12)
+    plt.ylabel(ylabel, fontsize=12)
+    plt.xticks(fontsize=12)
+    plt.yticks(fontsize=12)
+    plt.show()
+
+
+def show_values_on_bars(axs, h_v="v", space=0.4):
+    def _show_on_single_plot(ax):
+        if h_v == "v":
+            for p in ax.patches:
+                _x = p.get_x() + p.get_width() / 2
+                _y = p.get_y() + p.get_height()
+                value = int(p.get_height())
+                ax.text(_x, _y, value, ha="center")
+        elif h_v == "h":
+            for p in ax.patches:
+                _x = p.get_x() + p.get_width() + float(space)
+                _y = p.get_y() + p.get_height()
+                value = int(p.get_width())
+                ax.text(_x, _y, value, ha="left")
+
+    if isinstance(axs, np.ndarray):
+        for idx, ax in np.ndenumerate(axs):
+            _show_on_single_plot(ax)
+    else:
+        _show_on_single_plot(axs)
+
+
+# Hiển thị phân phối đối với một cột pandas
+def show_distribution_y(data, column, title='Phan phoi', xlabel='x', ylabel='Tan suat'):
+    descending_order = data[column].value_counts().sort_values(ascending=False).index
+    ax = sns.countplot(y=data[column],order=descending_order)
+    y = data[column].value_counts()
+    for i, v in enumerate(y):
+        ax.text(v + 0.2, i + .16, str(v), color='black', fontweight='light', fontsize=14)
+
+    plt.title(title, fontsize=12)
+    plt.xlabel(xlabel, fontsize=12)
+    plt.ylabel(ylabel, fontsize=12)
     plt.xticks(fontsize=12)
     plt.yticks(fontsize=12)
     plt.show()
