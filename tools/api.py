@@ -10,7 +10,6 @@ SERVER_PORT = 5000
 URL_ROOT = '/api/models/'
 
 root_path = utl.get_root_path()
-utl.load_all_encoder()
 
 # Cấu hình api hiện thị giá trị unicode
 app = Flask(__name__)
@@ -216,6 +215,7 @@ def multiple_linear_regression():
 
 if __name__ == '__main__':
     # Có thể cấu hình cổng của server : app.run(debug=True,port=12345)
+    utl.load_all_encoder()
     app.run(debug=True, port=SERVER_PORT)
 
     # Phần này để test :

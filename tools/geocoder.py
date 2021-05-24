@@ -69,7 +69,7 @@ def get_latlong_address(address):
     return results
 
 # 21.023783719336993,105.84760665893556
-print(get_district_coordinates(21.023783719336993,105.84760665893556))
+# print(get_district_coordinates(21.023783719336993,105.84760665893556))
 
 
 # geocoder = OpenCageGeocode(key)
