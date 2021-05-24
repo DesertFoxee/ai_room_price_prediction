@@ -12,6 +12,7 @@ import matplotlib.pyplot as plt
 import common.config as cf
 import common.utils as utl
 import seaborn as sns
+import model as models
 
 
 path_data_raw = 'data_train/data_phongtro123_data.csv'
@@ -74,15 +75,9 @@ def multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, facto
                                          show_infor=True,
                                          save_model=False):
     neural_number = X_train.shape[1] * factor
-    MLP = Sequential([
-        Dense(neural_number, activation='relu', input_shape=(X_train.shape[1],)),
-        Dense(neural_number, activation='relu'),
-        Dense(neural_number, activation='relu'),
-        Dense(neural_number, activation='relu'),
-        Dense(1)
-    ])
+    MLP =  models.get_mlp_model(X_train.shape[1],neural_number)
 
-    MLP.compile(optimizer='adam', loss='mean_squared_error')
+
     history = MLP.fit(x=X_train, y=y_train, validation_data=(X_test, y_test),
                         batch_size=30, epochs=600)
 
@@ -102,9 +97,9 @@ def multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, facto
 
 # Mô hình Multiple Linear Regression
 def linear_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=False):
-    ML = LinearRegression()
-    ML.fit(X_train, y_train)
+    ML = models.get_linear_model()
 
+    ML.fit(X_train, y_train)
     y_pred = ML.predict(X_test)
 
     var_score = metrics.explained_variance_score(y_test, y_pred)
@@ -123,10 +118,10 @@ def linear_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_m
 
 # Mô hình k-Nearest Neighbors Regression
 def knn_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=False):
-    # Thiết lập set n hàng xóm
-    KNN = KNeighborsRegressor(n_neighbors=5, weights='distance')
-    KNN.fit(X_train, y_train)
+    # KNN = KNeighborsRegressor(n_neighbors=5, weights='distance')
+    KNN = models.get_knn_model(5)
 
+    KNN.fit(X_train, y_train)
     y_pred = KNN.predict(X_test)
 
     var_score = metrics.explained_variance_score(y_test, y_pred)
@@ -144,9 +139,9 @@ def knn_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_mode
 
 # Mô hình Random Forest Regression
 def random_forest_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=False):
-    RF = RandomForestRegressor(n_estimators=1000, random_state=random_state)
-    RF.fit(X_train, y_train)
+    RF = models.get_random_model(random_state)
 
+    RF.fit(X_train, y_train)
     y_pred = RF.predict(X_test)
 
     var_score = metrics.explained_variance_score(y_test, y_pred)
@@ -248,10 +243,10 @@ def main():
     X = df.drop(['giaphong'], axis=1).values
     y = df['giaphong'].values
 
-    # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=random_state)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=random_state)
     # utl.test_random_state(X,y)
 
-    # linear_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=True)
+    linear_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=False)
     # knn_regressions(X_train, y_train, X_test, y_test, show_infor=True,save_model=True)
     # random_forest_regressions(X_train, y_train, X_test, y_test, show_infor=True,save_model=True)
     # multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, show_infor=True,save_model=True)
