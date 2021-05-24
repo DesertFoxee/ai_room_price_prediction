@@ -75,11 +75,9 @@ def multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, facto
                                          show_infor=True,
                                          save_model=False):
     neural_number = X_train.shape[1] * factor
-    MLP =  models.get_mlp_model(X_train.shape[1],neural_number)
+    MLP =  models.get_mlp_model(X_train.shape[1],4,neural_number)
 
-
-    history = MLP.fit(x=X_train, y=y_train, validation_data=(X_test, y_test),
-                        batch_size=30, epochs=600)
+    history = MLP.fit(X_train, y_train,batch_size=32, epochs=600)
 
     y_pred = MLP.predict(X_test)
     y_pred = y_pred.flatten()
@@ -246,10 +244,10 @@ def main():
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=random_state)
     # utl.test_random_state(X,y)
 
-    linear_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=False)
+    # linear_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=False)
     # knn_regressions(X_train, y_train, X_test, y_test, show_infor=True,save_model=True)
     # random_forest_regressions(X_train, y_train, X_test, y_test, show_infor=True,save_model=True)
-    # multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, show_infor=True,save_model=True)
+    multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, show_infor=True,save_model=False)
 
 
 # Hàm main

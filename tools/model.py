@@ -24,13 +24,12 @@ def get_random_model(factor_random):
 
 
 # Mô hình mạng MLP (Multilayer Perceptron) - Deep learning
-def get_mlp_model(input_size, layer_hidden_size):
-    neural_number = layer_hidden_size
+def get_mlp_model(input_size, layer_hidden_size, neural_hidden_size):
     MLP = Sequential([
-        Dense(neural_number, activation='relu', input_shape=(input_size,)),
-        Dense(neural_number, activation='relu'),
-        Dense(neural_number, activation='relu'),
-        Dense(neural_number, activation='relu'),
+        Dense(neural_hidden_size, activation='relu', input_shape=(input_size,)),
+        Dense(neural_hidden_size, activation='relu'),
+        Dense(neural_hidden_size, activation='relu'),
+        Dense(neural_hidden_size, activation='relu'),
         Dense(1)
     ])
     MLP.compile(optimizer='adam', loss='mean_squared_error')
