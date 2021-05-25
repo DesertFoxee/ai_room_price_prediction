@@ -19,7 +19,7 @@ path_data_raw = 'data_train/data_phongtro123_data.csv'
 path_data_train = 'roomdata.csv'
 path_data_train2 = 'roomdata2.csv'
 
-random_state = 86
+random_state = 42
 
 #⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣ Biểu diễn ⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣
 # Biểu đồ giá trị thực tế và giá dự báo dạng đường
@@ -76,7 +76,7 @@ def multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, facto
                                          save_model=False):
     neural_number     = X_train.shape[1] * factor
     input_size        = X_train.shape[1]
-    hidden_layer_size = 4
+    hidden_layer_size = 3
     MLP = models.get_mlp_model(input_size,hidden_layer_size,neural_number)
     MLP.summary()
     history = MLP.fit(X_train, y_train,batch_size=32, epochs=600)
@@ -247,9 +247,9 @@ def main():
     # utl.test_random_state(X,y)
 
     # linear_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=False)
-    # knn_regressions(X_train, y_train, X_test, y_test, show_infor=True,save_model=True)
-    # random_forest_regressions(X_train, y_train, X_test, y_test, show_infor=True,save_model=True)
-    multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, show_infor=True,save_model=False)
+    # knn_regressions(X_train, y_train, X_test, y_test, show_infor=True,save_model=False)
+    # random_forest_regressions(X_train, y_train, X_test, y_test, show_infor=True,save_model=False)
+    # multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, show_infor=True,save_model=False)
 
 
 # Hàm main
