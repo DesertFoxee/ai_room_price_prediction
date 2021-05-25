@@ -26,8 +26,6 @@ def k_fold_cross_validation_mlp(X, y, k, random_state, model):
         model.fit(X[train_ids], y[train_ids], batch_size=32, epochs=600, verbose=0)
         y_pred = model.predict(X[val_ids])
         scores = mean_absolute_percentage_error(y_pred, y[val_ids])
-        print("Đã train xong Fold ", fold_idx)
-        print("mape : " +str(scores))
         mape_list.append(scores)
         fold_idx = fold_idx + 1
     return abs(mean(scores)), scores.std()

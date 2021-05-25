@@ -25,12 +25,20 @@ def get_random_model(factor_random):
 
 # Mô hình mạng MLP (Multilayer Perceptron) - Deep learning
 def get_mlp_model(input_size, layer_hidden_size, neural_hidden_size):
-    MLP = Sequential([
-        Dense(neural_hidden_size, activation='relu', input_shape=(input_size,)),
-        Dense(neural_hidden_size, activation='relu'),
-        Dense(neural_hidden_size, activation='relu'),
-        Dense(neural_hidden_size, activation='relu'),
-        Dense(1)
-    ])
+    MLP = Sequential()
+    for ilay in range(layer_hidden_size):
+        if ilay ==0:  # Input layer
+            MLP.add(Dense(neural_hidden_size, activation='relu', input_shape=(input_size,)))
+        else:         # Hidden layer
+            MLP.add(Dense(neural_hidden_size, activation='relu'))
+    # Output layer
+    MLP.add(Dense(1))
     MLP.compile(optimizer='adam', loss='mean_squared_error')
     return MLP
+
+
+
+
+
+
+

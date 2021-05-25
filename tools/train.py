@@ -74,9 +74,11 @@ def show_residual_and_frequency(y_test, y_pred):
 def multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, factor=1,
                                          show_infor=True,
                                          save_model=False):
-    neural_number = X_train.shape[1] * factor
-    MLP =  models.get_mlp_model(X_train.shape[1],4,neural_number)
-
+    neural_number     = X_train.shape[1] * factor
+    input_size        = X_train.shape[1]
+    hidden_layer_size = 4
+    MLP = models.get_mlp_model(input_size,hidden_layer_size,neural_number)
+    MLP.summary()
     history = MLP.fit(X_train, y_train,batch_size=32, epochs=600)
 
     y_pred = MLP.predict(X_test)
