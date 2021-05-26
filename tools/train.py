@@ -3,11 +3,6 @@ import pandas as pd
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
-from keras.layers import Dense
-from keras.models import Sequential
-from sklearn.linear_model import LinearRegression
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.ensemble import RandomForestRegressor
 import matplotlib.pyplot as plt
 import common.config as cf
 import common.utils as utl
