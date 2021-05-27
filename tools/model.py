@@ -1,5 +1,6 @@
 from keras.layers import Dense
 from keras.models import Sequential
+from keras import initializers
 from sklearn.linear_model import LinearRegression
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.ensemble import RandomForestRegressor
@@ -24,13 +25,13 @@ def get_random_model(factor_random):
 
 
 # Mô hình mạng MLP (Multilayer Perceptron) - Deep learning
-def get_mlp_model(input_size, layer_hidden_size, neural_hidden_size):
+def get_mlp_model(input_size, layer_hidden_size, neural_hidden_size, ker_init=initializers.glorot_uniform()):
     MLP = Sequential()
     for ilay in range(layer_hidden_size):
         if ilay ==0:  # Input layer
-            MLP.add(Dense(neural_hidden_size, activation='relu', input_shape=(input_size,)))
+            MLP.add(Dense(neural_hidden_size, activation='relu', kernel_initializer=ker_init, input_shape=(input_size,)))
         else:         # Hidden layer
-            MLP.add(Dense(neural_hidden_size, activation='relu'))
+            MLP.add(Dense(neural_hidden_size, activation='relu', kernel_initializer=ker_init))
     # Output layer
     MLP.add(Dense(1))
     MLP.compile(optimizer='adam', loss='mean_squared_error')

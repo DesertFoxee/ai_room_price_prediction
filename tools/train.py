@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
+import keras.initializers as ker_init
 import matplotlib.pyplot as plt
 import common.config as cf
 import common.utils as utl
@@ -72,7 +73,7 @@ def multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, facto
     neural_number     = X_train.shape[1] * factor
     input_size        = X_train.shape[1]
     hidden_layer_size = 3
-    MLP = models.get_mlp_model(input_size,hidden_layer_size,neural_number)
+    MLP = models.get_mlp_model(input_size,hidden_layer_size, neural_number, ker_init.he_normal())
     MLP.summary()
     history = MLP.fit(X_train, y_train,batch_size=32, epochs=600)
 
@@ -167,8 +168,8 @@ def preprocessing_data(df, save=False):
     col_cate_ori   = [['loai',  ['Nhacap','Nhatang','Ccmn']],
                       ['loaiwc',['KKK','Khepkin'          ]]]         # có thứ tự : cold warm, hot
     col_cate_lab   = []                                               # dùng cho cate không có thứ tự
-    col_standard   = ["dientich","vido","kinhdo","drmd","kcdc"]
-    col_normal     = ["nam"]
+    col_standard   = []
+    col_normal     = ["nam","dientich","vido","kinhdo","drmd","kcdc","thang_sin","thang_cos","loai","loaiwc"]
 
     # Chuẩn hóa trường tháng có tính chất chu kỳ
     MonthEncoder(df)
@@ -211,6 +212,8 @@ def preprocessing_data(df, save=False):
         df[col_name] = norm.fit_transform(df[[col_name]])
         if save:
             utl.save_encoder(norm, cf.path_folder_encoder + col_name + '_enc.pkl')
+    for column in df:
+        print(column +"=> "+ "Min :" + str(df[column].max()) + " + Max :" + str(df[column].min()))
 #⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡ Chuẩn hóa ⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡
 
 
@@ -244,7 +247,7 @@ def main():
     # linear_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=False)
     # knn_regressions(X_train, y_train, X_test, y_test, show_infor=True,save_model=False)
     # random_forest_regressions(X_train, y_train, X_test, y_test, show_infor=True,save_model=False)
-    # multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, show_infor=True,save_model=False)
+    multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, show_infor=True,save_model=False)
 
 
 # Hàm main
