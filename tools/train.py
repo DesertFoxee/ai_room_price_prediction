@@ -10,7 +10,6 @@ import common.utils as utl
 import seaborn as sns
 import model as models
 
-
 path_data_raw = 'data_train/data_phongtro123_data.csv'
 path_data_train = 'roomdata.csv'
 path_data_train2 = 'roomdata2.csv'
@@ -40,7 +39,7 @@ def print_test_infor(y_test, y_pred):
     print('MAE     :', metrics.mean_absolute_error(y_test, y_pred))
     print('MSE     :', metrics.mean_squared_error(y_test, y_pred))
     print('RMSE    :', np.sqrt(metrics.mean_squared_error(y_test, y_pred)))
-    print('MAPE    :', utl.mape(y_test, y_pred))
+    print('MAPE    :', metrics.mean_absolute_percentage_error(y_test, y_pred))
     print('VarScore:', metrics.explained_variance_score(y_test, y_pred))
 
 
@@ -57,7 +56,8 @@ def show_residual_actual_and_predict(y_test, y_pred):
 
 # Biểu đồ sự chênh lệnh giá và tần suất
 def show_residual_and_frequency(y_test, y_pred):
-    sns.distplot(y_test - y_pred)
+    diff = y_test - y_pred
+    sns.displot(x=diff, kde=True)
     plt.title("Biểu đồ tần suất và chênh lệch")
     plt.xlabel("Chênh lệch")
     plt.ylabel("Tần suất")
@@ -67,15 +67,12 @@ def show_residual_and_frequency(y_test, y_pred):
 
 #⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣ Model ⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣⭣
 # Mô hình mạng MLP (Multilayer Perceptron) - Deep learning
-def multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, factor=1,
-                                         show_infor=True,
-                                         save_model=False):
-    neural_number     = X_train.shape[1] * factor
+def multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, show_infor=True, save_model=False):
+    neural_number     = X_train.shape[1]
     input_size        = X_train.shape[1]
     hidden_layer_size = 3
-    MLP = models.get_mlp_model(input_size,hidden_layer_size, neural_number, ker_init.he_normal())
-    MLP.summary()
-    history = MLP.fit(X_train, y_train,batch_size=32, epochs=600)
+    MLP = models.get_mlp_model(input_size, hidden_layer_size, neural_number, ker_init.he_normal())
+    history = MLP.fit(X_train, y_train,batch_size=32, epochs=700)
 
     y_pred = MLP.predict(X_test)
     y_pred = y_pred.flatten()
@@ -168,8 +165,8 @@ def preprocessing_data(df, save=False):
     col_cate_ori   = [['loai',  ['Nhacap','Nhatang','Ccmn']],
                       ['loaiwc',['KKK','Khepkin'          ]]]         # có thứ tự : cold warm, hot
     col_cate_lab   = []                                               # dùng cho cate không có thứ tự
-    col_standard   = []
-    col_normal     = ["nam","dientich","vido","kinhdo","drmd","kcdc","thang_sin","thang_cos","loai","loaiwc"]
+    col_standard   = ["dientich","vido","kinhdo","drmd","kcdc"]
+    col_normal     = ["nam"]
 
     # Chuẩn hóa trường tháng có tính chất chu kỳ
     MonthEncoder(df)
@@ -212,8 +209,6 @@ def preprocessing_data(df, save=False):
         df[col_name] = norm.fit_transform(df[[col_name]])
         if save:
             utl.save_encoder(norm, cf.path_folder_encoder + col_name + '_enc.pkl')
-    for column in df:
-        print(column +"=> "+ "Min :" + str(df[column].max()) + " + Max :" + str(df[column].min()))
 #⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡ Chuẩn hóa ⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡⭡
 
 
@@ -242,14 +237,16 @@ def main():
     y = df['giaphong'].values
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=random_state)
-    # utl.test_random_state(X,y)
+
+    # linear_regressions(X_train, y_train, X_test, y_test, show_infor=False, save_model=True)
+    # knn_regressions(X_train, y_train, X_test, y_test, show_infor=False, save_model=True)
+    # random_forest_regressions(X_train, y_train, X_test, y_test, show_infor=False,save_model=True)
+    # multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, show_infor=False, save_model=True)
 
     # linear_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=False)
-    # knn_regressions(X_train, y_train, X_test, y_test, show_infor=True,save_model=False)
-    # random_forest_regressions(X_train, y_train, X_test, y_test, show_infor=True,save_model=False)
-    multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, show_infor=True,save_model=False)
-
-
+    # knn_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=False)
+    # random_forest_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=False)
+    # multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, show_infor=True, save_model=False)
 # Hàm main
 if __name__ == "__main__":
     main()

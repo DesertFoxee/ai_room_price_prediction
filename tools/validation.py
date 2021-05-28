@@ -7,8 +7,10 @@ import train  as train
 import model  as models
 import seaborn as sns
 import matplotlib.pyplot as plt
+from keras import initializers
 
 path_data_train2 = 'roomdata2.csv'
+k_fold = 10
 
 
 # Biểu đồ mức độ quan trọng của thuộc tính sử dụng random forest
@@ -44,8 +46,8 @@ def feature_importain(X_train, y_train):
 
 # Hàm thâm định chất lượng model sử dụng kfold
 # Return : MAPE và độ lệch chuẩn
-def k_fold_cross_validation(X, y, k, random_state, model):
-    cv = KFold(n_splits=k, random_state=random_state, shuffle=True)
+def k_fold_cross_validation(X, y, random_state, model):
+    cv = KFold(n_splits=k_fold, random_state=random_state, shuffle=True)
     # neg_mean_absolute_percentage_error
     scores = cross_val_score(model, X, y, scoring='neg_mean_absolute_percentage_error', cv=cv)
     return abs(np.mean(scores)),np.std(scores)
@@ -53,11 +55,24 @@ def k_fold_cross_validation(X, y, k, random_state, model):
 
 # Hàm thâm định chất lượng model mlp sử dụng kfold
 # Return : MAPE và độ lệch chuẩn
-def k_fold_cross_validation_mlp(X, y, k, random_state, model):
-    kfold = KFold(n_splits=k,random_state=random_state, shuffle=True)
+def k_fold_cross_validation_2(X, y, random_state, model):
+    kfold = KFold(n_splits=k_fold, random_state=random_state, shuffle=True)
     mape_list = list()
     for train_ids, val_ids in kfold.split(X, y):
-        model.fit(X[train_ids], y[train_ids], batch_size=32, epochs=600, verbose=0)
+        model.fit(X[train_ids], y[train_ids])
+        y_pred = model.predict(X[val_ids])
+        scores = mean_absolute_percentage_error(y_pred, y[val_ids])
+        mape_list.append(scores)
+    return abs(np.mean(mape_list)), np.std(mape_list)
+
+
+# Hàm thâm định chất lượng model mlp sử dụng kfold
+# Return : MAPE và độ lệch chuẩn
+def k_fold_cross_validation_mlp(X, y, random_state, model):
+    kfold = KFold(n_splits=k_fold, random_state=random_state, shuffle=True)
+    mape_list = list()
+    for train_ids, val_ids in kfold.split(X, y):
+        model.fit(X[train_ids], y[train_ids], batch_size=32, epochs=700, verbose=0)
         y_pred = model.predict(X[val_ids])
         scores = mean_absolute_percentage_error(y_pred, y[val_ids])
         mape_list.append(scores)
@@ -89,9 +104,9 @@ def main():
     elif type_model ==3:
         model = models.get_random_model(train.random_state)
     elif type_model == 4:
-        model = models.get_mlp_model(X.shape[1], 3, 2)
-    # score, std_score = k_fold_cross_validation(X, y, 10, train.random_state, model)
-    score, std_score = k_fold_cross_validation_mlp(X, y,10, train.random_state, model)
+        model = models.get_mlp_model(X.shape[1], 3, 37, initializers.glorot_uniform())
+    # score, std_score = k_fold_cross_validation(X, y, train.random_state, model)
+    score, std_score = k_fold_cross_validation_mlp(X, y, train.random_state, model)
     print("MAPE :%0.2f +/- %0.2f" %(score, std_score))
 
 
