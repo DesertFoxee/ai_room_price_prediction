@@ -72,7 +72,7 @@ def multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, show_
     input_size        = X_train.shape[1]
     hidden_layer_size = 3
     MLP = models.get_mlp_model(input_size, hidden_layer_size, neural_number, ker_init.he_normal())
-    history = MLP.fit(X_train, y_train,batch_size=32, epochs=700)
+    history = MLP.fit(X_train, y_train, batch_size=32, epochs=600)
 
     y_pred = MLP.predict(X_test)
     y_pred = y_pred.flatten()
@@ -246,7 +246,7 @@ def main():
     # linear_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=False)
     # knn_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=False)
     # random_forest_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=False)
-    # multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, show_infor=True, save_model=False)
+    multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, show_infor=True, save_model=False)
 # Hàm main
 if __name__ == "__main__":
     main()
