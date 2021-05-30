@@ -16,11 +16,11 @@ path_data_train2 = 'roomdata2.csv'
 # # print(model_param)
 # print(model.predict(model_param))
 
-# df = pd.read_csv(path_data_train2)
+df = pd.read_csv(path_data_train2)
 # utl.show_distribution(df[cf.col_giaphong].values, "Phân phối giá phòng", "Giá phòng", "Tần suất")
 # utl.show_distribution(df[cf.col_dientich].values, "Phân phối diện tích", "Diện tích", "Tần suất")
-# utl.show_distribution_y(df,'quan', "Thống kê bản ghi theo quận", "Tần suât", "Quận")
-utl.load_all_encoder()
-
-a = ap.month_encoder(1)
-print(a)
+utl.show_distribution_y(df,'quan', "Thống kê bản ghi theo quận", "Tần suât", "Quận")
+# utl.load_all_encoder()
+#
+# a = ap.month_encoder(1)
+# print(a)
