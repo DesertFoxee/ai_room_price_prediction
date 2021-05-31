@@ -247,6 +247,8 @@ def main():
     # knn_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=False)
     # random_forest_regressions(X_train, y_train, X_test, y_test, show_infor=True, save_model=False)
     multiple_layer_perceptron_regression(X_train, y_train, X_test, y_test, show_infor=True, save_model=False)
+
+
 # Hàm main
 if __name__ == "__main__":
     main()

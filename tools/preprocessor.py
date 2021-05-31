@@ -23,6 +23,7 @@ path_data_train = 'roomdata.csv'
 
 path_data_raw2 = 'data_train/data_phongtro123_databk.csv'
 path_data_train2 = 'roomdata2.csv'
+path_data_imp = 'roomdata2_imp.csv'
 
 
 
@@ -223,6 +224,7 @@ def main():
 
     # convert_rawdata_to_traindata(path_data_raw, path_data_train)
     convert_rawdata_to_traindata2(path_data_raw2, path_data_train2)
+    # convert_rawdata_to_traindata2(path_data_raw2, path_data_imp)
     # convert_data_row(path_data_raw , path_data_out)
     return
 

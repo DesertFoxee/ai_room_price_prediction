@@ -10,18 +10,14 @@ import matplotlib.pyplot as plt
 from keras import initializers
 
 path_data_train2 = 'roomdata2.csv'
+path_data_imp = 'roomdata2_imp.csv'
 k_fold = 10
 
 
 # Biểu đồ mức độ quan trọng của thuộc tính sử dụng random forest
-def show_feature_importance(importance, names, model_type):
+def show_feature_importance(dict_imp, model_type):
     # Create arrays from feature importance and feature names
-    feature_importance = np.array(importance)
-    feature_names = np.array(names)
-
-    # Create a DataFrame using a Dictionary
-    data = {'feature_names': feature_names, 'feature_importance': feature_importance}
-    fi_df = pd.DataFrame(data)
+    fi_df = pd.DataFrame(dict_imp.items(), columns=['feature_names','feature_importance'])
 
     # Sort the DataFrame in order decreasing feature importance
     fi_df.sort_values(by=['feature_importance'], ascending=False, inplace=True)
@@ -29,7 +25,10 @@ def show_feature_importance(importance, names, model_type):
     # Define size of bar plot
     plt.figure(figsize=(10, 8))
     # Plot Searborn bar chart
-    sns.barplot(x=fi_df['feature_importance'], y=fi_df['feature_names'])
+    ax = sns.barplot(x=fi_df['feature_importance'], y=fi_df['feature_names'])
+
+    for i, v in enumerate(fi_df['feature_importance']):
+        ax.text(v, i, "{:.4f}".format(v), color='blue')
     # Add chart labels
     plt.title(model_type + 'Mức độ quan trọng của thuộc tính')
     plt.xlabel('Độ quan trọng thuộc tính')
@@ -38,10 +37,45 @@ def show_feature_importance(importance, names, model_type):
 
 
 # Hàm biểu đồ mức độ quan trọng của thuộc tính sử dụng Ramdom forest
-def feature_importain(X_train, y_train):
+def get_feature_important(X_train, y_train):
     RF = models.get_random_model(train.random_state)
     RF.fit(X_train.values, y_train.values)
-    show_feature_importance(RF.feature_importances_,X_train.columns,"Random forest ")
+    return RF.feature_importances_
+
+
+# Hàm hiển thị ra mức độ quan trọng của đường phố
+def cal_feature_important_quan_duong_pho(imp, column_name):
+    # show_feature_importance(RF.feature_importances_,X_train.columns,"Random forest ")
+    feats = {}  # a dict to hold feature_name: feature_importance
+    for feature, importance in zip(column_name, imp):
+        feats[feature] = importance  # add the name/value pair
+
+    duong_list  = list()
+    phuong_list = list()
+    quan_list   = list()
+    thang_list  = list()
+
+    for key, value in feats.items():
+        if "duong" in key:
+            duong_list.append(value)
+        elif "phuong" in key:
+            phuong_list.append(value)
+        elif "quan" in key:
+            quan_list.append(value)
+        elif "thang_" in key:
+            thang_list.append(value)
+
+    feats =dict((k,v) for k,v in feats.items() if not 'quan' in k)
+    feats =dict((k,v) for k,v in feats.items() if not 'phuong' in k)
+    feats =dict((k,v) for k,v in feats.items() if not 'duong' in k)
+    feats =dict((k,v) for k,v in feats.items() if not 'thang_' in k)
+
+    feats.update({"quan":  np.mean(quan_list)})
+    feats.update({"thang":  np.mean(thang_list)})
+    feats.update({"phuong": np.mean(phuong_list)})
+    feats.update({"duong": np.mean(duong_list)})
+
+    return feats
 
 
 # Hàm thâm định chất lượng model sử dụng kfold
@@ -80,13 +114,15 @@ def k_fold_cross_validation_mlp(X, y, random_state, model):
 
 
 def mainex():
-    df = pd.read_csv(path_data_train2)
+    df = pd.read_csv(path_data_imp)
     train.preprocessing_data(df)
     X = df.drop(['giaphong'], axis=1)
     y = df['giaphong']
 
-    feature_importain(X,y)
-
+    imp      = get_feature_important(X, y)
+    imp_dict = cal_feature_important_quan_duong_pho(imp,X.columns)
+    show_feature_importance(imp_dict, "Random forest ")
+    # print_feature_important_duong_pho(imp, X.columns)
 
 def main():
     df = pd.read_csv(path_data_train2)
