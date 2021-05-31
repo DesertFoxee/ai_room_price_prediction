@@ -38,11 +38,29 @@ def show_feature_importance(importance, names, model_type):
 
 
 # Hàm biểu đồ mức độ quan trọng của thuộc tính sử dụng Ramdom forest
-def feature_importain(X_train, y_train):
+def get_feature_important(X_train, y_train):
     RF = models.get_random_model(train.random_state)
     RF.fit(X_train.values, y_train.values)
-    show_feature_importance(RF.feature_importances_,X_train.columns,"Random forest ")
+    return RF.feature_importances_
 
+
+# Hàm hiển thị ra mức độ quan trọng của đường phố
+def print_feature_important_duong_pho(imp, column_name):
+    # show_feature_importance(RF.feature_importances_,X_train.columns,"Random forest ")
+    feats = {}  # a dict to hold feature_name: feature_importance
+    for feature, importance in zip(column_name, imp):
+        feats[feature] = importance  # add the name/value pair
+
+    duong_list  = list()
+    phuong_list = list()
+
+    for key, value in feats.items():
+        if "duong" in key:
+            duong_list.append(value)
+        elif "phuong" in key:
+            phuong_list.append(value)
+    print("Mức độ quan trọng thuộc tính [duong] : %f"% np.mean(duong_list))
+    print("Mức độ quan trọng thuộc tính [phuong]: %f"% np.mean(phuong_list))
 
 # Hàm thâm định chất lượng model sử dụng kfold
 # Return : MAPE và độ lệch chuẩn
@@ -85,8 +103,9 @@ def mainex():
     X = df.drop(['giaphong'], axis=1)
     y = df['giaphong']
 
-    feature_importain(X,y)
-
+    imp = get_feature_important(X, y)
+    show_feature_importance(imp, X.columns,"Random forest ")
+    # print_feature_important_duong_pho(imp, X.columns)
 
 def main():
     df = pd.read_csv(path_data_train2)
@@ -112,5 +131,5 @@ def main():
 
 # Hàm main
 if __name__ == "__main__":
-    main()
-    # mainex()
+    # main()
+    mainex()
