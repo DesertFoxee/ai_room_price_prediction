@@ -206,7 +206,7 @@ def convert_rawdata_to_traindata(path_rawdata_in , path_traindata_out):
 # Xử lý các cột trong dữ liệu thô sang file housepricedata_1.csv
 def convert_rawdata_to_traindata2(path_rawdata_in , path_traindata_out):
     df = pd.read_csv(path_rawdata_in ,encoding='utf8')
-    df.drop(['stt', 'chitiet', 'diachi','tiennghi','thuantien','duong', 'phuong'], axis=1, inplace=True)
+    df.drop(['stt', 'chitiet', 'diachi','duong', 'phuong'], axis=1, inplace=True)
     df["thoigian"] = pd.to_datetime(df["thoigian"])
     df.insert(1, 'thang', df["thoigian"].dt.month)
     df.insert(0, 'nam', df["thoigian"].dt.year)
