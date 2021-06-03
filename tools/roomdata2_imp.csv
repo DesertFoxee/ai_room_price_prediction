@@ -1,4 +1,20 @@
 nam,thang,giaphong,dientich,duong,phuong,quan,vido,kinhdo,loai,drmd,kcdc,loaiwc,giuongtu,banghe,nonglanh,dieuhoa,tulanh,maygiat,tivi,bep,gacxep,thangmay,bancong,chodexe
+2021,6,2000000,20.0,Yên Phúc,Phú La,HaDong,20.970581,105.785186,Nhatang,2.8,67.0,Khepkin,1,1,1,1,0,1,0,0,0,0,0,1
+2021,6,1500000,18.0,Chiến Thắng,Văn Quán,HaDong,20.979433,105.796895,Nhatang,3.3,69.0,Khepkin,1,0,1,1,0,0,0,0,0,0,0,1
+2021,6,2600000,30.0,Quang Trung,Phú La,HaDong,20.958105,105.757797,Ccmn,2.7,94.0,Khepkin,0,0,1,1,0,0,0,1,0,0,1,1
+2021,6,1900000,20.0,Văn La,Phú La,HaDong,20.95682,105.764155,Nhatang,3.0,23.0,Khepkin,1,1,0,0,0,0,0,0,0,0,0,1
+2021,6,2400000,30.0,Nguyễn Khuyến,Văn Quán,HaDong,20.9664,105.793629,Nhatang,8.0,99.0,Khepkin,0,0,1,1,0,0,0,1,1,0,0,1
+2021,6,2400000,25.0,Lê Trọng Tấn,La Khê,HaDong,20.967951,105.755628,Ccmn,15.0,5.0,Khepkin,1,1,1,1,0,1,0,1,0,0,0,1
+2021,6,3700000,25.0,Vạn Phúc,Vạn Phúc,HaDong,20.980893,105.773071,Ccmn,6.5,126.0,Khepkin,1,1,1,1,1,1,0,1,0,1,0,1
+2021,6,3600000,25.0,Tố Hữu,Vạn Phúc,HaDong,20.982967,105.768823,Ccmn,5.5,126.0,Khepkin,1,1,1,1,0,0,0,1,0,1,0,1
+2021,6,2600000,30.0,Quang Trung,Phú La,HaDong,20.958233,105.758393,Ccmn,2.5,64.0,Khepkin,0,0,1,1,0,1,0,1,0,0,1,1
+2021,6,2000000,18.0,Hà Trì,Hà Cầu,HaDong,20.965429,105.783938,Nhatang,3.2,90.0,Khepkin,1,0,1,1,0,0,0,1,0,0,0,1
+2021,6,2300000,25.0,Hà Trì,Hà Cầu,HaDong,20.965175,105.784045,Nhatang,3.2,120.0,Khepkin,1,0,1,1,0,1,0,1,0,0,1,1
+2021,6,2100000,24.0,Văn La,Phú La,HaDong,20.959578,105.762377,Nhatang,5.0,71.0,Khepkin,1,1,1,1,0,0,0,0,0,0,1,1
+2021,6,2000000,35.0,Mậu Lương,Kiến Hưng,HaDong,20.957104,105.7947,Nhacap,3.0,51.0,Khepkin,1,1,0,0,0,0,0,0,1,0,0,1
+2021,6,2300000,28.0,Nguyễn Trãi,Văn Quán,HaDong,20.993256,105.803613,Ccmn,3.5,90.0,Khepkin,1,0,1,1,0,0,0,0,0,0,0,1
+2021,6,3300000,20.0,Phùng Hưng,Phú La,HaDong,20.971521,105.783847,Ccmn,3.8,60.0,Khepkin,1,1,1,1,1,1,0,1,1,0,1,1
+2021,6,2700000,26.0,Yên Xá,Văn Quán,HaDong,20.970899,105.784594,Nhatang,3.0,90.0,Khepkin,1,0,1,1,0,0,0,1,1,0,0,1
 2021,6,2500000,25.0,Lâm Du,Bồ Đề,LongBien,21.035484,105.873961,Ccmn,4.5,56.0,Khepkin,1,1,1,1,0,0,1,0,0,0,0,1
 2021,5,3200000,30.0,Yên Xá,Tân Triều,ThanhTri,20.967824,105.794585,Ccmn,4.5,117.0,Khepkin,1,1,1,1,1,1,0,1,0,1,0,1
 2021,5,2000000,37.0,Tứ Hiệp,Yên Mỹ,ThanhTri,20.942116,105.870856,Nhatang,6.5,2.0,Khepkin,0,1,0,0,0,0,0,1,1,0,0,1
@@ -341,6 +357,11 @@ nam,thang,giaphong,dientich,duong,phuong,quan,vido,kinhdo,loai,drmd,kcdc,loaiwc,
 2019,1,3800000,50.0,Vạn Phúc,Vạn Phúc,HaDong,20.989358,105.773396,Nhatang,5.0,600.93,Khepkin,1,0,1,0,0,0,0,0,1,0,0,1
 2018,9,1400000,17.0,Vạn Phúc,Vạn Phúc,HaDong,20.984083,105.768282,Ccmn,3.4,77.96,Khepkin,0,0,0,0,0,0,0,0,1,0,0,0
 2016,7,1800000,20.0,Vạn Phúc,La Khê,HaDong,20.97426,105.764257,Ccmn,5.0,318.0,Khepkin,0,0,0,1,0,0,0,0,0,1,1,1
+2021,5,2600000,28.0,Định Công Thượng,Định Công,HoangMai,20.984229,105.822638,Nhatang,2.5,57.6,Khepkin,1,0,0,0,0,0,0,0,1,0,0,1
+2021,5,1500000,18.0,Trương Định,Thịnh Liệt,HoangMai,20.978755,105.843811,Nhatang,3.0,56.6,Khepkin,1,0,1,0,0,0,0,1,0,0,0,1
+2021,5,2200000,30.0,Giải Phóng,Thịnh Liệt,HoangMai,20.981749,105.838911,Nhatang,2.7,150.6,Khepkin,1,1,0,1,0,0,0,0,0,0,1,1
+2021,5,3500000,30.0,Lương Khánh Thiện,Tương Mai,HoangMai,20.985854,105.850646,Nhatang,2.7,31.6,Khepkin,1,0,1,1,1,1,0,0,0,0,0,1
+2021,5,900000,12.0,Giải Phóng,Giáp Bát,HoangMai,20.987043,105.841881,Nhacap,3.2,62.6,KKK,1,0,0,0,0,0,0,0,0,0,0,1
 2016,10,1500000,20.0,Vạn Phúc,La Khê,HaDong,20.97426,105.764257,Ccmn,5.09,318.0,Khepkin,0,0,0,0,0,0,0,0,0,1,1,1
 2016,1,2000000,25.0,Vạn Phúc,Vạn Phúc,HaDong,20.978824,105.774764,Nhatang,2.8,63.0,Khepkin,0,0,1,0,0,0,0,0,0,0,1,0
 2021,2,1200000,15.0,Bùi Xương Trạch,Khương Đình,ThanhXuan,20.995255,105.819164,Ccmn,2.7,169.62,Khepkin,0,0,1,1,0,0,0,0,0,0,0,0
@@ -1080,8 +1101,33 @@ nam,thang,giaphong,dientich,duong,phuong,quan,vido,kinhdo,loai,drmd,kcdc,loaiwc,
 2021,4,2100000,20.0,Phạm Văn Đồng,Mai Dịch,CauGiay,21.047088,105.779942,Nhatang,2.5,116.3,Khepkin,1,0,1,1,1,0,0,0,0,0,0,0
 2021,3,3200000,40.0,Kim Giang,Kim Giang,ThanhXuan,20.985236,105.813271,Nhatang,2.2,60.8,Khepkin,0,0,1,1,0,0,0,0,0,1,0,0
 2021,3,3500000,35.0,Minh Khai,Vĩnh Tuy,HaiBaTrung,20.9988360184,105.8708469269,Ccmn,2.5,50.6,Khepkin,0,0,0,0,0,0,0,0,1,0,0,1
-2021,5,2600000,28.0,Định Công Thượng,Định Công,HoangMai,20.984229,105.822638,Nhatang,2.5,57.6,Khepkin,1,0,0,0,0,0,0,0,1,0,0,1
-2021,5,1500000,18.0,Trương Định,Thịnh Liệt,HoangMai,20.978755,105.843811,Nhatang,3.0,56.6,Khepkin,1,0,1,0,0,0,0,1,0,0,0,1
-2021,5,2200000,30.0,Giải Phóng,Thịnh Liệt,HoangMai,20.981749,105.838911,Nhatang,2.7,150.6,Khepkin,1,1,0,1,0,0,0,0,0,0,1,1
-2021,5,3500000,30.0,Lương Khánh Thiện,Tương Mai,HoangMai,20.985854,105.850646,Nhatang,2.7,31.6,Khepkin,1,0,1,1,1,1,0,0,0,0,0,1
-2021,5,900000,12.0,Giải Phóng,Giáp Bát,HoangMai,20.987043,105.841881,Nhacap,3.2,62.6,KKK,1,0,0,0,0,0,0,0,0,0,0,1
+2021,5,3200000,40.0,Vĩnh Hưng,Vĩnh Hưng,HoangMai,20.9714392,105.8314573,Ccmn,2.3,165.6,Khepkin,1,0,1,1,0,0,0,1,0,0,1,1
+2021,5,2100000,14.0,Giải Phóng,Hoàng Liệt,HoangMai,20.9835607,105.84986,Nhatang,2.4,35.5,Khepkin,0,1,1,0,0,0,0,0,0,0,1,1
+2021,5,2300000,25.0,Giải Phóng,Hoàng Liệt,HoangMai,20.9667686,105.8132932,Nhatang,2.0,719.0,Khepkin,0,0,0,0,0,0,0,0,0,0,0,1
+2021,5,2000000,18.0,Bằng liệt,Hoàng Liệt,HoangMai,20.9888013,105.863178,Nhatang,2.6,9.0,Khepkin,1,0,1,1,0,0,0,0,0,0,0,1
+2021,5,1500000,13.0,Bằng liệt,Hoàng Liệt,HoangMai,20.9819922,105.8797389,Nhatang,2.0,16.0,Khepkin,1,1,1,1,0,0,0,1,0,0,0,1
+2021,5,1800000,19.0,Nguyễn An Ninh,Tương Mai,HoangMai,20.9694435,105.8421687,Nhatang,4.8,63.0,KKK,0,0,0,0,0,0,0,1,0,0,0,1
+2021,5,2700000,30.0,Linh Đường,Hoàng Liệt,HoangMai,20.9834847,105.8442261,Nhatang,4.8,18.0,KKK,0,0,1,1,0,0,0,0,0,0,1,1
+2021,5,1400000,13.0,Nguyễn An Ninh,Tương Mai,HoangMai,20.9588491,105.821574,Nhatang,2.2,37.0,KKK,0,0,1,1,0,0,0,1,0,0,0,0
+2021,5,4000000,30.0,Linh Đường,Hoàng Liệt,HoangMai,20.9773311,105.8359618,Ccmn,2.1,3.0,Khepkin,1,1,1,1,0,0,0,1,0,0,1,1
+2021,5,3200000,30.0,Giải Phóng,Hoàng Liệt,HoangMai,20.9713546,105.8353495,Ccmn,3.0,9.0,Khepkin,1,1,1,1,0,0,0,0,0,0,1,1
+2021,5,2000000,18.0,Giải Phóng,Hoàng Liệt,HoangMai,20.9795338,105.8202444,Nhatang,2.0,30.0,Khepkin,0,0,1,0,0,1,0,0,1,0,1,1
+2021,5,2900000,40.0,Tam Trinh,Hoàng Văn Thụ,HoangMai,20.9813049,105.8202629,Nhatang,2.0,24.0,Khepkin,1,1,0,0,0,0,0,1,1,0,0,1
+2021,5,3800000,35.0,Bằng liệt,Hoàng Liệt,HoangMai,20.9885384,105.8568166,Nhatang,3.5,142.0,Khepkin,1,1,1,1,0,0,0,0,0,0,1,1
+2021,5,3000000,30.0,Tam Trinh,Hoàng Văn Thụ,HoangMai,20.9827063,105.8274629,Nhatang,2.2,30.0,Khepkin,1,1,1,1,0,0,0,1,0,0,1,1
+2021,5,2400000,28.0,Linh Đường,Hoàng Liệt,HoangMai,20.9764148,105.8353999,Nhatang,2.1,47.0,Khepkin,1,0,1,1,0,1,0,0,0,0,0,1
+2021,5,2500000,18.0,Giải Phóng,Hoàng Liệt,HoangMai,20.9715441,105.8353251,Nhatang,2.2,20.0,Khepkin,1,1,1,1,1,1,0,1,0,0,0,1
+2021,5,1500000,23.0,Giải Phóng,Hoàng Liệt,HoangMai,20.9894262,105.8648175,Nhatang,2.5,32.0,KKK,1,1,1,0,0,0,0,0,0,0,0,1
+2021,5,2000000,25.0,Bằng liệt,Hoàng Liệt,HoangMai,20.982092,105.879632,Nhatang,3.0,5.5,KKK,1,0,1,1,1,1,0,1,0,0,0,0
+2021,5,3600000,30.0,Kim Giang,Đại Kim,HoangMai,20.9885384,105.8568166,Nhatang,4.5,2.0,Khepkin,1,1,1,1,1,1,0,0,0,0,1,1
+2021,5,1700000,20.0,Nguyễn An Ninh,Tương Mai,HoangMai,20.9871561,105.8470735,Nhacap,2.5,45.0,Khepkin,1,0,0,0,0,0,0,0,1,0,0,0
+2021,5,3000000,40.0,Linh Đường,Hoàng Liệt,HoangMai,20.986148,105.864049,Nhatang,2.8,35.5,Khepkin,0,1,1,1,0,0,0,0,0,0,1,1
+2021,5,2700000,25.0,Linh Đường,Hoàng Liệt,HoangMai,20.958086,105.841818,Nhatang,5.0,63.0,Khepkin,0,0,0,0,0,0,0,0,0,0,1,1
+2021,5,900000,20.0,Kim Giang,Đại Kim,HoangMai,20.9829586,105.8417752,Nhacap,4.0,80.0,KKK,1,1,1,1,0,0,0,1,0,0,0,0
+2021,5,2500000,22.0,Tam Trinh,Hoàng Văn Thụ,HoangMai,20.988533,105.859919,Nhacap,2.5,43.5,Khepkin,0,0,1,1,0,1,0,1,0,0,1,1
+2021,5,2200000,18.0,Tam Trinh,Hoàng Văn Thụ,HoangMai,20.984754,105.849187,Nhatang,3.2,93.0,KKK,0,1,1,1,1,0,0,0,0,0,0,1
+2021,5,1400000,20.0,Linh Đường,Hoàng Liệt,HoangMai,20.999457,105.886872,Nhacap,2.9,43.0,Khepkin,1,0,0,0,0,0,0,0,0,0,0,0
+2021,5,2300000,20.0,Kim Giang,Đại Kim,HoangMai,20.978739,105.820146,Nhatang,3.5,76.0,Khepkin,0,0,1,1,0,0,0,1,1,0,0,1
+2021,5,2500000,25.0,Tam Trinh,Hoàng Văn Thụ,HoangMai,20.967228,105.836991,Nhatang,7.0,100.0,Khepkin,1,0,1,1,0,0,0,1,0,0,0,1
+2021,5,1600000,15.0,Kim Giang,Đại Kim,HoangMai,20.979682,105.839364,Nhacap,3.5,126.0,Khepkin,1,0,1,1,0,0,0,0,0,0,0,1
+2021,5,1500000,37.0,Nguyễn An Ninh,Tương Mai,HoangMai,20.9825571,105.8403207,Nhacap,4.2,50.0,KKK,1,0,0,1,0,0,0,1,1,0,0,0

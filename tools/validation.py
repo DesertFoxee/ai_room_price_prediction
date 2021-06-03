@@ -122,7 +122,6 @@ def mainex():
     imp      = get_feature_important(X, y)
     imp_dict = cal_feature_important_quan_duong_pho(imp,X.columns)
     show_feature_importance(imp_dict, "Random forest ")
-    # print_feature_important_duong_pho(imp, X.columns)
 
 def main():
     df = pd.read_csv(path_data_train2)
@@ -140,7 +139,7 @@ def main():
     elif type_model ==3:
         model = models.get_random_model(train.random_state)
     elif type_model == 4:
-        model = models.get_mlp_model(X.shape[1], 3, 37, initializers.glorot_uniform())
+        model = models.get_mlp_model(X.shape[1], 3, 37, initializers.he_normal())
     # score, std_score = k_fold_cross_validation_2(X, y, train.random_state, model)
     score, std_score = k_fold_cross_validation_mlp(X, y, train.random_state, model)
     print("MAPE :%0.2f +/- %0.2f" %(score, std_score))
@@ -149,3 +148,4 @@ def main():
 # Hàm main
 if __name__ == "__main__":
     main()
+    # mainex()
