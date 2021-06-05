@@ -1,1 +1,5 @@
 Templates theme : Ion boardroom
+
+Mục tiêu của mỗi phần trong slide :
+
+I, Thu thập và xử lý dữ liệu : Trình bày nguồn dữ liệu, phân tích chọn kết quả,  thuộc tính xử lý tiền xử lý dữ liệu  , tổng kết
