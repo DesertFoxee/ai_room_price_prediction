@@ -139,7 +139,7 @@ def main():
     elif type_model ==3:
         model = models.get_random_model(train.random_state)
     elif type_model == 4:
-        model = models.get_mlp_model(X.shape[1], 3, 37, initializers.he_normal())
+        model = models.get_mlp_model(X.shape[1], 3, 37*2, initializers.he_normal())
     # score, std_score = k_fold_cross_validation_2(X, y, train.random_state, model)
     score, std_score = k_fold_cross_validation_mlp(X, y, train.random_state, model)
     print("MAPE :%0.2f +/- %0.2f" %(score, std_score))
