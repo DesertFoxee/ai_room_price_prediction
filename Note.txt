@@ -3,3 +3,23 @@ Templates theme : Ion boardroom
 Mục tiêu của mỗi phần trong slide :
 
 I, Thu thập và xử lý dữ liệu : Trình bày nguồn dữ liệu, phân tích chọn kết quả,  thuộc tính xử lý tiền xử lý dữ liệu  , tổng kết
+
+
+
+** Thuật toán gradient descent:
+
+The gradient descent algorithm seeks to change the weights so that the next evaluation reduces the error, 
+meaning the optimization algorithm is navigating down the gradient (or slope) of error.
+
+
+** Lựa chọn thuộc tính cho model:
+
+Giảm thời gian tran ing 
+Loại bỏ trường không liên quan đến dữ liệu
+Tăng độ chính xác cho mô hình
+
+Phương pháp :
+	Filter method   : Mối tương quan thuộc tính và giá trị đầu ra
+	Wrapper method  : So sánh sự hữu ích của tập con thuộc tính
+	Intrinsic method
+
