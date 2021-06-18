@@ -4,6 +4,59 @@ Mục tiêu của mỗi phần trong slide :
 
 I, Thu thập và xử lý dữ liệu : Trình bày nguồn dữ liệu, phân tích chọn kết quả,  thuộc tính xử lý tiền xử lý dữ liệu  , tổng kết
 
+[?] Gradient
+
+Gradient là vector chỉ hướng đạo hàm là một số vô hướng, nó thể hiện rằng hướng dẫn tới cực trị (cực tiểu hoặc cực đại)
+trong mạng neural là giá trị cực tiểu (Loss function)
+
+
+
+[?] Gradient descent 
+Là thuật toán tìm kiếm sự thay đổi trọng số sao cho bước tiếp theo sẽ giảm được lỗi, hoặc là giảm đi gradient ở lần sau 
+Công thức chung:
+	xnew = xold - learningrate.gradient(x)
+
+Ưu điểm :
+ 👆Thuật toán gradient descent cơ bản, dễ hiểu. Thuật toán đã giải quyết được vấn đề tối ưu model neural network bằng cách cập nhật trọng số sau mỗi vòng lặp.
+Nhược điểm :
+ 👆Vì đơn giản nên thuật toán Gradient Descent còn nhiều hạn chế như phụ thuộc vào nghiệm khởi tạo ban đầu và learning rate.
+ 👆Ví dụ 1 hàm số có 2 global minimum thì tùy thuộc vào 2 điểm khởi tạo ban đầu sẽ cho ra 2 nghiệm cuối cùng khác nhau.
+ 👆Tốc độ học quá lớn sẽ khiến cho thuật toán không hội tụ, quanh quẩn bên đích vì bước nhảy quá lớn; hoặc tốc độ học nhỏ ảnh hưởng đến tốc độ training
+
+
+[?] Momentum
+Hạn chế của gradient là không tìm được điểm min toàn cục để giải quyết điều này người ta sử dụng thêm quán tính 
+Công thức : 
+	xnew = xold -(gama.v + learningrate.gradient)
+Ưu điểm :
+ 👆Thuật toán tối ưu giải quyết được vấn đề: Gradient Descent không tiến được tới điểm global minimum mà chỉ dừng lại ở local minimum.
+Nhược điểm :
+ 👆Tuy momentum giúp hòn bi vượt dốc tiến tới điểm đích, tuy nhiên khi tới gần đích, nó vẫn mất khá nhiều thời gian giao động qua lại trước khi dừng hẳn, điều này được giải thích vì viên bi có đà.
+
+[?] Adagrad
+hông giống như các thuật toán trước đó thì learning rate hầu như giống nhau trong quá trình training (learning rate là hằng số), Adagrad coi learning rate là 1 tham số. 
+Tức là Adagrad sẽ cho learning rate biến thiên sau mỗi thời điểm t
+n  : hằng số
+gt : gradient tại thời điểm t
+ϵ  : hệ số tránh lỗi ( chia cho mẫu bằng 0)
+G  : là ma trận chéo mà mỗi phần tử trên đường chéo (i,i) là bình phương của đạo hàm vectơ tham số tại thời điểm t.
+Ưu điểm :
+ 👆Một lơi ích dễ thấy của Adagrad là tránh việc điều chỉnh learning rate bằng tay, chỉ cần để tốc độ học default là 0.01 thì thuật toán sẽ tự động điều chỉnh.
+Nhược điểm :
+ 👆Yếu điểm của Adagrad là tổng bình phương biến thiên sẽ lớn dần theo thời gian cho đến khi nó làm tốc độ học cực kì nhỏ, làm việc training trở nên đóng băng.
+
+[?] Adam 
+Không mất thời gian dao động tại điểm cực trị nữa vì nó có sức nặng
+
+
+[?]
+
+Regression is method dealing with linear dependencies, neural networks can deal with nonlinearities. So if your data will have some nonlinear dependencies, 
+neural networks should perform better than regression.
+Translate : Hồi quy tuyến tính với các vấn đề có tính tuyến tính, với mạng neural có thể dự đoán các vấn đề phi tuyến , vì vậy nếu dữ liệu có tính chất phi tuyến thì mạng neural 
+sẽ có hiệu xuất tốt hơn hồi quy tuyến tính
+
+
 
 
 ** Thuật toán gradient descent:
