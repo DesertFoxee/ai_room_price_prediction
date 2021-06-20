@@ -34,7 +34,7 @@ Nhược điểm :
  👆Tuy momentum giúp hòn bi vượt dốc tiến tới điểm đích, tuy nhiên khi tới gần đích, nó vẫn mất khá nhiều thời gian giao động qua lại trước khi dừng hẳn, điều này được giải thích vì viên bi có đà.
 
 [?] Adagrad
-hông giống như các thuật toán trước đó thì learning rate hầu như giống nhau trong quá trình training (learning rate là hằng số), Adagrad coi learning rate là 1 tham số. 
+không giống như các thuật toán trước đó thì learning rate hầu như giống nhau trong quá trình training (learning rate là hằng số), Adagrad coi learning rate là 1 tham số. 
 Tức là Adagrad sẽ cho learning rate biến thiên sau mỗi thời điểm t
 n  : hằng số
 gt : gradient tại thời điểm t
@@ -50,13 +50,16 @@ Không mất thời gian dao động tại điểm cực trị nữa vì nó có
 
 
 [?]
-
 Regression is method dealing with linear dependencies, neural networks can deal with nonlinearities. So if your data will have some nonlinear dependencies, 
 neural networks should perform better than regression.
 Translate : Hồi quy tuyến tính với các vấn đề có tính tuyến tính, với mạng neural có thể dự đoán các vấn đề phi tuyến , vì vậy nếu dữ liệu có tính chất phi tuyến thì mạng neural 
 sẽ có hiệu xuất tốt hơn hồi quy tuyến tính
 
-
+[?] Tại sao chọn MSE cho loss function:
+Mean squared error is calculated as the average of the squared differences between the predicted and actual values. 
+The result is always positive regardless of the sign of the predicted and actual values and a perfect value is 0.0. 
+The squaring means that larger mistakes result in more error than smaller mistakes, 
+meaning that the model is punished for making larger mistakes.
 
 
 ** Thuật toán gradient descent:
